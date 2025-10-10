@@ -1,0 +1,13 @@
+baseURL: "https://naga.network/"
+languageCode: "en-us"
+title: "NAGA ELECTRIC INDUSTRIAL CO., LTD."
+theme: "PaperMod"
+
+params:
+  defaultTheme: "dark"
+  disableThemeToggle: true
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
