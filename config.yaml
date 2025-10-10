@@ -6,6 +6,10 @@ theme: "PaperMod"
 params:
   defaultTheme: "dark"
   disableThemeToggle: true
+  ShowPostNavLinks: false
+  ShowFooterCredits: false   # 👈 removes “Powered by …”
+  copyright: "© 4723 NAGA ELECTRIC INDUSTRIAL CO., LTD."
+
 
 markup:
   goldmark:
