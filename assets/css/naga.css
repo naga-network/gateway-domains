@@ -1,0 +1,7 @@
+:root{
+  --theme:#0f0d0e; --entry:#151214; --primary:#ff99aa; --muted:#aa7f8b;
+  --text:#e0bfc4; --lcd:#91b38a;
+}
+body{background:var(--theme)!important;color:var(--text)}
+a{color:var(--primary)} a:hover{color:#ffd2dd}
+code,pre{background:#1b1a1a!important;color:var(--lcd)}
