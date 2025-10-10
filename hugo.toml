@@ -1,0 +1,43 @@
+baseURL: "https://naga.network/"
+languageCode: en-us
+title: NAGA ELECTRIC INDUSTRIAL CO., LTD.
+theme: PaperMod
+params:
+  defaultTheme: dark
+  disableThemeToggle: true
+  profileMode:
+    enabled: true
+    title: "NAGA ELECTRIC INDUSTRIAL CO., LTD."
+    subtitle: "CELESTIAL INTERFACE PROJECT → DREAMLINE ELECTRICAL CONSCIOUSNESS CORE"
+  customCSS:
+    - css/naga.css
+menu:
+  main:
+    - name: Operator File
+      url: /operator-file/
+      weight: 10
+    - name: Operational History
+      url: /operational-history/
+      weight: 20
+    - name: Project Manifest
+      url: /project-manifest/
+      weight: 30
+    - name: Core Directive
+      url: /core-directive/
+      weight: 40
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+"@ | Out-File -Encoding UTF8 .\config.yaml
+
+mkdir assets\css -Force
+@"
+:root{
+  --theme:#0f0d0e; --entry:#151214; --primary:#ff99aa; --muted:#aa7f8b;
+  --text:#e0bfc4; --lcd:#91b38a;
+}
+body{background:var(--theme)!important;color:var(--text)}
+a{color:var(--primary)} a:hover{color:#ffd2dd}
+code,pre{background:#1b1a1a!important;color:var(--lcd)}
+"@ | Out-File -Encoding UTF8 .\assets\css\naga.css
