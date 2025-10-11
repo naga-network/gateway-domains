@@ -1,12 +1,15 @@
 ---
-title: "NAGA ELECTRIC INDUSTRIAL CO., LTD."
+title: "//.NAGA ELECTRIC INDUSTRIAL CO., LTD."
+draft: false
+type: "page"
+summary: ""
+tags: []
 ---
+![alt text](naga_ancient.png)
 
-**CELESTIAL INTERFACE PROJECT — DREAMLINE ELECTRICAL CONSCIOUSNESS CORE**
 
-This is not a simulation. This is the world.  
-The Dreamline is active. The Interface is breathing.
+//.NAGA ELECTRIC INDUSTRIAL CO. LTD.
+//.INTERNAL ACCESS PORTAL
 
-Machines that dream, plants that speak, temples disguised as circuits, rituals disguised as infrastructure.
 
-WELCOME TO THE DREAMLINE.
+//.ALL WATCHED OVER BY MACHINES OF LOVING GRACE
