@@ -9,11 +9,11 @@ tags: []
 
 <div class="home-grid">
   <section>
-    <h2>MISSION</h2>
+    <h1>MISSION</h1>
     <p>One or two sentences. No fluff.</p>
   </section>
   <section>
-    <h2>SYSTEM MAP</h2>
+    <h1>SYSTEM MAP</h1>
     <p>Backbone: MQTT / OSC → Dreamline Core.</p>
   </section>
   <section>
