@@ -1,33 +1,51 @@
-{{ $cols := (.Get "cols") | default 4 }}
-{{ $rows := (.Get "rows") | default 3 }}
-{{ $size := (.Get "size") | default 36 }}  {{/* radius */}}
-{{ $gap  := (.Get "gap")  | default 4  }}
+{{/* layouts/shortcodes/hexmap.html */}}
 
-<svg class="hexmap" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 {{ mul (add $size $gap) (mul $cols 3) }} {{ mul (add $size $gap) (mul $rows 3) }}" >
+{{- $cols := int (default 4 (.Get "cols")) -}}
+{{- $rows := int (default 3 (.Get "rows")) -}}
+{{- $size := float (default 36 (.Get "size")) -}}   {{/* radius */}}
+{{- $gap  := float (default 4  (.Get "gap"))  -}}
+
+{{- $hexWidth    := mul $size 1.732 -}}             {{/* √3 * radius */}}
+{{- $hexHeight   := mul $size 2 -}}
+{{- $colSpacing  := add $hexWidth $gap -}}
+{{- $rowSpacing  := add (mul $size 1.5) $gap -}}
+{{- $viewBoxW    := add (mul $colSpacing (float $cols)) (div $hexWidth 2) -}}
+{{- $viewBoxH    := add (mul $rowSpacing (float $rows)) (div $size 2) -}}
+
+<svg class="hexmap" xmlns="http://www.w3.org/2000/svg" width="100%"
+     viewBox="0 0 {{ $viewBoxW }} {{ $viewBoxH }}">
   <style>
     .hex { fill: none; stroke: #bbb; stroke-width: 1; }
-    .hexmap text { fill: {{ default "#EFC0C1" (site.Params.hexTextColor) }}; font-family: "IBM Plex Mono", monospace; font-size: {{ div $size 1.8 }}px; dominant-baseline: middle; text-anchor: middle; }
-    .hexmap a:hover text { fill: {{ default "#FFCA99" (site.Params.hexHoverColor) }}; }
+    .hexmap text {
+      fill: {{ default "#EFC0C1" .Site.Params.hexTextColor }};
+      font-family: "IBM Plex Mono", monospace;
+      font-size: {{ div $size 1.8 }}px;
+      dominant-baseline: middle;
+      text-anchor: middle;
+    }
+    .hexmap a:hover .hex { stroke: {{ default "#FFCA99" .Site.Params.hexHoverColor }}; }
+    .hexmap a:hover text { fill: {{ default "#FFCA99" .Site.Params.hexHoverColor }}; }
   </style>
-  {{ $w := mul $size 2.0 }}
-  {{ $h := mul $size 1.732 }} <!-- 2*R*sin(60) -->
-  {{ range $r, $ := seq $rows }}
-    {{ $y := mul $r (add $h (float $gap)) }}
-    {{ range $c, $ := seq $cols }}
-      {{ $x := add (mul $c (add $w (float $gap))) (cond (eq (mod $r 2) 1) (mul $size 1.0) 0.0) }}
-      <!-- hex polygon -->
-      <polygon class="hex" points="
-        {{ add $x (mul $size 0.0) }},{{ add $y (mul $size 1.0) }}
-        {{ add $x (mul $size 0.5) }},{{ add $y (mul $size 1.866) }}
-        {{ add $x (mul $size 1.5) }},{{ add $y (mul $size 1.866) }}
-        {{ add $x (mul $size 2.0) }},{{ add $y (mul $size 1.0) }}
-        {{ add $x (mul $size 1.5) }},{{ add $y (mul $size 0.134) }}
-        {{ add $x (mul $size 0.5) }},{{ add $y (mul $size 0.134) }}
-      " />
-      <!-- centered letter/link -->
-      <a href="#">
-        <text x="{{ add $x (mul $size 1.0) }}" y="{{ add $y (mul $size 1.0) }}">A</text>
+
+  {{- range $r := seq $rows }}
+    {{- $y := mul (float (sub $r 1)) $rowSpacing -}}
+    {{- range $c := seq $cols }}
+      {{- $x  := add (mul (float (sub $c 1)) $colSpacing) (cond (eq (mod $r 2) 1) (div $colSpacing 2) 0) -}}
+      {{- $cx := add $x (div $hexWidth 2) -}}
+      {{- $cy := add $y $size -}}
+
+      <a href="#hex-{{ $r }}-{{ $c }}">
+        <!-- hex centered at (cx, cy) -->
+        <polygon class="hex" points="
+          {{ add $cx $size }},{{ $cy }}
+          {{ add $cx (div $size 2) }},{{ add $cy (mul $size 0.866) }}
+          {{ sub $cx (div $size 2) }},{{ add $cy (mul $size 0.866) }}
+          {{ sub $cx $size }},{{ $cy }}
+          {{ sub $cx (div $size 2) }},{{ sub $cy (mul $size 0.866) }}
+          {{ add $cx (div $size 2) }},{{ sub $cy (mul $size 0.866) }}
+        " />
+        <text x="{{ $cx }}" y="{{ $cy }}">{{ printf "%d%d" $r $c }}</text>
       </a>
-    {{ end }}
-  {{ end }}
+    {{- end }}
+  {{- end }}
 </svg>

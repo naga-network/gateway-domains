@@ -2,54 +2,31 @@ baseURL: "https://naga.network/"
 languageCode: "en-us"
 title: "NAGA ELECTRIC INDUSTRIAL CO., LTD."
 theme: "PaperMod"
-pagination.paperSize: 12
+pagination:
+  pagerSize: 12
 
 params:
   defaultTheme: dark
   disableThemeToggle: true
   ShowShareButtons: false
   hideSummary: true
-  # show your logo later if you want
+
+  # used by hex shortcode + CSS
+  hexTextColor: "#EFC0C1"
+  hexHoverColor: "#FFCA99"
+
+  # assets
   label:
     text: "NAGA ELECTRIC INDUSTRIAL CO., LTD. //"
-    icon: "/img/naga_ancient.png"      # drop your logo as static/img/logo.svg
-    iconHeight: 18
   customCSS:
     - css/naga.css
-  ShowFooterCredits: false   # removes “Powered by …”
+
+  ShowFooterCredits: false
   copyright: "4723 NAGA ELECTRIC INDUSTRIAL CO., LTD.<br>ALL WATCHED OVER BY MACHINES OF LOVING GRACE."
-
-menu:
-  main:
-    - name: "//.GENESIS OF LIVING SYSTEM"
-      url: "/genesis_of_living_system/"
-      weight: 10
-      # CV
-    - name: "//.HARDWARE CODEX"
-      url: "/hardware_codex/"
-      weight: 20
-      # MANUAL
-    - name: "//.INDEX OF ARTIFACTS AND FORMS"
-      url: "/index_of_artifacts_and_forms/"
-      weight: 30
-      # PORTFOLIO  LIST OF WORKS: CATALOGUE OF CONSTRUCTED SPIRITS. 
-      # WORKS IN PROGRESS: CURRENT INVOCATIONS AND UNFINISHED OFFERINGS.
-    - name: "//.TRANSMISSION STREAMS"
-      url: "/transmission_streams/"
-      weight: 40
-      # BLOG/PRESS
-    - name: "//.OPERATOR FILES"
-      url: "/operator_files/"
-      weight: 50
-      # BIO
-    - name: "//.RESONANCE LINK"
-      url: "/resonance_link/"
-      weight: 60
-      # CONTACT
-
 
 
 markup:
   goldmark:
     renderer:
       unsafe: true
+
