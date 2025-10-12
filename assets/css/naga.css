@@ -117,7 +117,6 @@ img{ filter: grayscale(92%) contrast(1.05); }
   padding: 1rem 0;
 }
 .footer .powered-by{ display:none !important; }
-.footer {
 
 /* ---------- ASCII blocks / diagrams ---------- */
 
@@ -168,9 +167,9 @@ hr {
 }
 
 blockquote {
-  border-left: 4px solid var(--accent-warm);
+  border-left: 4px solid var(--accent);
   padding: 0.3rem 0 0.3rem 1rem;
-  color: var(--ink-soft);
+  color: var(--ink-warm);
   background: #383838;
   border-radius: 0 6px 6px 0;
 }
@@ -216,5 +215,3 @@ blockquote {
   background: var(--bg2);
 }
 .home-grid h1{ margin-top:0; }
-
-
