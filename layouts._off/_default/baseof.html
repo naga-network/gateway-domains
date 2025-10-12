@@ -20,7 +20,8 @@
       </main>
     </div>
     <footer class="footer">
-      {{ with site.Params.copyright }}{{ . | safeHTML }}{{ end }}
+      {{ with .Site.Params.copyright }}{{ . | safeHTML }}{{ end }}
+
     </footer>
   </body>
 </html>

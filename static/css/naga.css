@@ -1,0 +1,123 @@
+/* ============== NAGA / Dual-pane console (.nfo vibe) ============== */
+
+/* Fonts */
+@font-face{
+  font-family:"IBM Plex Mono";
+  src:url("/fonts/IBMPlexMono-Regular.woff2") format("woff2");
+  font-weight:400;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:"IBM Plex Mono";
+  src:url("/fonts/IBMPlexMono-Medium.woff2") format("woff2");
+  font-weight:600;font-style:normal;font-display:swap;
+}
+
+/* Palette (tune later) */
+:root{
+  --bg:#595959;          /* primary bg */
+  --pane:#505050;        /* left pane bg */
+  --ink:#EFC0C1;         /* text */
+  --muted:#D8C5CC;       /* meta */
+  --rule:#444;           /* lines */
+  --link:#90E9CE;
+  --link-hover:#FFCA99;
+  --accent:#DF9395;
+}
+
+/* Base */
+html,body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Mono",monospace;
+  font-size:10px;             /* tiny, intentional */
+  line-height:1.3;
+  letter-spacing:-0.02em;
+  margin:0;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ===== Landing (no panes) ===== */
+body.landing{
+  background:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,.08) 1px, transparent 1.2px) 0 0/12px 12px,
+    var(--bg);
+}
+.landing-wrap{
+  min-height:100svh;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  text-align:center;
+}
+.logo-block{ max-width: 80ch; }
+.markdeep{ background:#1b1b1b; border:1px solid #444; padding:10px; color:#e8dada; }
+.landing-text p{ margin:8px 0; color:var(--muted); }
+.enter{
+  display:inline-block; margin-top:8px; padding:6px 10px;
+  border:1px solid var(--ink); color:var(--ink); text-decoration:none;
+}
+.enter:hover{ color:var(--link-hover); border-color:var(--link-hover); }
+
+/* ===== Two-pane shell ===== */
+.shell{
+  display:grid;
+  grid-template-columns: 280px minmax(0,1fr);
+  min-height:100svh;
+}
+
+/* Left wiki pane */
+.sidebar{
+  background:var(--pane);
+  border-right:1px solid var(--rule);
+  padding:10px 10px 80px;
+  overflow:auto;
+}
+.sidebar h2{
+  margin:8px 0 6px;
+  font-weight:600; color:var(--accent);
+  letter-spacing:.02em; text-transform:uppercase;
+  font-size:1.1rem;
+}
+.sidebar .tree{ list-style:none; margin:0; padding:0; }
+.sidebar .tree > li{ margin:4px 0; }
+.sidebar a{ color:var(--ink); text-decoration:none; }
+.sidebar a:hover{ color:var(--link-hover); }
+
+/* Right content (dot-grid paper) */
+.main{
+  position:relative; overflow:auto; padding:16px 18px 80px;
+  background:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,.08) 1px, transparent 1.2px) 0 0/12px 12px;
+}
+.container{ max-width: 92ch; margin: 0 auto; }
+.container > *{ margin-top:10px; }
+
+/* Headings */
+h1,h2,h3,h4{
+  text-transform:uppercase; letter-spacing:.02em; font-weight:600; margin:14px 0 6px;
+}
+h1{ color:var(--accent); font-size:1.6rem; border-bottom:1px solid var(--rule); padding-bottom:6px; }
+h2{ color:var(--accent); font-size:1.2rem; border-left:3px solid var(--rule); padding-left:6px; }
+h3{ color:var(--muted); font-size:1.05rem; }
+
+/* Text & links */
+a{ color:var(--link); text-decoration:underline; text-underline-offset:2px; }
+a:hover{ color:var(--link-hover); text-decoration:none; }
+p,li,blockquote,pre,code{ letter-spacing:-0.01em; }
+blockquote{
+  border-left:3px solid var(--accent);
+  padding:4px 0 4px 10px;
+  color:var(--ink); background:#3a3a3a;
+}
+
+/* Media / ASCII */
+figure{ border:1px solid var(--rule); background:#3d3d3d; padding:6px; margin:10px 0; }
+figcaption{ color:var(--muted); font-size:.95rem; margin-top:4px; }
+.ascii,.magic,.hex,.markdeep{
+  background:#1b1b1b;border:1px solid #444;color:#e8dada;
+  padding:10px;white-space:pre;overflow:auto;line-height:1.08;font-size:1rem;
+}
+
+/* Footer */
+.footer{ border-top:1px solid var(--rule); padding:8px 12px; color:var(--muted); }
+.footer .powered-by{ display:none !important; }
