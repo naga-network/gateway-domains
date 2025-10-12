@@ -1,0 +1,33 @@
+{{ $cols := (.Get "cols") | default 4 }}
+{{ $rows := (.Get "rows") | default 3 }}
+{{ $size := (.Get "size") | default 36 }}  {{/* radius */}}
+{{ $gap  := (.Get "gap")  | default 4  }}
+
+<svg class="hexmap" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 {{ mul (add $size $gap) (mul $cols 3) }} {{ mul (add $size $gap) (mul $rows 3) }}" >
+  <style>
+    .hex { fill: none; stroke: #bbb; stroke-width: 1; }
+    .hexmap text { fill: {{ default "#EFC0C1" (site.Params.hexTextColor) }}; font-family: "IBM Plex Mono", monospace; font-size: {{ div $size 1.8 }}px; dominant-baseline: middle; text-anchor: middle; }
+    .hexmap a:hover text { fill: {{ default "#FFCA99" (site.Params.hexHoverColor) }}; }
+  </style>
+  {{ $w := mul $size 2.0 }}
+  {{ $h := mul $size 1.732 }} <!-- 2*R*sin(60) -->
+  {{ range $r, $ := seq $rows }}
+    {{ $y := mul $r (add $h (float $gap)) }}
+    {{ range $c, $ := seq $cols }}
+      {{ $x := add (mul $c (add $w (float $gap))) (cond (eq (mod $r 2) 1) (mul $size 1.0) 0.0) }}
+      <!-- hex polygon -->
+      <polygon class="hex" points="
+        {{ add $x (mul $size 0.0) }},{{ add $y (mul $size 1.0) }}
+        {{ add $x (mul $size 0.5) }},{{ add $y (mul $size 1.866) }}
+        {{ add $x (mul $size 1.5) }},{{ add $y (mul $size 1.866) }}
+        {{ add $x (mul $size 2.0) }},{{ add $y (mul $size 1.0) }}
+        {{ add $x (mul $size 1.5) }},{{ add $y (mul $size 0.134) }}
+        {{ add $x (mul $size 0.5) }},{{ add $y (mul $size 0.134) }}
+      " />
+      <!-- centered letter/link -->
+      <a href="#">
+        <text x="{{ add $x (mul $size 1.0) }}" y="{{ add $y (mul $size 1.0) }}">A</text>
+      </a>
+    {{ end }}
+  {{ end }}
+</svg>

@@ -1,217 +1,140 @@
-/* ===========================================================
-   NAGA DREAMLINE : Core Style Sheet
-   Typeface: IBM Plex Mono (tuned to emulate Berkeley TX-02)
-   =========================================================== */
+/* ==============================
+   NAGA / Console Manual Shell
+   ============================== */
 
+/* Font faces (adjust paths if yours differ) */
 @font-face {
   font-family: "IBM Plex Mono";
-  src: url("/fonts/IBMPlexMono-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+  src: url("/fonts/ibm-plex-mono/IBMPlexMono-Regular.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: "IBM Plex Mono";
-  src: url("/fonts/IBMPlexMono-Medium.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
+  src: url("/fonts/ibm-plex-mono/IBMPlexMono-SemiBold.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: swap;
 }
 
-/* ---------- Root palette + typography ---------- */
-
-:root {
-  --bg: #595959;
-  --bg2: #505050;
-  --ink: #B8B8B8;
-  --ink-warm: #efc0c1;
-  --ink-muted: #D8C5CC;
-  --accent: #df9395;      /* dusty pink tone */ 
-  --acent-alt: #9C6A6A;
-  --accent-warm: #a59e9e; /* warm grey */
-  --lcd: #90e9ce;         /* green-blue link color */
-  --lcd-warm: #ffca99;    /* link hover */
-  --rule: #595959;
-  --mono: "IBM Plex Mono", monospace;
-  --maxw: 980px;
+/* Palette — tune later */
+:root{
+  --bg: #595959;        /* PRIMARY background */
+  --bg-pane: #505050;   /* sidebar background */
+  --ink: #EFC0C1;       /* primary text */
+  --ink-muted:#D8C5CC;  /* meta */
+  --rule:#444;          /* lines */
+  --link:#90E9CE;       /* link */
+  --link-hover:#FFCA99; /* link hover */
+  --accent:#DF9395;     /* headings accent */
 }
 
-/* ---------- Base ---------- */
-
-html,
-body {
+/* Base type: small & dense */
+html, body{
   background: var(--bg);
-  color: var(--ink-warm);
-  font-family: var(--mono);
-  font-weight: 500;            /* slightly bolder to mimic TX-02 */
-  letter-spacing: -0.02em;     /* tighter tracking like TX-02 */
-  font-size: 10px;
-  line-height: 1.00;
+  color: var(--ink);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;         /* small like .nfo */
+  line-height: 1.3;
   -webkit-font-smoothing: antialiased;
+  margin: 0;
 }
 
-.page,
-.post {
-  max-width: var(--maxw);
-  margin: 0 auto;
-  padding: 2rem 1rem 4rem;
-}
-
-.post-content p {
-  max-width: 70ch;
-}
-
-/* ---------- Headings ---------- */
-/* Headings feel too shouty by default: reduce tracking a bit */
-h1,h2,h3,h4{ letter-spacing: .02em; }
-h1{ margin-top: var(--space-4); margin-bottom: var(--space-2); }
-h2{ margin-top: var(--space-3); margin-bottom: var(--space-1); }
-h3{ margin-top: var(--space-2); margin-bottom: .4rem; }
-
-
-
-/* --- LINKS & IMAGES --- */
-a{ color: var(--lcd); text-decoration: none; }
-a:hover{ color: var(--lcd-warm); }
-img{ filter: grayscale(92%) contrast(1.05); }
-
-
-/* ---------- Nav (top-right, “//” separators) ---------- */
-
-.header .logo a {
-  font-family: var(--mono);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--ink-muted);
-}
-
-.header .nav {
+/* Top bar (terminal) */
+.topbar{
+  display:flex; align-items:center; gap:1rem;
+  padding: 8px 12px;
   border-bottom: 1px solid var(--rule);
+  background: #3f3f40;
 }
-
-.menu {
-  margin-left: auto !important; display:flex; gap:.2rem;
-}
-
-.menu li a {
-  font-family: var(--mono);
+.topbar .prompt{
   color: var(--ink-muted);
+  white-space: nowrap;
+}
+.topbar nav{ margin-left:auto; display:flex; gap:.2rem; }
+.topbar nav a{
+  color: var(--ink);
+  text-decoration:none;
+}
+.topbar nav a + a::before{ content:" // "; color:var(--ink-muted); margin: 0 .35rem; }
+.topbar nav a:hover{ color: var(--link-hover); }
+
+/* Two-pane layout */
+.shell{
+  display:grid;
+  grid-template-columns: 280px minmax(0,1fr);
+  min-height: calc(100vh - 34px); /* minus topbar */
 }
 
-.menu li + li a::before {
-  content: " // ";
-  color: var(--ink-muted);
-  margin:0 .35rem 0 .1rem;
+/* Left wiki pane */
+.sidebar{
+  background: var(--bg-pane);
+  border-right: 1px solid var(--rule);
+  padding: 10px 10px 80px;
+  overflow:auto;
 }
-.menu a:hover{ opacity:1; text-decoration:none; 
+.sidebar h2{
+  margin: 8px 0 6px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+}
+.sidebar ul{ list-style:none; padding-left: 0; margin: 0; }
+.sidebar li{ margin: 2px 0; }
+.sidebar a{
+  color: var(--ink);
+  text-decoration:none;
+}
+.sidebar a:hover{ color: var(--link-hover); }
+
+/* Right content pane with dot grid */
+.main{
+  position: relative;
+  overflow:auto;
+  padding: 16px 18px 80px;
+  background:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,.08) 1px, transparent 1.2px) 0 0/12px 12px; /* dot grid */
 }
 
-/* ---------- Meta / footer ---------- */
-
-.breadcrumbs,
-.post-meta,
-.toc,
-.footer {
-  color: var(--ink-muted);
-  border-top: 1px solid var(--rule);
-  padding: 1rem 0;
+/* Content rhythm */
+main .container{
+  max-width: 92ch; /* narrow, manual-like */
 }
+main .container > *{ margin: 10px 0 0; }
+
+/* Headings */
+h1,h2,h3,h4{
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  font-weight: 600;
+  margin: 14px 0 6px;
+}
+h1{ color: var(--accent); font-size: 1.6rem; border-bottom:1px solid var(--rule); padding-bottom: 6px; }
+h2{ color: var(--accent); font-size: 1.2rem; border-left: 3px solid var(--rule); padding-left: 6px; }
+h3{ color: var(--ink-muted); font-size: 1.05rem; }
+
+/* Text/links */
+a{ color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
+a:hover{ color: var(--link-hover); text-decoration: none; }
+p, li, blockquote, pre, code{ letter-spacing: -0.01em; }
+
+/* Figures & ASCII blocks */
+figure{ border:1px solid var(--rule); background:#3d3d3d; padding:6px; margin: 10px 0; }
+figcaption{ color: var(--ink-muted); font-size: .95rem; margin-top: 4px; }
+.ascii, .magic, .hex, .markdeep{
+  background:#1b1b1b; border:1px solid #444; color:#e8dada;
+  padding:10px; white-space:pre; overflow:auto; line-height:1.08; font-size: 1rem;
+}
+
+/* Footer minimal */
+.footer{ border-top:1px solid var(--rule); padding:8px 12px; color:var(--ink-muted); }
 .footer .powered-by{ display:none !important; }
 
-/* ---------- ASCII blocks / diagrams ---------- */
-
-.ascii,
-.magic,
-.hex {
-  font-family: var(--mono);
-  font-size: 13.5px;
-  line-height: 1.08;
-  color: #e8dada;
-  background: #1b1b1b;
-  border: 1px solid #444;
-  padding: 1rem;
-  white-space: pre;
-  overflow-x: auto;
-  text-align: center;
+/* Home “enter” button */
+.enter{
+  display:inline-block;
+  margin-top: 10px; padding: 6px 10px;
+  border:1px solid var(--ink);
+  color: var(--ink);
+  text-decoration: none;
 }
-
-/* ---------- Images ---------- */
-
-img {
-  filter: grayscale(100%) contrast(1.05);
-  display: block;
-  margin: 1.5rem auto;
-  max-width: 100%;
-  height: auto;
-}
-
-figure {
-  border: 1px solid var(--rule);
-  background: #3d3d3d;
-  padding: 0.6rem;
-  margin: 1.5rem auto;
-}
-
-figcaption {
-  color: var(--ink-muted);
-  font-size: 0.9rem;
-  margin-top: 0.4rem;
-}
-
-/* ---------- Utility ---------- */
-
-hr {
-  border: none;
-  border-top: 1px solid var(--rule);
-  margin: 2rem 0;
-}
-
-blockquote {
-  border-left: 4px solid var(--accent);
-  padding: 0.3rem 0 0.3rem 1rem;
-  color: var(--ink-warm);
-  background: #383838;
-  border-radius: 0 6px 6px 0;
-}
-
-
-/* --- TYPE SCALE & RHYTHM QUICK FIX --- */
-:root{
-  --measure: 70ch;         /* comfy line length */
-  --leading: 1.55;         /* body line-height */
-  --space-1: .5rem;
-  --space-2: 1rem;
-  --space-3: 1.5rem;
-  --space-4: 2.25rem;
-  --space-5: 3.25rem;
-}
-
-.page, .post{
-  max-width: 980px;
-  padding: var(--space-4) var(--space-2) var(--space-5);
-}
-
-.post-content p,
-.post-content ul,
-.post-content ol,
-.post-content blockquote,
-.post-content pre{
-  max-width: var(--measure);
-  margin: var(--space-2) auto;
-}
-
-
-
-/* --- HOME COVER MEMO GRID --- */
-.home-grid{
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(22rem,1fr));
-  gap: var(--space-3);
-  margin-top: var(--space-3);
-}
-.home-grid section{
-  border:1px solid var(--rule);
-  padding: var(--space-2);
-  background: var(--bg2);
-}
-.home-grid h1{ margin-top:0; }
+.enter:hover{ color: var(--link-hover); border-color: var(--link-hover); }

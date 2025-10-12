@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{ partial "head.html" . | default "" }}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ if .IsHome }}NAGA DECC / CONSOLE{{ else }}{{ .Title }} — NAGA DECC{{ end }}</title>
+    {{- /* ensure naga.css is pulled (PaperMod respects params or you can link here) */ -}}
+    <link rel="stylesheet" href="{{ "css/naga.css" | relURL }}">
+  </head>
+  <body>
+    <!-- Top Terminal Bar -->
+    <div class="topbar">
+      <div class="prompt">NAGA@DECC:~$</div>
+      <nav>
+        <a href="{{ "/" | relURL }}">HOME</a>
+        <a href="{{ "/mission/" | relURL }}">MISSION</a>
+        <a href="{{ "/system-map/" | relURL }}">SYSTEM MAP</a>
+        <a href="{{ "/current-operations/" | relURL }}">CURRENT OPERATIONS</a>
+        <a href="{{ "/memories-of-past-futures/" | relURL }}">ARCHIVE</a>
+        <a href="{{ "/operator-file/" | relURL }}">OPERATOR FILE</a>
+        <a href="{{ "/manual/" | relURL }}">MANUAL</a>
+      </nav>
+    </div>
+
+    <!-- Two-Pane Shell -->
+    <div class="shell">
+      <aside class="sidebar">
+        {{ partial "sidebar-tree.html" . }}
+      </aside>
+
+      <main class="main">
+        <div class="container">
+          {{ block "main" . }}{{ end }}
+        </div>
+      </main>
+    </div>
+
+    <footer class="footer">
+      {{ with site.Params.copyright }}{{ . | safeHTML }}{{ end }}
+    </footer>
+
+    {{/* Markdeep loader (safe to include; only activates when used) */}}
+    <script defer src="/js/markdeep.min.js"></script>
+  </body>
+</html>
