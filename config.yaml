@@ -6,6 +6,8 @@ pagination:
   pagerSize: 12
 
 params:
+    customCSS:
+    - css/naga.css
   defaultTheme: dark
   disableThemeToggle: true
   ShowShareButtons: false
@@ -18,8 +20,7 @@ params:
   # assets
   label:
     text: "NAGA ELECTRIC INDUSTRIAL CO., LTD. //"
-  customCSS:
-    - css/naga.css
+
 
   ShowFooterCredits: false
   copyright: "4723 NAGA ELECTRIC INDUSTRIAL CO., LTD.<br>ALL WATCHED OVER BY MACHINES OF LOVING GRACE."

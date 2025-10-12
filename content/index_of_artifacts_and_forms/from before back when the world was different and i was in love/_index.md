@@ -1,0 +1,13 @@
+---
+title: "FROM BEFORE, BACK WHEN I WAS IN LOVE AND THE WORLD LOOKED DIFFERENT."
+---
+
+![TIGER HILL AT DAWN, — 17x25"](/index_of_artifacts_and_forms/FROM BEFORE BACK WHEN THE WORLD WAS DIFFERENT AND I WAS IN LOVE/tiger hill at dawn 01.jpg)
+
+**TIGER HILL AT DAWN**  
+17 × 25 in
+
+![TIGER HILL AT DAWN, — 17x25"](/index_of_artifacts_and_forms/FROM BEFORE BACK WHEN THE WORLD WAS DIFFERENT AND I WAS IN LOVE/tiger hill at dawn 2.jpg)
+
+**TIGER HILL AT DAWN**  
+17 × 25 in

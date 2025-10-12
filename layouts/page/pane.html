@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{ partial "head.html" . | default "" }}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ .Title }} — NAGA DECC</title>
+    <link rel="stylesheet" href="{{ "css/naga.css" | relURL }}">
+    <script defer src="https://morgan3d.github.io/markdeep/latest/markdeep.min.js"></script>
+  </head>
+  <body>
+    <!-- Top console bar with search -->
+    <header class="topbar">
+      <div class="prompt">NAGA DREAMLINE ELECTRIC CONSCIOUSNESS CORE:</div>
+      <form class="search" action="/search/" method="get" role="search">
+        <input name="q" type="search" placeholder="type to search…" aria-label="Search">
+        <span class="cursor"></span>
+      </form>
+    </header>
+
+    <!-- Two-pane shell: left = main, right = tree -->
+    <div class="shell shell--right25">
+      <main class="main">
+        <div class="container">
+          {{ .Content }}
+        </div>
+      </main>
+
+      <aside class="sidebar sidebar--right">
+        {{ partial "sidebar-tree.html" . }}
+      </aside>
+    </div>
+
+    <footer class="footer">
+      {{ with .Site.Params.copyright }}{{ . | safeHTML }}{{ end }}
+    </footer>
+  </body>
+</html>
