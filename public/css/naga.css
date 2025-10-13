@@ -1,105 +1,72 @@
-/* NAGA console — IBM Plex Mono, 10px, two-pane (left 75% content, right 25% tree) */
-
 @font-face{
   font-family:"IBM Plex Mono";
-  src:url("/fonts/ibm-plex-mono/IBMPlexMono-Regular.woff2") format("woff2");
+  src:url("/fonts/IBMPlexMono-Regular.woff2") format("woff2");
   font-weight:400;font-style:normal;font-display:swap;
 }
 @font-face{
   font-family:"IBM Plex Mono";
-  src:url("/fonts/ibm-plex-mono/IBMPlexMono-SemiBold.woff2") format("woff2");
+  src:url("/fonts/IBMPlexMono-SemiBold.woff2") format("woff2");
   font-weight:600;font-style:normal;font-display:swap;
 }
 
+/* Palette */
 :root{
-  --bg-left:#595959;      /* left pane bg */
-  --fg-left:#B8B8B8;      /* left text */
-  --bg-right:#EFC0C1;     /* right pane bg */
-  --fg-right:#595959;     /* right text */
-  --ink:#EFC0C1;          /* default link color on left */
-  --link:#90E9CE;
+  --bg-left:#595959;      /* main/content pane (right) */
+  --fg-left:#B8B8B8;
+  --bg-right:#EFC0C1;     /* tree pane (left) */
+  --fg-right:#595959;
+  --link:#EFC0C1;         /* main links */
   --link-hover:#FFCA99;
-  --rule:#444;
-  --cursor:#B02929;       /* blinking cursor color */
+  --cursor:#B02929;
 }
 
+/* Base */
 html,body{
-  margin:0;
-  font-family:"IBM Plex Mono", monospace;
-  font-size:10px;
-  line-height:1.3;
-  -webkit-font-smoothing:antialiased;
-  background:var(--bg-left);
-  color:var(--fg-left);
-  letter-spacing:-0.02em;
+  margin:0; font: 10px/1.3 "IBM Plex Mono", monospace; -webkit-font-smoothing:antialiased;
 }
 
-/* Top console bar */
-.topbar{
-  display:flex; align-items:center; gap:12px;
-  padding:8px 10px;
-  background:#3f3f40;
-  border-bottom:1px solid var(--rule);
-}
-.topbar .prompt{ color:#d8c5cc; text-transform:uppercase; }
-.search{ margin-left:auto; position:relative; display:flex; align-items:center; gap:6px; }
-.search input{
-  background:#2b2b2c; color:#ddd; border:1px solid var(--rule);
-  padding:4px 8px; font: 400 10px "IBM Plex Mono", monospace; outline:none;
-}
-.cursor{
-  width:7px; height:1.1em; background:var(--cursor); display:inline-block;
-  animation: blink 1s step-end infinite;
-}
-@keyframes blink { 50% { opacity: 0; } }
+/* Landing */
+body.landing{ background:var(--bg-left); color:var(--fg-left); }
+.landing-wrap{ min-height:100vh; display:grid; place-items:center; padding:24px; }
+.landing-inner{ max-width:90ch; margin:0 auto; text-align:center; }
+.logo-block{ margin:0 auto 12px; }
+.landing-sub{ margin:8px 0 12px; color:var(--fg-left); }
+.enter{ display:inline-block; padding:6px 10px; border:1px solid var(--fg-left); color:var(--fg-left); text-decoration:none; }
+.enter:hover{ color:var(--link-hover); border-color:var(--link-hover); }
 
-/* Two-pane shell: right 25% */
-.shell{
-  display:grid; grid-template-columns:minmax(0, 1fr) 25%;
-  min-height:calc(100vh - 36px);
-}
-.shell--right25 .main{ grid-column:1; }
-.shell--right25 .sidebar{ grid-column:2; }
+/* Kill Markdeep UI/footers */
+.markdeepFooter, #mdhelp, .mdhelp, .md .footer { display:none !important; }
+/* No black box around ASCII */
+pre.markdeep, .markdeep, .ascii, pre.ascii{ background:transparent !important; border:0 !important; color:inherit !important; padding:0 !important; }
 
-/* Left content pane */
-.main{
-  padding:16px 18px 80px;
-  background:
-    radial-gradient(circle at 1px 1px, rgba(255,255,255,.08) 1px, transparent 1.2px) 0 0/12px 12px,
-    var(--bg-left);
-}
-.container{ max-width:92ch; margin:0 auto; }
-a{ color:var(--link); text-decoration:underline; text-underline-offset:2px; }
-a:hover{ color:var(--link-hover); text-decoration:none; }
-.ascii,.markdeep{
-  background:#1b1b1b; border:1px solid #444; color:var(--ink);
-  padding:10px; white-space:pre; overflow:auto; line-height:1.08; font-size:1rem;
-}
+/* Top bar */
+.topbar{ background:var(--bg-left); color:var(--fg-left); padding:8px 10px; display:flex; align-items:center; justify-content:center; }
+.prompt{ text-transform:uppercase; letter-spacing:.03em; }
+.cursor{ display:inline-block; width:7px; height:1.1em; background:var(--cursor); margin-left:6px; animation:blink 1s step-end infinite; }
+@keyframes blink{ 50%{opacity:0;} }
+/* hide the actual input; we can wire a real search later */
+.search{ position:fixed; left:-9999px; width:1px; height:1px; overflow:hidden; }
+.search input{ border:0; background:transparent; color:inherit; outline:none; }
 
-/* Right tree pane */
-.sidebar{
-  background:var(--bg-right);
-  color:var(--fg-right);
-  border-left:1px solid var(--rule);
-  padding:12px 10px 80px;
-  overflow:auto;
-}
-.sidebar h2{
-  margin:6px 0 8px; color:var(--fg-right); text-transform:uppercase; letter-spacing:.04em;
-}
-.tree{ list-style:none; padding-left:0; margin:0; }
+/* Two-pane: LEFT tree 25%, RIGHT main 75% */
+.shell{ display:grid; grid-template-columns:25% minmax(0,1fr); min-height:calc(100vh - 34px); }
+/* Left pane */
+.sidebar{ background:var(--bg-right); color:var(--fg-right); padding:12px 10px 40px; overflow:auto; }
+.tree{ list-style:none; margin:0; padding:0; }
 .tree li{ margin:4px 0; }
-summary{ cursor:pointer; }
+summary{ cursor:pointer; list-style:none; }
+summary::-webkit-details-marker { display:none; }
 .sidebar a{ color:var(--fg-right); text-decoration:none; }
 .sidebar a:hover{ text-decoration:underline; }
+/* Right pane */
+.main{ background:var(--bg-left); color:var(--fg-left); padding:16px 18px 80px; }
+.container{ max-width:92ch; margin:0 auto; } /* centered */
+a{ color:var(--link); text-decoration:underline; text-underline-offset:2px; }
+a:hover{ color:var(--link-hover); text-decoration:none; }
+h1,h2,h3{ margin:10px 0 6px; font-weight:600; text-transform:uppercase; letter-spacing:.02em; }
 
-/* Footer */
-.footer{ border-top:1px solid var(--rule); padding:8px 10px; color:hsl(338, 20%, 81%); }
-.footer .powered-by{ display:none !important; }
-
-/* ENTER button (landing) */
-.enter{
-  display:inline-block; margin-top:8px; padding:6px 10px;
-  border:1px solid var(--ink); color:var(--ink); text-decoration:none;
-}
-.enter:hover{ color:var(--link-hover); border-color:var(--link-hover); }
+/* Subtle scrollbar */
+*{ scrollbar-width:thin; scrollbar-color:#777 transparent; }
+*::-webkit-scrollbar{ width:10px; height:10px; }
+*::-webkit-scrollbar-thumb{ background:#777; border-radius:6px; }
+*::-webkit-scrollbar-track{ background:transparent; }

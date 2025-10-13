@@ -1,1 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml"><url><loc>https://naga.network/genesis_of_living_system/</loc></url><url><loc>https://naga.network/hardware_codex/</loc></url><url><loc>https://naga.network/index_of_artifacts_and_forms/</loc></url><url><loc>https://naga.network/</loc></url><url><loc>https://naga.network/operator_files/</loc></url><url><loc>https://naga.network/resonance_link/</loc></url><url><loc>https://naga.network/transmission_streams/</loc></url><url><loc>https://naga.network/categories/</loc></url><url><loc>https://naga.network/index_of_artifacts_and_forms/from_before/</loc></url><url><loc>https://naga.network/main/</loc></url><url><loc>https://naga.network/tags/</loc></url></urlset>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>http://localhost:1313/genesis_of_living_system/</loc>
+  </url><url>
+    <loc>http://localhost:1313/hardware_codex/</loc>
+  </url><url>
+    <loc>http://localhost:1313/index_of_artifacts_and_forms/</loc>
+  </url><url>
+    <loc>http://localhost:1313/</loc>
+  </url><url>
+    <loc>http://localhost:1313/operator_files/</loc>
+  </url><url>
+    <loc>http://localhost:1313/resonance_link/</loc>
+  </url><url>
+    <loc>http://localhost:1313/transmission_streams/</loc>
+  </url><url>
+    <loc>http://localhost:1313/categories/</loc>
+  </url><url>
+    <loc>http://localhost:1313/index_of_artifacts_and_forms/from_before/</loc>
+  </url><url>
+    <loc>http://localhost:1313/main/</loc>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+  </url>
+</urlset>
