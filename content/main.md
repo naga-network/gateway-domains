@@ -1,6 +1,5 @@
 ---
 title: "NAGA CONSOLE"
-layout: pane
 ---
 {{< markdeep >}}
 # NAGA MANDALA (ASCII placeholder)

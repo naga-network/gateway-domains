@@ -1,16 +1,9 @@
-{{/* layouts/shortcodes/hexmap.html  — clickable hex grid
-     Usage:  {{< hexmap cols=5 rows=4 size=36 gap=4 >}}
-     Notes:
-       - Numbers from .Get are strings → cast to int/float before math
-       - Colors read from .Site.Params.hexTextColor / hexHoverColor
-*/}}
-
 {{- $cols := int (default 4 (.Get "cols")) -}}
 {{- $rows := int (default 3 (.Get "rows")) -}}
-{{- $size := float (default 36 (.Get "size")) -}}   {{/* radius of each hex */}}
+{{- $size := float (default 36 (.Get "size")) -}}
 {{- $gap  := float (default 4  (.Get "gap"))  -}}
 
-{{- $hexWidth   := mul $size 1.732 -}}             {{/* √3 * r */}}
+{{- $hexWidth   := mul $size 1.732 -}}
 {{- $colSpacing := add $hexWidth $gap -}}
 {{- $rowSpacing := add (mul $size 1.5) $gap -}}
 {{- $viewBoxW   := add (mul $colSpacing (float $cols)) (div $hexWidth 2) -}}
@@ -38,7 +31,6 @@
       {{- $x  := add (mul (float (sub $c 1)) $colSpacing) (cond (eq (mod $r 2) 1) (div $colSpacing 2) 0) -}}
       {{- $cx := add $x (div $hexWidth 2) -}}
       {{- $cy := add $y $size -}}
-
       <a href="#hex-{{ $r }}-{{ $c }}">
         <polygon class="hex" points="
           {{ add $cx $size }},{{ $cy }}

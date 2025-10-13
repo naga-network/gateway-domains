@@ -1,9 +1,6 @@
 ---
 title: "//.NAGA ELECTRIC INDUSTRIAL CO., LTD."
 draft: false
-type: "page"
-summary: ""
-tags: []
 ---
 {{< markdeep >}}
 

@@ -1,30 +1,13 @@
 baseURL: "https://naga.network/"
 languageCode: "en-us"
 title: "NAGA ELECTRIC INDUSTRIAL CO., LTD."
-theme: "PaperMod"
 
-pagination:
-  pagerSize: 12
-
+# site params for colors / shortcodes
 params:
-  defaultTheme: "dark"
-  disableThemeToggle: true
-  ShowShareButtons: false
-  hideSummary: true
-
-  # custom CSS (served at /css/naga.css)
-  customCSS:
-    - "css/naga.css"
-
-  # used by hex/diagrams
   hexTextColor: "#EFC0C1"
   hexHoverColor: "#FFCA99"
-
-  # footer text; hide “powered by”
-  footer:
-     hideCopyright: true
-     text: "4723 NAGA ELECTRIC INDUSTRIAL CO., LTD.<br>ALL WATCHED OVER BY MACHINES OF LOVING GRACE."
-     showPoweredBy: false
+  customCSS:
+    - "css/naga.css"
 
 markup:
   goldmark:
