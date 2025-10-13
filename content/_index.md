@@ -40,6 +40,3 @@ tags: []
        +--------------+
        
 {{< /markdeep >}}
-<p><a class="enter" href="/main/">ENTER //</a></p>
-<!-- Load Markdeep (includes GoAT) -->
-<script defer src="https://morgan3d.github.io/markdeep/latest/markdeep.min.js"></script>

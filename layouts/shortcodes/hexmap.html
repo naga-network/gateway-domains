@@ -1,0 +1,55 @@
+{{/* layouts/shortcodes/hexmap.html  — clickable hex grid
+     Usage:  {{< hexmap cols=5 rows=4 size=36 gap=4 >}}
+     Notes:
+       - Numbers from .Get are strings → cast to int/float before math
+       - Colors read from .Site.Params.hexTextColor / hexHoverColor
+*/}}
+
+{{- $cols := int (default 4 (.Get "cols")) -}}
+{{- $rows := int (default 3 (.Get "rows")) -}}
+{{- $size := float (default 36 (.Get "size")) -}}   {{/* radius of each hex */}}
+{{- $gap  := float (default 4  (.Get "gap"))  -}}
+
+{{- $hexWidth   := mul $size 1.732 -}}             {{/* √3 * r */}}
+{{- $colSpacing := add $hexWidth $gap -}}
+{{- $rowSpacing := add (mul $size 1.5) $gap -}}
+{{- $viewBoxW   := add (mul $colSpacing (float $cols)) (div $hexWidth 2) -}}
+{{- $viewBoxH   := add (mul $rowSpacing (float $rows)) (div $size 2) -}}
+
+<svg class="hexmap" xmlns="http://www.w3.org/2000/svg" width="100%"
+     viewBox="0 0 {{ $viewBoxW }} {{ $viewBoxH }}">
+  <style>
+    .hex { fill: none; stroke: #bbb; stroke-width: 1; }
+    .hexmap text {
+      fill: {{ default "#EFC0C1" .Site.Params.hexTextColor }};
+      font-family: "IBM Plex Mono", monospace;
+      font-size: {{ div $size 1.8 }}px;
+      dominant-baseline: middle;
+      text-anchor: middle;
+      user-select: none;
+    }
+    .hexmap a:hover .hex { stroke: {{ default "#FFCA99" .Site.Params.hexHoverColor }}; }
+    .hexmap a:hover text { fill: {{ default "#FFCA99" .Site.Params.hexHoverColor }}; }
+  </style>
+
+  {{- range $r := seq $rows }}
+    {{- $y := mul (float (sub $r 1)) $rowSpacing -}}
+    {{- range $c := seq $cols }}
+      {{- $x  := add (mul (float (sub $c 1)) $colSpacing) (cond (eq (mod $r 2) 1) (div $colSpacing 2) 0) -}}
+      {{- $cx := add $x (div $hexWidth 2) -}}
+      {{- $cy := add $y $size -}}
+
+      <a href="#hex-{{ $r }}-{{ $c }}">
+        <polygon class="hex" points="
+          {{ add $cx $size }},{{ $cy }}
+          {{ add $cx (div $size 2) }},{{ add $cy (mul $size 0.866) }}
+          {{ sub $cx (div $size 2) }},{{ add $cy (mul $size 0.866) }}
+          {{ sub $cx $size }},{{ $cy }}
+          {{ sub $cx (div $size 2) }},{{ sub $cy (mul $size 0.866) }}
+          {{ add $cx (div $size 2) }},{{ sub $cy (mul $size 0.866) }}
+        " />
+        <text x="{{ $cx }}" y="{{ $cy }}">{{ printf "%d%d" $r $c }}</text>
+      </a>
+    {{- end }}
+  {{- end }}
+</svg>
