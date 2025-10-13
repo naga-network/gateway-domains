@@ -94,7 +94,7 @@ summary{ cursor:pointer; }
 .sidebar a:hover{ text-decoration:underline; }
 
 /* Footer */
-.footer{ border-top:1px solid var(--rule); padding:8px 10px; color:hsl(338, 20%, 81%); }
+.footer{ border-top:1px solid var(--rule); padding:8px 10px; color:#d8c5cc; }
 .footer .powered-by{ display:none !important; }
 
 /* ENTER button (landing) */

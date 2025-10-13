@@ -5,7 +5,7 @@ type: "page"
 summary: ""
 tags: []
 ---
-{{< markdeep >}}>}}
+{{< markdeep >}}
 
       .--------------.                         .---------------.
      /                \                       /                 \
