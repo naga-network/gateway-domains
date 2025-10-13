@@ -1,11 +1,9 @@
 <h2>INDEX</h2>
 <ul class="tree">
-  {{/* Top-level sections in content/ */}}
   {{ range .Site.Sections.ByTitle }}
     <li>
       <details>
         <summary><a href="{{ .RelPermalink }}">{{ .Title }}</a></summary>
-        {{/* _index.md of the section appears when summary link clicked (left pane) */}}
         <ul>
           {{ range .Pages.ByTitle }}
             <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
