@@ -1,37 +1,108 @@
+{{/* layouts/shortcodes/hexmap.html
+     Usage:
+       {{< hexmap rowCounts="4,3,5" size=34 gap=6
+           labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK"
+           urls="/genesis_of_living_system/,/hardware_codex/,/index_of_artifacts_and_forms/,/operator_files/,/transmission_streams/,/resonance_link/" >}}
+
+       OR a uniform grid:
+       {{< hexmap cols=5 rows=3 size=36 gap=6 >}}
+*/}}
+
+{{- /* --- Params --- */ -}}
+{{- $rowCountsParam := .Get "rowCounts" -}}
 {{- $cols := int (default 4 (.Get "cols")) -}}
 {{- $rows := int (default 3 (.Get "rows")) -}}
 {{- $size := float (default 36 (.Get "size")) -}}
-{{- $gap  := float (default 4  (.Get "gap"))  -}}
+{{- $gap  := float (default 6  (.Get "gap"))  -}}
 
-{{- $hexWidth   := mul $size 1.732 -}}
-{{- $colSpacing := add $hexWidth $gap -}}
+{{- $labels := slice -}}
+{{- if .Get "labels" -}}{{- $labels = split (.Get "labels") "," -}}{{- end -}}
+
+{{- $urls := slice -}}
+{{- if .Get "urls" -}}{{- $urls = split (.Get "urls") "," -}}{{- end -}}
+
+{{- $txt := default "#EFC0C1" .Site.Params.hexTextColor -}}
+{{- $hov := default "#FFCA99" .Site.Params.hexHoverColor -}}
+
+{{- /* --- Geometry --- */ -}}
+{{- $hexW := mul $size 1.732 -}}           {{/* √3 * r */}}
+{{- $colSpacing := add $hexW $gap -}}
 {{- $rowSpacing := add (mul $size 1.5) $gap -}}
-{{- $viewBoxW   := add (mul $colSpacing (float $cols)) (div $hexWidth 2) -}}
-{{- $viewBoxH   := add (mul $rowSpacing (float $rows)) (div $size 2) -}}
 
-<svg class="hexmap" xmlns="http://www.w3.org/2000/svg" width="100%"
-     viewBox="0 0 {{ $viewBoxW }} {{ $viewBoxH }}">
+{{- /* Build row count slice: either from rowCounts= or uniform rows */ -}}
+{{- $rowCounts := slice -}}
+{{- if $rowCountsParam -}}
+  {{- range $i, $v := split $rowCountsParam "," -}}
+    {{- $rowCounts = $rowCounts | append (int (trim $v)) -}}
+  {{- end -}}
+{{- else -}}
+  {{- range seq $rows -}}
+    {{- $rowCounts = $rowCounts | append $cols -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* Metrics: max columns across ragged rows, for centering */ -}}
+{{- $maxCols := 0 -}}
+{{- range $rowCounts -}}
+  {{- if gt . $maxCols -}}{{- $maxCols = . -}}{{- end -}}
+{{- end -}}
+
+{{- /* Total items for label/url mapping */ -}}
+{{- $total := 0 -}}
+{{- range $rowCounts -}}{{- $total = add $total . -}}{{- end -}}
+
+{{- /* Helpers to fetch label/url by linear index */ -}}
+{{- $getLabel := func (idx int) string -}}
+  {{- if gt (len $labels) idx -}}
+    {{- index $labels idx | trim -}}
+  {{- else -}}
+    {{- "" -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $getURL := func (idx int) string -}}
+  {{- if gt (len $urls) idx -}}
+    {{- index $urls idx | trim -}}
+  {{- else -}}
+    {{- "" -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* ViewBox: width uses maxCols, height uses number of rows */ -}}
+{{- $viewW := add (mul $colSpacing (float $maxCols)) (div $hexW 2) -}}
+{{- $viewH := add (mul $rowSpacing (float (len $rowCounts))) (div $size 2) -}}
+
+<svg class="hexmap" xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 {{ $viewW }} {{ $viewH }}" aria-label="Hex grid">
   <style>
-    .hex { fill: none; stroke: #bbb; stroke-width: 1; }
-    .hexmap text {
-      fill: {{ default "#EFC0C1" .Site.Params.hexTextColor }};
-      font-family: "IBM Plex Mono", monospace;
-      font-size: {{ div $size 1.8 }}px;
-      dominant-baseline: middle;
-      text-anchor: middle;
-      user-select: none;
-    }
-    .hexmap a:hover .hex { stroke: {{ default "#FFCA99" .Site.Params.hexHoverColor }}; }
-    .hexmap a:hover text { fill: {{ default "#FFCA99" .Site.Params.hexHoverColor }}; }
+    .hex { fill: none; stroke: #B8B8B8; stroke-width: 1.25; }
+    .hexmap text { fill: {{ $txt }}; font-family: "IBM Plex Mono", monospace; font-size: 10px; dominant-baseline: middle; text-anchor: middle; user-select: none; }
+    .hexmap a:hover .hex  { stroke: {{ $hov }}; }
+    .hexmap a:hover text  { fill: {{ $hov }}; }
+    .hexmap a:active .hex { fill: #352D2F; }
   </style>
 
-  {{- range $r := seq $rows }}
-    {{- $y := mul (float (sub $r 1)) $rowSpacing -}}
-    {{- range $c := seq $cols }}
-      {{- $x  := add (mul (float (sub $c 1)) $colSpacing) (cond (eq (mod $r 2) 1) (div $colSpacing 2) 0) -}}
-      {{- $cx := add $x (div $hexWidth 2) -}}
+  {{- $globalIdx := 0 -}}
+  {{- range $r, $colsInRow := $rowCounts }}
+    {{- $y := mul (float $r) $rowSpacing -}}
+
+    {{- /* center this row relative to maxCols */ -}}
+    {{- $rowWidth := mul (float $colsInRow) $colSpacing -}}
+    {{- $maxWidth := mul (float $maxCols) $colSpacing -}}
+    {{- $xOffset := div (sub $maxWidth $rowWidth) 2 -}}
+
+    {{- range $c := seq $colsInRow }}
+      {{- $x := add $xOffset (mul (float (sub $c 1)) $colSpacing) -}}
+      {{- $cx := add $x (div $hexW 2) -}}
       {{- $cy := add $y $size -}}
-      <a href="#hex-{{ $r }}-{{ $c }}">
+
+      {{- $label := call $getLabel $globalIdx -}}
+      {{- if eq $label "" -}}{{- $label = printf "%d.%d" (add $r 1) $c -}}{{- end -}}
+
+      {{- $href := call $getURL $globalIdx -}}
+      {{- if eq $href "" -}}{{- $href = printf "#hex-%d-%d" (add $r 1) $c -}}{{- end -}}
+
+      <a href="{{ $href }}" aria-label="{{ $label }}">
         <polygon class="hex" points="
           {{ add $cx $size }},{{ $cy }}
           {{ add $cx (div $size 2) }},{{ add $cy (mul $size 0.866) }}
@@ -40,8 +111,10 @@
           {{ sub $cx (div $size 2) }},{{ sub $cy (mul $size 0.866) }}
           {{ add $cx (div $size 2) }},{{ sub $cy (mul $size 0.866) }}
         " />
-        <text x="{{ $cx }}" y="{{ $cy }}">{{ printf "%d%d" $r $c }}</text>
+        <text x="{{ $cx }}" y="{{ $cy }}">{{ $label }}</text>
       </a>
+
+      {{- $globalIdx = add $globalIdx 1 -}}
     {{- end }}
   {{- end }}
 </svg>

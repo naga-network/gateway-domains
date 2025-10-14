@@ -10,6 +10,8 @@ params:
     - "css/naga.css"
 
 markup:
+  goat:
+    wrap: true        # let Hugo wrap each diagram for easy CSS sizing
   goldmark:
     renderer:
       unsafe: true

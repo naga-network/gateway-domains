@@ -34,11 +34,6 @@ body.landing{ background:var(--bg-left); color:var(--fg-left); }
 .enter{ display:inline-block; padding:6px 10px; border:1px solid var(--fg-left); color:var(--fg-left); text-decoration:none; }
 .enter:hover{ color:var(--link-hover); border-color:var(--link-hover); }
 
-/* Kill Markdeep UI/footers */
-.markdeepFooter, #mdhelp, .mdhelp, .md .footer { display:none !important; }
-/* No black box around ASCII */
-pre.markdeep, .markdeep, .ascii, pre.ascii{ background:transparent !important; border:0 !important; color:inherit !important; padding:0 !important; }
-
 /* Top bar */
 .topbar{ background:var(--bg-left); color:var(--fg-left); padding:8px 10px; display:flex; align-items:center; justify-content:center; }
 .prompt{ text-transform:uppercase; letter-spacing:.03em; }
@@ -51,17 +46,17 @@ pre.markdeep, .markdeep, .ascii, pre.ascii{ background:transparent !important; b
 /* Two-pane: LEFT tree 25%, RIGHT main 75% */
 .shell{ display:grid; grid-template-columns:25% minmax(0,1fr); min-height:calc(100vh - 34px); }
 /* Left pane */
-.sidebar{ background:var(--bg-right); color:var(--fg-right); padding:12px 10px 40px; overflow:auto; }
+.sidebar{ background:var(--bg-left); color:var(--bg-right); padding:12px 10px 40px; overflow:auto; }
 .tree{ list-style:none; margin:0; padding:0; }
 .tree li{ margin:4px 0; }
 summary{ cursor:pointer; list-style:none; }
 summary::-webkit-details-marker { display:none; }
-.sidebar a{ color:var(--fg-right); text-decoration:none; }
-.sidebar a:hover{ text-decoration:underline; }
+.sidebar a{ color:var(--bg-right); text-decoration:none; }
+.sidebar a:hover{ color:var(--link-hover); text-decoration:none; }
 /* Right pane */
 .main{ background:var(--bg-left); color:var(--fg-left); padding:16px 18px 80px; }
 .container{ max-width:92ch; margin:0 auto; } /* centered */
-a{ color:var(--link); text-decoration:underline; text-underline-offset:2px; }
+a{ color:var(--link); text-decoration:none; }
 a:hover{ color:var(--link-hover); text-decoration:none; }
 h1,h2,h3{ margin:10px 0 6px; font-weight:600; text-transform:uppercase; letter-spacing:.02em; }
 
@@ -70,3 +65,39 @@ h1,h2,h3{ margin:10px 0 6px; font-weight:600; text-transform:uppercase; letter-s
 *::-webkit-scrollbar{ width:10px; height:10px; }
 *::-webkit-scrollbar-thumb{ background:#777; border-radius:6px; }
 *::-webkit-scrollbar-track{ background:transparent; }
+
+/* === GOAT diagrams (Hugo's built-in renderer) === */
+.goat.svg-container { margin: 12px 0; }
+.goat.svg-container svg {
+  width: 100%; height: auto;
+  stroke: #EFC0C1;           /* matches NAGA line color */
+  fill: none;                 /* line-only unless you draw fills explicitly */
+  stroke-width: 1.25;         /* same feel as hexmap */
+}
+.goat.svg-container text {
+  font-family: "IBM Plex Mono", monospace !important;
+  font-size: 10px;            /* keep it tight */
+  fill: #EFC0C1;              /* same as hex text color */
+}
+
+/* === HexMap (shortcode below) === */
+.hexmap { display:block; max-width: 100%; margin: 10px 0; }
+.hexmap .hex {
+  fill: none;                 /* default: line-only */
+  stroke: #B8B8B8;            /* subtle default stroke */
+  stroke-width: 1.25;
+  transition: fill .12s ease-out, stroke .12s ease-out, opacity .12s ease-out;
+}
+.hexmap text {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  dominant-baseline: middle;
+  text-anchor: middle;
+  fill: #EFC0C1;              /* default text color */
+  user-select: none;
+  pointer-events: none;       /* click goes to <a>, not text */
+}
+.hexmap a { text-decoration: none; }
+.hexmap a:hover .hex  { stroke: #FFCA99; }    /* hover stroke */
+.hexmap a:hover text  { fill:   #FFCA99; }    /* hover text */
+.hexmap a:active .hex { fill:   #352D2F; }    /* press-in fill (subtle) */

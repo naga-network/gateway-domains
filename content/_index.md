@@ -2,7 +2,7 @@
 title: "//.NAGA ELECTRIC INDUSTRIAL CO., LTD."
 draft: false
 ---
-{{< markdeep >}}
+```goat
 
       .--------------.                         .---------------.
      /                \                       /                 \
@@ -35,5 +35,5 @@ draft: false
      \                  /    INTERNAL ACCESS PORTAL
       \                /     ALL WATCHED OVER BY MACHINES OF LOVING GRACE
        +--------------+
+       ```
        
-{{< /markdeep >}}
