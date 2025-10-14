@@ -1,0 +1,86 @@
+{{/* layouts/shortcodes/dotmap.html
+     Fixed-size dot grid (o, *, ·/.), centered per widest row.
+     Usage:
+
+       {{< dotmap size=6 gap=12 >}}
+       o o o o o
+       o * · * o
+       o o o o o
+       {{< /dotmap >}}
+
+     Options:
+       - size: circle radius (default 6)
+       - gap : horizontal/vertical spacing between dot centers (default 12)
+       - stroke: hex color for outlines (defaults to site param hexTextColor or #EFC0C1)
+       - fillActive: hex fill for "*" (defaults to site param hexTextColor or #EFC0C1)
+       - fillHollow: hex fill for "o" (defaults to background-ish #595959)
+       - fillFaint : hex fill for "·" / "." (defaults to a muted #352D2F)
+
+     Notes:
+       - Any empty token or "-" will render nothing at that cell.
+       - Rows are the inner content lines; columns are tokens separated by spaces.
+*/}}
+
+{{- $size       := float (default 6   (.Get "size")) -}}
+{{- $gap        := float (default 12  (.Get "gap")) -}}
+
+{{- $stroke     := default (default "#EFC0C1" .Site.Params.hexTextColor) (.Get "stroke") -}}
+{{- $fillActive := default (default "#EFC0C1" .Site.Params.hexTextColor) (.Get "fillActive") -}}
+{{- $fillHollow := default (default "#595959"  .Site.Params.fillHollow)  (.Get "fillHollow") -}}
+{{- $fillFaint  := default (default "#352D2F"  .Site.Params.fillFaint)   (.Get "fillFaint") -}}
+
+{{- /* Parse inner content into rows/tokens */ -}}
+{{- $raw  := trim .Inner "\r\n\t " -}}
+{{- $rows := slice -}}
+{{- range (split $raw "\n") -}}
+  {{- $line := trim . " \t" -}}
+  {{- if ne $line "" -}}
+    {{- $rows = $rows | append (split (regexReplaceAll `\s+` $line " ") " ") -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* Compute geometry: number of rows, max columns, viewBox size */ -}}
+{{- $rowCount := len $rows -}}
+{{- $maxCols := 0 -}}
+{{- range $rows -}}
+  {{- if gt (len .) $maxCols -}}{{- $maxCols = len . -}}{{- end -}}
+{{- end -}}
+
+{{- /* padding around grid so strokes aren't clipped */ -}}
+{{- $pad := mul $size 1.5 -}}
+
+{{- /* width/height: (maxCols-1)*gap + 2*pad, similarly for rows */ -}}
+{{- $viewW := add (mul (float (max 1 $maxCols | sub 1 | add 0)) $gap) (mul 2 $pad) -}}
+{{- $viewH := add (mul (float (max 1 $rowCount | sub 1 | add 0)) $gap) (mul 2 $pad) -}}
+
+<svg class="dotmap" xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 {{ $viewW }} {{ $viewH }}" aria-label="Dot grid">
+  <style>
+    .dotmap .dot {
+      stroke: {{ $stroke }};
+      stroke-width: 1.25;
+    }
+    .dotmap .dot-hollow { fill: {{ $fillHollow }}; }  /* "o" */
+    .dotmap .dot-filled { fill: {{ $fillActive }}; }  /* "*" */
+    .dotmap .dot-faint  { fill: {{ $fillFaint  }}; }  /* "·" or "." */
+  </style>
+
+  {{- /* Render each row */ -}}
+  {{- range $r, $cols := $rows }}
+    {{- /* center this row to maxCols */ -}}
+    {{- $colsInRow := len $cols -}}
+    {{- $rowWidth  := mul (float (max 1 $colsInRow | sub 1 | add 0)) $gap -}}
+    {{- $maxWidth  := mul (float (max 1 $maxCols  | sub 1 | add 0)) $gap -}}
+    {{- $xOffset   := add $pad (div (sub $maxWidth $rowWidth) 2) -}}
+    {{- $y := add $pad (mul (float $r) $gap) -}}
+
+    {{- range $c, $token := $cols }}
+      {{- $t := lower (trim $token " ") -}}
+      {{- if and (ne $t "") (ne $t "-") -}}
+        {{- $x := add $xOffset (mul (float $c) $gap) -}}
+        {{- $cls := cond (or (eq $t "·") (eq $t ".")) "dot dot-faint" (cond (eq $t "*") "dot dot-filled" "dot dot-hollow") -}}
+        <circle class="{{ $cls }}" cx="{{ $x }}" cy="{{ $y }}" r="{{ $size }}" />
+      {{- end -}}
+    {{- end }}
+  {{- end }}
+</svg>

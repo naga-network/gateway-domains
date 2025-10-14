@@ -101,3 +101,6 @@ h1,h2,h3{ margin:10px 0 6px; font-weight:600; text-transform:uppercase; letter-s
 .hexmap a:hover .hex  { stroke: #FFCA99; }    /* hover stroke */
 .hexmap a:hover text  { fill:   #FFCA99; }    /* hover text */
 .hexmap a:active .hex { fill:   #352D2F; }    /* press-in fill (subtle) */
+
+.dotmap { display:block; max-width:100%; margin:10px 0; }    /*dotmap spacing
+
