@@ -1,10 +1,20 @@
 {{ define "main" }}
-<article>
-  <h1>{{ .Title }}</h1>
-  <ul>
-    {{ range .Pages.ByTitle }}
-      <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+  <article class="section">
+    {{ if .Title }}<h1>{{ .Title }}</h1>{{ end }}
+
+    {{/* This renders content from content/<section>/_index.md */}}
+    <div class="section-body">
+      {{ .Content }}
+    </div>
+
+    {{/* Then list child pages/sections */}}
+    {{ if .Pages }}
+      <hr/>
+      <ul class="section-list">
+        {{ range .Pages.ByTitle }}
+          <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+        {{ end }}
+      </ul>
     {{ end }}
-  </ul>
-</article>
+  </article>
 {{ end }}
