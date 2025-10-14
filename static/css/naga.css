@@ -23,6 +23,7 @@
 /* Base */
 html,body{
   background:#595959; color:#B8B8B8; margin:0; font: 12px/1.3 "IBM Plex Mono", monospace; -webkit-font-smoothing:antialiased;
+  background:#595959; color:#B8B8B8; margin:0; font: 12px/1.3 "IBM Plex Mono", monospace; -webkit-font-smoothing:antialiased;
 }
 /* Center the whole app shell */
 .site-wrap { max-width: 1280px; margin: 0 auto; }
@@ -62,6 +63,7 @@ body.landing .topbar { display:none; }              /* no console bar on home */
 .topbar { background:#595959; color:#B8B8B8; padding:8px 12px; }
 .topbar-inner { display:flex; flex-direction:column; align-items:flex-start; gap:6px; }
 .top-hex { align-self:flex-start; }
+.top-hex { align-self:flex-start; }
 .prompt { text-transform:uppercase; letter-spacing:.03em; }
 .cursor { display:inline-block; width:7px; height:1.1em; background:#B02929; margin-left:6px; animation:blink 1s step-end infinite; }
 @keyframes blink { 50% { opacity:0; } }
@@ -71,9 +73,9 @@ body.landing .topbar { display:none; }              /* no console bar on home */
 .main { background:#595959; color:#B8B8B8; padding:16px 18px 80px; }
 .container { max-width: 92ch; margin: 0 auto; }
 
-/* Links — no browser blue */
-a { color:#EFC0C1; text-decoration:underline; text-underline-offset:2px; }
-a:hover { color:#FFCA99; text-decoration:none; }
+/* Links everywhere */
+a { color:#EFC0C1; text-decoration:none; }
+a:hover { color:#FFCA99; }
 
 /* Tree links inherit pink; no markers or extra lines */
 .tree { list-style:none; margin:0; padding:0; }
@@ -81,7 +83,7 @@ a:hover { color:#FFCA99; text-decoration:none; }
 summary { cursor:pointer; list-style:none; }
 summary::-webkit-details-marker { display:none; }
 .sidebar a { color:#EFC0C1; text-decoration:none; }
-.sidebar a:hover { text-decoration:underline; }
+.sidebar a:hover { text-decoration:none; }
 
 
 /* Subtle scrollbar 
