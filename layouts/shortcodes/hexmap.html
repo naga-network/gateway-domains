@@ -32,8 +32,8 @@
 {{- $rowCounts := slice -}}
 {{- if $rowCountsParam -}}
   {{- range $v := split $rowCountsParam "," -}}
-    {{- $rowCounts = $rowCounts | append (int (trim $v)) -}}
-  {{- end -}}
+  {{- $rowCounts = $rowCounts | append (int (trim $v " \t")) -}}
+{{- end -}}
 {{- else -}}
   {{- range seq $rows -}}
     {{- $rowCounts = $rowCounts | append $cols -}}
@@ -93,6 +93,7 @@
       {{- $href := "" -}}
       {{- if gt (len $urls) $globalIdx -}}
         {{- $href = trim (index $urls $globalIdx) " \t" -}}
+
       {{- else -}}
         {{- $href = printf "#hex-%d-%d" (add $r 1) $c -}}
       {{- end -}}

@@ -19,11 +19,13 @@ o o o o | RED RIVER ULTRAPRO LUSTER 300 17x25 //
 {{< /dotmap >}}
 <br>
 ![ ](/index_of_artifacts_and_forms/from_before/002_the_head_of_the_goddess_in_the_great_blue_sky_ver1.jpg)
-**SAGARMATHA. THE HEAD OF THE GODDESS IN THE GREAT BLUE SKY //**  
-**TIGER HILL AT DAWN, SUNRISE OVER EVEREST, THE ROOF OF THE WORLD. V1 //**  
-HOLGA 120 GFCN HACKED TO SHOOT EXPIRED FUJIFILM SUPERIA XTRA 800 //  
-RED RIVER ULTRAPRO LUSTER 300 17x25
-
+{{< dotmap size=5 gap=12 stroke="#EFC0C1" fillActive="#EFC0C1" fillHollow="#595959" fillFaint="#352D2F" >}}
+* * o o | SAGARMATHA. THE HEAD OF THE GODDESS IN THE GREAT BLUE SKY // 
+o o o o | TIGER HILL AT DAWN, SUNRISE OVER EVEREST, THE ROOF OF THE WORLD. V1 //  
+o o o o | HOLGA 120 GFCN HACKED TO SHOOT EXPIRED FUJIFILM SUPERIA XTRA 800 //  
+o o o o | RED RIVER ULTRAPRO LUSTER 300 17x25
+{{< /dotmap >}}
+<br>
 ![ ](/index_of_artifacts_and_forms/from_before/003_the_head_of_the_goddess_in_the_great_blue_sky_ver2.jpg)
 **SAGARMATHA. THE HEAD OF THE GODDESS IN THE GREAT BLUE SKY //**  
 **TIGER HILL AT DAWN, SUNRISE OVER EVEREST, THE ROOF OF THE WORLD. V2 //**  
