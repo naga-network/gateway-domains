@@ -70,14 +70,14 @@ h1,h2,h3{ margin:10px 0 6px; font-weight:600; text-transform:uppercase; letter-s
 .goat.svg-container { margin: 12px 0; }
 .goat.svg-container svg {
   width: 100%; height: auto;
-  stroke: #EFC0C1;           /* matches NAGA line color */
-  fill: none;                 /* line-only unless you draw fills explicitly */
-  stroke-width: 1.25;         /* same feel as hexmap */
+  /*stroke: #EFC0C1;           /* matches NAGA line color */
+  /*fill: none;                 /* line-only unless you draw fills explicitly */
+  /*stroke-width: 1.25;         /* same feel as hexmap */
 }
 .goat.svg-container text {
   font-family: "IBM Plex Mono", monospace !important;
   font-size: 10px;            /* keep it tight */
-  fill: #EFC0C1;              /* same as hex text color */
+  /*fill: #EFC0C1;              /* same as hex text color */
 }
 
 /* === HexMap (shortcode below) === */

@@ -1,12 +1,12 @@
 ---
 title: "FROM BEFORE, BACK WHEN I WAS IN LOVE AND THE WORLD LOOKED DIFFERENT."
 ---
+INDEX OF ARTIFACTS AND FORMS >>>
 ```goat
-  o o o     INDEX OF ARTIFACTS AND FORMS >>  
- * o * *
-o o o o o   STARRY EYED AND LOST IN THE HAZE OF THE DREAMLINE :::    
- o * o o    FROM BEFORE, BACK WHEN I WAS IN LOVE."  
-  o * o
+* * * *        
+* * * *    STARRY EYED AND LOST IN THE HAZE OF THE DREAMLINE
+* * * *    VOLUME 001: FROM BEFORE, BACK WHEN I WAS IN LOVE.
+* * * *
 ```
 <br>
 <br>
@@ -14,11 +14,11 @@ o o o o o   STARRY EYED AND LOST IN THE HAZE OF THE DREAMLINE :::
 SOMEWHERE IN THE GREAT THAR DESERT. AT DUSK. //](/index_of_artifacts_and_forms/from_before/001_the_waves_in_the_dunes_keep_pulling_me_back_to_you.jpg)
 
 ```goat
-  o o o     THE WAVES AND THE DUNES. KEEP PULLING ME BACK. TO YOU. //  
- * o o o    SOMEWHERE IN THE GREAT THAR DESERT. AT DUSK. //
-o o o o o   HOLGA 120 GFCN HACKED TO SHOOT CHINA LUCKY FILM SUPER 200 //    
- o o o o    RED RIVER ULTRAPRO LUSTER 300    
-  o o o     17x25
+o o o o   THE WAVES AND THE DUNES. KEEP PULLING ME BACK. TO YOU. //  
+o o o o   SOMEWHERE IN THE GREAT THAR DESERT. AT DUSK. //
+o o o o   HOLGA 120 GFCN HACKED TO SHOOT CHINA LUCKY FILM SUPER 200 //    
+o o o o   RED RIVER ULTRAPRO LUSTER 300 17x25    
+     
 ```
 <br>
 <br>
