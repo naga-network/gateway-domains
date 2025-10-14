@@ -29,15 +29,17 @@
 {{- $fillHollow := default (default "#595959"  .Site.Params.fillHollow)  (.Get "fillHollow") -}}
 {{- $fillFaint  := default (default "#352D2F"  .Site.Params.fillFaint)   (.Get "fillFaint") -}}
 
-{{- /* Parse inner content into rows/tokens */ -}}
+{{/* Parse inner content into rows/tokens (normalize whitespace) */}}
 {{- $raw  := trim .Inner "\r\n\t " -}}
 {{- $rows := slice -}}
 {{- range (split $raw "\n") -}}
   {{- $line := trim . " \t" -}}
   {{- if ne $line "" -}}
-    {{- $rows = $rows | append (split (regexReplaceAll `\s+` $line " ") " ") -}}
+    {{- $line = replaceRE `\s+` " " $line -}}
+    {{- $rows = $rows | append (split $line " ") -}}
   {{- end -}}
 {{- end -}}
+
 
 {{- /* Compute geometry: number of rows, max columns, viewBox size */ -}}
 {{- $rowCount := len $rows -}}

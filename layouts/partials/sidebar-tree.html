@@ -1,7 +1,7 @@
 <ul class="tree">
   {{ range .Site.Sections.ByTitle }}
     <li>
-      <details>
+      <details open>
         <summary><a href="{{ .RelPermalink }}">{{ .Title }}</a></summary>
         <ul>
           {{ range .Pages.ByTitle }}
@@ -9,7 +9,7 @@
           {{ end }}
           {{ range .Sections.ByTitle }}
             <li>
-              <details>
+              <details open>
                 <summary><a href="{{ .RelPermalink }}">{{ .Title }}</a></summary>
                 <ul>
                   {{ range .Pages.ByTitle }}
@@ -24,4 +24,5 @@
     </li>
   {{ end }}
 </ul>
+
 

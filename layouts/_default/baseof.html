@@ -5,18 +5,22 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>{{ if .IsHome }}NAGA DECC{{ else }}{{ .Title }} — NAGA DECC{{ end }}</title>
   <link rel="stylesheet" href="{{ "css/naga.css" | relURL }}">
-  <script>window.markdeepOptions={tocStyle:"none"};</script>
-  <script defer src="https://morgan3d.github.io/markdeep/latest/markdeep.min.js"></script>
 </head>
 <body class="naga">
   <header class="topbar">
+  <div class="topbar-inner">
+    <div class="top-hex">
+      {{/* Render the shortcode from a template using RenderString */}}
+      {{ $hex := printf `{{< hexmap rowCounts="3,2,2,1" size=18 gap=6
+          labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK,ABOUT,CONTACT"
+          urls="/genesis_of_living_system/,/hardware_codex/,/index_of_artifacts_and_forms/,/operator_files/,/transmission_streams/,/resonance_link/,/main/,/resonance_link/" >}}` }}
+      {{ .RenderString $hex }}
+    </div>
     <div class="prompt">NAGA DREAMLINE ELECTRIC CONSCIOUSNESS CORE:<span class="cursor"></span></div>
-    <!-- hidden search input so you can still Ctrl+F style query later if we wire it -->
-    <form class="search" action="/search/" method="get" role="search" aria-label="Search">
-      <input name="q" type="search" autocomplete="off" />
-    </form>
-  </header>
+  </div>
+</header>
 
+<div class="site-wrap">
   <div class="shell shell--left25">
     <aside class="sidebar">
       {{ partial "sidebar-tree.html" . }}
@@ -27,5 +31,6 @@
       </div>
     </main>
   </div>
+</div>
 </body>
 </html>

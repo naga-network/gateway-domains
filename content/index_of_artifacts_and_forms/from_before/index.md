@@ -10,6 +10,13 @@ INDEX OF ARTIFACTS AND FORMS > > >
 ```
 <br>
 <br>
+{{< dotmap size=5 gap=12 stroke="#EFC0C1" fillActive="#EFC0C1" fillHollow="#595959" fillFaint="#352D2F" >}}
+o o o o    THE WAVES AND THE DUNES. KEEP PULLING ME BACK. TO YOU.
+o * o o    SOMEWHERE IN THE GREAT THAR DESERT. AT DUSK.
+· o o ·    HOLGA 120 GFCN HACKED TO SHOOT CHINA LUCKY FILM SUPER 200
+o o o o    RED RIVER ULTRAPRO LUSTER 300 17x25
+{{< /dotmap >}}
+
 ![ ](/index_of_artifacts_and_forms/from_before/001_the_waves_in_the_dunes_keep_pulling_me_back_to_you.jpg)
 ```goat
 o o o o   THE WAVES AND THE DUNES. KEEP PULLING ME BACK. TO YOU.
@@ -74,8 +81,7 @@ RED RIVER ULTRAPRO LUSTER 300 17x25
 HOLGA 120 GFCN HACKED TO SHOOT EXPIRED KODAK GOLD 400 //  
 RED RIVER ULTRAPRO LUSTER 300 17x25  
 
-![SPLIT SCENES OF RED GHOSTS AND ALPINE DREAMS.]
-(/index_of_artifacts_and_forms/from_before/011_split_scenes_of_red_ghosts_and_alpine_dreams.jpg)
+!![ ](/index_of_artifacts_and_forms/from_before/011_split_scenes_of_red_ghosts_and_alpine_dreams.jpg)
 
 **SPLIT SCENES OF RED GHOSTS AND ALPINE DREAMS. //**  
 HOLGA 120 GFCN HACKED TO SHOOT EXPIRED KODAK GOLD 400 //  

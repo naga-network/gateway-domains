@@ -4,8 +4,6 @@ title: "NAGA ELECTRIC INDUSTRIAL CO., LTD."
 
 # site params for colors / shortcodes
 params:
-  hexTextColor: "#EFC0C1"
-  hexHoverColor: "#FFCA99"
   customCSS:
     - "css/naga.css"
 
