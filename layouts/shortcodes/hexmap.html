@@ -84,7 +84,7 @@
       {{- /* label for this cell */ -}}
       {{- $label := "" -}}
       {{- if gt (len $labels) $globalIdx -}}
-        {{- $label = trim (index $labels $globalIdx) -}}
+        {{- $label = trim (index $labels $globalIdx) " \t" -}}
       {{- else -}}
         {{- $label = printf "%d.%d" (add $r 1) $c -}}
       {{- end -}}
@@ -92,7 +92,7 @@
       {{- /* href for this cell */ -}}
       {{- $href := "" -}}
       {{- if gt (len $urls) $globalIdx -}}
-        {{- $href = trim (index $urls $globalIdx) -}}
+        {{- $href = trim (index $urls $globalIdx) " \t" -}}
       {{- else -}}
         {{- $href = printf "#hex-%d-%d" (add $r 1) $c -}}
       {{- end -}}

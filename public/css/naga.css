@@ -22,51 +22,107 @@
 
 /* Base */
 html,body{
-  margin:0; font: 10px/1.3 "IBM Plex Mono", monospace; -webkit-font-smoothing:antialiased;
+  background:#595959; margin:0; font: 10px/1.3 "IBM Plex Mono", monospace; -webkit-font-smoothing:antialiased;
 }
+/* Center the whole app shell */
+.site-wrap { max-width: 1280px; margin: 0 auto; }
+
 
 /* Landing */
-body.landing{ background:var(--bg-left); color:var(--fg-left); }
+/*body.landing{ background:var(--bg-left); color:var(--fg-left); }
 .landing-wrap{ min-height:100vh; display:grid; place-items:center; padding:24px; }
 .landing-inner{ max-width:90ch; margin:0 auto; text-align:center; }
 .logo-block{ margin:0 auto 12px; }
-.landing-sub{ margin:8px 0 12px; color:var(--fg-left); }
+.landing-sub{ margin:8px 0 12px; color:var(--fg-left); }   */
 .enter{ display:inline-block; padding:6px 10px; border:1px solid var(--fg-left); color:var(--fg-left); text-decoration:none; }
 .enter:hover{ color:var(--link-hover); border-color:var(--link-hover); }
 
-/* Kill Markdeep UI/footers */
-.markdeepFooter, #mdhelp, .mdhelp, .md .footer { display:none !important; }
-/* No black box around ASCII */
-pre.markdeep, .markdeep, .ascii, pre.ascii{ background:transparent !important; border:0 !important; color:inherit !important; padding:0 !important; }
-
 /* Top bar */
-.topbar{ background:var(--bg-left); color:var(--fg-left); padding:8px 10px; display:flex; align-items:center; justify-content:center; }
-.prompt{ text-transform:uppercase; letter-spacing:.03em; }
-.cursor{ display:inline-block; width:7px; height:1.1em; background:var(--cursor); margin-left:6px; animation:blink 1s step-end infinite; }
-@keyframes blink{ 50%{opacity:0;} }
-/* hide the actual input; we can wire a real search later */
-.search{ position:fixed; left:-9999px; width:1px; height:1px; overflow:hidden; }
-.search input{ border:0; background:transparent; color:inherit; outline:none; }
+.topbar { background:#595959; color:#B8B8B8; padding:8px 12px; }
+.topbar-inner { display:flex; flex-direction:column; align-items:flex-start; gap:6px; }
+.top-hex { display:block; }
+.prompt { text-transform:uppercase; letter-spacing:.03em; color:#B8B8B8; }
+.cursor { display:inline-block; width:7px; height:1.1em; background:#B02929; margin-left:6px; animation:blink 1s step-end infinite; }
+@keyframes blink { 50% { opacity:0; } }
 
-/* Two-pane: LEFT tree 25%, RIGHT main 75% */
-.shell{ display:grid; grid-template-columns:25% minmax(0,1fr); min-height:calc(100vh - 34px); }
-/* Left pane */
-.sidebar{ background:var(--bg-right); color:var(--fg-right); padding:12px 10px 40px; overflow:auto; }
-.tree{ list-style:none; margin:0; padding:0; }
-.tree li{ margin:4px 0; }
-summary{ cursor:pointer; list-style:none; }
+/* Two-pane shell: both panes same background; left in pink text, right in grey text */
+.shell { display:grid; grid-template-columns: 25% minmax(0,1fr); min-height: calc(100vh - 64px); }
+.sidebar { background:#595959; color:#EFC0C1; padding:12px 10px 40px; overflow:auto; }
+.main    { background:#595959; color:#B8B8B8; padding:16px 18px 80px; }
+.container { max-width: 92ch; margin: 0 auto; }
+
+/* Links — no browser blue */
+a { color:#EFC0C1; text-decoration:underline; text-underline-offset:2px; }
+a:hover { color:#FFCA99; text-decoration:none; }
+
+/* Tree links inherit pink; no markers or extra lines */
+.tree { list-style:none; margin:0; padding:0; }
+.tree li { margin:4px 0; }
+summary { cursor:pointer; list-style:none; }
 summary::-webkit-details-marker { display:none; }
-.sidebar a{ color:var(--fg-right); text-decoration:none; }
-.sidebar a:hover{ text-decoration:underline; }
-/* Right pane */
-.main{ background:var(--bg-left); color:var(--fg-left); padding:16px 18px 80px; }
-.container{ max-width:92ch; margin:0 auto; } /* centered */
-a{ color:var(--link); text-decoration:underline; text-underline-offset:2px; }
-a:hover{ color:var(--link-hover); text-decoration:none; }
-h1,h2,h3{ margin:10px 0 6px; font-weight:600; text-transform:uppercase; letter-spacing:.02em; }
+.sidebar a { color:#EFC0C1; text-decoration:none; }
+.sidebar a:hover { text-decoration:underline; }
 
-/* Subtle scrollbar */
-*{ scrollbar-width:thin; scrollbar-color:#777 transparent; }
+
+/* Subtle scrollbar 
+*{ scrollbar-width:thin; scrollbar-color:#595959 transparent; }
 *::-webkit-scrollbar{ width:10px; height:10px; }
-*::-webkit-scrollbar-thumb{ background:#777; border-radius:6px; }
-*::-webkit-scrollbar-track{ background:transparent; }
+*::-webkit-scrollbar-thumb{ background:#595959; border-radius:6px; }
+*::-webkit-scrollbar-track{ background:transparent; }  */
+
+/* Scrollbars: same as bg, subtle thumb; note: arrow buttons are not styleable in most browsers */
+* { scrollbar-width:thin; scrollbar-color:#777 #595959; }
+*::-webkit-scrollbar { width:10px; height:10px; }
+*::-webkit-scrollbar-thumb { background:#777; border-radius:6px; }
+*::-webkit-scrollbar-track { background:#595959; }
+/* We cannot reliably color OS-level arrow buttons — most browsers don’t render them. */
+
+
+/* === GOAT diagrams (Hugo's built-in renderer) === */
+.goat.svg-container { margin: 12px 0; }
+.goat.svg-container svg {
+  width: 100%; height: auto;
+  /*stroke: #EFC0C1;           /* matches NAGA line color */
+  /*fill: none;                 /* line-only unless you draw fills explicitly */
+  /*stroke-width: 1.25;         /* same feel as hexmap */
+}
+.goat.svg-container text {
+  font-family: "IBM Plex Mono", monospace !important;
+  font-size: 10px;            /* keep it tight */
+  /*fill: #EFC0C1;              /* same as hex text color */
+}
+
+/* === HexMap (shortcode below) === 
+.hexmap { display:block; max-width: 100%; margin: 10px 0; }
+.hexmap .hex {
+  fill: none;                 /* default: line-only */
+/*stroke: #B8B8B8;            /* subtle default stroke */
+/*stroke-width: 1.25;
+  transition: fill .12s ease-out, stroke .12s ease-out, opacity .12s ease-out;
+}
+.hexmap text {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  dominant-baseline: middle;
+  text-anchor: middle;
+  fill: #EFC0C1;              /* default text color */
+/*user-select: none;
+  pointer-events: none;       /* click goes to <a>, not text */
+/*}*/
+
+/*.hexmap a { text-decoration: none; }
+/*.hexmap a:hover .hex  { stroke: #FFCA99; }    /* hover stroke */
+/*.hexmap a:hover text  { fill:   #FFCA99; }    /* hover text */
+/*.hexmap a:active .hex { fill:   #352D2F; }    /* press-in fill (subtle) */
+
+/* Hexmap (header + content) hover/active fill */
+.hexmap .hex { fill:none; stroke:#B8B8B8; stroke-width:1.25; transition:fill .12s, stroke .12s, opacity .12s; }
+.hexmap text { fill:#EFC0C1; font-family:"IBM Plex Mono", monospace; font-size:10px; dominant-baseline:middle; text-anchor:middle; user-select:none; }
+.hexmap a:hover .hex  { stroke:#FFCA99; }
+.hexmap a:hover text  { fill:#FFCA99; }
+.hexmap a:active .hex { fill:#352D2F; }
+
+
+/* === DotMap (spacing) === */
+.dotmap { display:block; max-width:100%; margin:10px 0; }    /*dotmap spacing
+

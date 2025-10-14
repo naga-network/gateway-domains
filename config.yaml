@@ -6,12 +6,15 @@ title: "NAGA ELECTRIC INDUSTRIAL CO., LTD."
 params:
   customCSS:
     - "css/naga.css"
-
+outputs:
+  home: ["HTML"]
+  section: ["HTML"]
+  page: ["HTML"]
+  taxonomy: []
+  term: []
 markup:
   goat:
     wrap: true        # let Hugo wrap each diagram for easy CSS sizing
   goldmark:
     renderer:
       unsafe: true
-
-

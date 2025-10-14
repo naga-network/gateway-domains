@@ -1,36 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>{{ if .IsHome }}NAGA DECC{{ else }}{{ .Title }} — NAGA DECC{{ end }}</title>
-  <link rel="stylesheet" href="{{ "css/naga.css" | relURL }}">
-</head>
-<body class="naga">
-  <header class="topbar">
-  <div class="topbar-inner">
-    <div class="top-hex">
-      {{/* Render the shortcode from a template using RenderString */}}
-      {{ $hex := printf `{{< hexmap rowCounts="3,2,2,1" size=18 gap=6
-          labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK,ABOUT,CONTACT"
-          urls="/genesis_of_living_system/,/hardware_codex/,/index_of_artifacts_and_forms/,/operator_files/,/transmission_streams/,/resonance_link/,/main/,/resonance_link/" >}}` }}
-      {{ .RenderString $hex }}
-    </div>
-    <div class="prompt">NAGA DREAMLINE ELECTRIC CONSCIOUSNESS CORE:<span class="cursor"></span></div>
-  </div>
-</header>
+  <head>
+    {{ partial "head.html" . | default "" }}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}</title>
+    <link rel="stylesheet" href="{{ "css/naga.css" | relURL }}">
+  </head>
 
-<div class="site-wrap">
-  <div class="shell shell--left25">
-    <aside class="sidebar">
-      {{ partial "sidebar-tree.html" . }}
-    </aside>
-    <main class="main">
-      <div class="container">
-        {{ block "main" . }}{{ .Content }}{{ end }}
+  <body class="naga{{ if .IsHome }} landing{{ end }}">
+    {{ if not .IsHome }}
+      <!-- TOP BAR (hexmap over prompt) -->
+      <header class="topbar">
+        <div class="topbar-inner">
+          <div class="top-hex">
+            {{ $hex := printf `{{< hexmap rowCounts="3,2,2,1" size=18 gap=6
+              labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK,ABOUT,CONTACT"
+              urls="/genesis_of_living_system/,/hardware_codex/,/index_of_artifacts_and_forms/,/operator_files/,/transmission_streams/,/resonance_link/,/main/,/resonance_link/" >}}` }}
+            {{ site.Home.RenderString $hex }}
+          </div>
+          <div class="prompt">NAGA DREAMLINE ELECTRIC CONSCIOUSNESS CORE:<span class="cursor"></span></div>
+        </div>
+      </header>
+    {{ end }}
+
+    {{ if .IsHome }}
+      <!-- LANDING: full-width, centered, just page content -->
+      <main class="landing-wrap">
+        <div class="landing-inner">
+          {{ .Content }}
+        </div>
+      </main>
+    {{ else }}
+      <!-- CONSOLE: two-pane layout -->
+      <div class="site-wrap">
+        <div class="shell shell--left25">
+          <aside class="sidebar">
+            {{ partial "sidebar-tree.html" . }}
+          </aside>
+          <main class="main">
+            <div class="container">
+              {{ block "main" . }}{{ .Content }}{{ end }}
+            </div>
+          </main>
+        </div>
       </div>
-    </main>
-  </div>
-</div>
-</body>
+    {{ end }}
+  </body>
 </html>
