@@ -1,10 +1,10 @@
-{{/* layouts/shortcodes/hexmap.html
+{{/* layouts/shortcodes/hexmap.html — ragged hex grid with labels/links
      Usage:
        {{< hexmap rowCounts="4,3,5" size=34 gap=6
            labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK"
            urls="/genesis_of_living_system/,/hardware_codex/,/index_of_artifacts_and_forms/,/operator_files/,/transmission_streams/,/resonance_link/" >}}
 
-       OR a uniform grid:
+       or uniform:
        {{< hexmap cols=5 rows=3 size=36 gap=6 >}}
 */}}
 
@@ -16,23 +16,22 @@
 {{- $gap  := float (default 6  (.Get "gap"))  -}}
 
 {{- $labels := slice -}}
-{{- if .Get "labels" -}}{{- $labels = split (.Get "labels") "," -}}{{- end -}}
-
+{{- with .Get "labels" -}}{{- $labels = split . "," -}}{{- end -}}
 {{- $urls := slice -}}
-{{- if .Get "urls" -}}{{- $urls = split (.Get "urls") "," -}}{{- end -}}
+{{- with .Get "urls" -}}{{- $urls = split . "," -}}{{- end -}}
 
 {{- $txt := default "#EFC0C1" .Site.Params.hexTextColor -}}
 {{- $hov := default "#FFCA99" .Site.Params.hexHoverColor -}}
 
 {{- /* --- Geometry --- */ -}}
-{{- $hexW := mul $size 1.732 -}}           {{/* √3 * r */}}
+{{- $hexW := mul $size 1.732 -}}            {{/* √3 * r */}}
 {{- $colSpacing := add $hexW $gap -}}
 {{- $rowSpacing := add (mul $size 1.5) $gap -}}
 
-{{- /* Build row count slice: either from rowCounts= or uniform rows */ -}}
+{{- /* Build row counts: ragged from rowCounts= or uniform */ -}}
 {{- $rowCounts := slice -}}
 {{- if $rowCountsParam -}}
-  {{- range $i, $v := split $rowCountsParam "," -}}
+  {{- range $v := split $rowCountsParam "," -}}
     {{- $rowCounts = $rowCounts | append (int (trim $v)) -}}
   {{- end -}}
 {{- else -}}
@@ -41,34 +40,13 @@
   {{- end -}}
 {{- end -}}
 
-{{- /* Metrics: max columns across ragged rows, for centering */ -}}
+{{- /* Metrics */ -}}
 {{- $maxCols := 0 -}}
 {{- range $rowCounts -}}
   {{- if gt . $maxCols -}}{{- $maxCols = . -}}{{- end -}}
 {{- end -}}
 
-{{- /* Total items for label/url mapping */ -}}
-{{- $total := 0 -}}
-{{- range $rowCounts -}}{{- $total = add $total . -}}{{- end -}}
-
-{{- /* Helpers to fetch label/url by linear index */ -}}
-{{- $getLabel := func (idx int) string -}}
-  {{- if gt (len $labels) idx -}}
-    {{- index $labels idx | trim -}}
-  {{- else -}}
-    {{- "" -}}
-  {{- end -}}
-{{- end -}}
-
-{{- $getURL := func (idx int) string -}}
-  {{- if gt (len $urls) idx -}}
-    {{- index $urls idx | trim -}}
-  {{- else -}}
-    {{- "" -}}
-  {{- end -}}
-{{- end -}}
-
-{{- /* ViewBox: width uses maxCols, height uses number of rows */ -}}
+{{- /* ViewBox: width by maxCols, height by num rows */ -}}
 {{- $viewW := add (mul $colSpacing (float $maxCols)) (div $hexW 2) -}}
 {{- $viewH := add (mul $rowSpacing (float (len $rowCounts))) (div $size 2) -}}
 
@@ -76,17 +54,24 @@
      viewBox="0 0 {{ $viewW }} {{ $viewH }}" aria-label="Hex grid">
   <style>
     .hex { fill: none; stroke: #B8B8B8; stroke-width: 1.25; }
-    .hexmap text { fill: {{ $txt }}; font-family: "IBM Plex Mono", monospace; font-size: 10px; dominant-baseline: middle; text-anchor: middle; user-select: none; }
+    .hexmap text {
+      fill: {{ $txt }};
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 10px;
+      dominant-baseline: middle;
+      text-anchor: middle;
+      user-select: none;
+    }
     .hexmap a:hover .hex  { stroke: {{ $hov }}; }
-    .hexmap a:hover text  { fill: {{ $hov }}; }
-    .hexmap a:active .hex { fill: #352D2F; }
+    .hexmap a:hover text  { fill:   {{ $hov }}; }
+    .hexmap a:active .hex { fill:   #352D2F; }
   </style>
 
   {{- $globalIdx := 0 -}}
   {{- range $r, $colsInRow := $rowCounts }}
     {{- $y := mul (float $r) $rowSpacing -}}
 
-    {{- /* center this row relative to maxCols */ -}}
+    {{- /* center this row to maxCols */ -}}
     {{- $rowWidth := mul (float $colsInRow) $colSpacing -}}
     {{- $maxWidth := mul (float $maxCols) $colSpacing -}}
     {{- $xOffset := div (sub $maxWidth $rowWidth) 2 -}}
@@ -96,11 +81,21 @@
       {{- $cx := add $x (div $hexW 2) -}}
       {{- $cy := add $y $size -}}
 
-      {{- $label := call $getLabel $globalIdx -}}
-      {{- if eq $label "" -}}{{- $label = printf "%d.%d" (add $r 1) $c -}}{{- end -}}
+      {{- /* label for this cell */ -}}
+      {{- $label := "" -}}
+      {{- if gt (len $labels) $globalIdx -}}
+        {{- $label = trim (index $labels $globalIdx) -}}
+      {{- else -}}
+        {{- $label = printf "%d.%d" (add $r 1) $c -}}
+      {{- end -}}
 
-      {{- $href := call $getURL $globalIdx -}}
-      {{- if eq $href "" -}}{{- $href = printf "#hex-%d-%d" (add $r 1) $c -}}{{- end -}}
+      {{- /* href for this cell */ -}}
+      {{- $href := "" -}}
+      {{- if gt (len $urls) $globalIdx -}}
+        {{- $href = trim (index $urls $globalIdx) -}}
+      {{- else -}}
+        {{- $href = printf "#hex-%d-%d" (add $r 1) $c -}}
+      {{- end -}}
 
       <a href="{{ $href }}" aria-label="{{ $label }}">
         <polygon class="hex" points="

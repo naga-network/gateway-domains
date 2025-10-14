@@ -3,7 +3,6 @@ title: "//.NAGA ELECTRIC INDUSTRIAL CO., LTD."
 draft: false
 ---
 ```goat
-
       .--------------.                         .---------------.
      /                \                       /                 \
     /                  \                     /                   \
@@ -35,5 +34,4 @@ draft: false
      \                  /    INTERNAL ACCESS PORTAL
       \                /     ALL WATCHED OVER BY MACHINES OF LOVING GRACE
        +--------------+
-       ```
-       
+```
