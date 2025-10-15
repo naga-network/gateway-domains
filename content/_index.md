@@ -2,7 +2,6 @@
 title: "//.NAGA ELECTRIC INDUSTRIAL CO., LTD."
 draft: false
 ---
-<center>
 ```goat
     ______________                      ______________
    /              \                    /              \
@@ -38,6 +37,5 @@ o * * * | ALL WATCHED OVER BY MACHINES OF LOVING GRACE //
 {{< /dotmap >}}
 
 [ENTER //](/main/)
-</center>
 
 
