@@ -48,13 +48,12 @@ a:hover{ color:var(--link-hover); }
 
 /* ===== Landing ===== */
 body.landing .topbar{ display:none; }
-.landing-wrap{ min-height:100vh; display:grid; place-items:center; }
-.landing-inner{ max-width:110ch; text-align:center; padding:6vh 2rem; }
-.landing-inner .goat.svg-container{ width:min(1400px,98vw); margin:0 auto 1.2rem; }
-.landing-inner a{ color:var(--link); }
+.landing-wrap{ min-height:90vh; display:grid; place-items:center; }
+.landing-inner{ max-width:120ch; text-align:center; padding:6vh 2rem; }
+.landing-inner .goat.svg-container{ width:min(1400px, 90vw);  margin:0 auto .5rem; }
+.landing-inner .goat.svg-container svg{ font-size:13px; }
+.landing-inner a{ color:var(--ink); }
 .landing-inner a:hover{ color:var(--link-hover); }
-.enter{ display:inline-block; padding:6px 10px; border:1px solid var(--ink); color:var(--ink); }
-.enter:hover{ color:var(--link-hover); border-color:var(--link-hover); }
 
 /* ===== Console Header (non-home) ===== */
 .topbar{ background:var(--bg); color:var(--ink); }
@@ -64,7 +63,7 @@ body.landing .topbar{ display:none; }
   padding:8px var(--gutter);
   display:flex; flex-direction:column; align-items:flex-start; gap:6px;
 }
-.top-hex{ align-self:flex-start; }
+.top-hex{ align-self:flex-start; outline:1px dashed #90E9CE;}
 .prompt{ text-transform:uppercase; letter-spacing:.03em; }
 .cursor{ display:inline-block; width:7px; height:1.1em; background:var(--cursor); margin-left:6px; animation:blink 1s step-end infinite; }
 @keyframes blink{ 50%{ opacity:0; } }
@@ -92,11 +91,40 @@ summary::-webkit-details-marker{ display:none; }
 *::-webkit-scrollbar-thumb{ background:#777; border-radius:6px; }
 *::-webkit-scrollbar-track{ background:var(--bg); }
 
-/* ===== GOAT (built-in renderer) ===== */
-.goat.svg-container svg{ width:100%; height:auto; font-size:14px; } /* bump to 15–16 if needed */
+/* ===== GOAT (global + variants) ===== */
+
+/* Global default: responsive width and base ASCII size */
+.goat.svg-container{ width:min(1200px, 95vw); margin:0 auto 1.2rem; }
+.goat.svg-container svg{ width:100%; height:auto; font-size:14px; }
+
+/* Optional size variants (desktop baseline) */
+.goat-tiny  svg{ font-size:10px; }
+.goat-small svg{ font-size:12px; }
+.goat       svg{ font-size:14px; } /* implicit default */
+.goat-large svg{ font-size:18px; }
+.goat-huge  svg{ font-size:22px; }
+
+/* Optional width variants (cap the container, not just font) */
+.goat-narrow   { width:min(900px, 92vw); }
+.goat-wide     { width:min(1400px, 98vw); }
+.goat-ultrawide{ width:min(1700px, 98vw); }
+
+/* Mobile adjustments */
+@media (max-width: 900px){
+  .goat.svg-container{ width:96vw; }           /* let it breathe edge-to-edge */
+  .goat.svg-container svg{ font-size:12px; }   /* smaller default on phones */
+
+  /* Keep the variants scaled down proportionally on mobile */
+  .goat-tiny  svg{ font-size:9px; }
+  .goat-small svg{ font-size:11px; }
+  .goat       svg{ font-size:12px; }
+  .goat-large svg{ font-size:15px; }
+  .goat-huge  svg{ font-size:18px; }
+}
+
 .goat.svg-container text{
   font-family:"IBM Plex Mono", monospace !important;
-  font-size:14px;
+  font-size:20px;
   /* fill:#EFC0C1; */  /* enable if you want text tinted */
 }
 
