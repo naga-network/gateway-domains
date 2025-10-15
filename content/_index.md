@@ -30,13 +30,13 @@ draft: false
    \______________/
 ```
 {{< dotmap size=10 gap=24 textSize=12 >}}
-o o o o o | INTERNAL ACCESS INTERFACE //  
-o * o * o | NAGA ELECTRIC INDUSTRIAL CO., LTD. //  
-* * * o o |  
-o * * * o | ALL WATCHED OVER BY MACHINES OF LOVING GRACE //  
+o * * * | INTERNAL ACCESS INTERFACE //
+o * o * | NAGA ELECTRIC INDUSTRIAL CO., LTD. //
+* * * o |
+o * * * | ALL WATCHED OVER BY MACHINES OF LOVING GRACE //
 {{< /dotmap >}}
 
-[ENTER //](/main/) 
+[ENTER //](/main/)
 
 
 
