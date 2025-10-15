@@ -14,9 +14,8 @@
       <header class="topbar">
         <div class="topbar-inner">
           <div class="top-hex">
-            {{ $hex := printf `{{< hexmap rowCounts="3,2,2,1" size=18 gap=6
-              labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK,ABOUT,CONTACT"
-              urls="/genesis_of_living_system/,/hardware_codex/,/index_of_artifacts_and_forms/,/operator_files/,/transmission_streams/,/resonance_link/,/main/,/resonance_link/" >}}` }}
+            {{ $hex := printf `{{< hexmap rowCounts="3,2,2,1" size=18 gap=6 labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK,ABOUT,CONTACT" 
+            urls="/genesis_of_living_system/,/hardware_codex/,/index_of_artifacts_and_forms/,/operator_files/,/transmission_streams/,/resonance_link/,/main/,/resonance_link/" >}}` }}
             {{ site.Home.RenderString $hex }}
           </div>
           <div class="prompt">NAGA DREAMLINE ELECTRIC CONSCIOUSNESS CORE:<span class="cursor"></span></div>

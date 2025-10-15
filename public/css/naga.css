@@ -26,6 +26,13 @@ html,body{
 }
 /* Center the whole app shell */
 .site-wrap { max-width: 1280px; margin: 0 auto; }
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; }
+  .sidebar { order: 1; max-height: 40vh; border-bottom: 1px solid #6a6a6a; }
+  .main { order: 2; padding: 14px; }
+  .hexmap text { font-size: 9px; }
+  .landing-inner .goat.svg-container { width: 95vw; }
+}
 
 
 /* Landing */
@@ -34,13 +41,32 @@ html,body{
 .landing-inner{ max-width:90ch; margin:0 auto; text-align:center; }
 .logo-block{ margin:0 auto 12px; }
 .landing-sub{ margin:8px 0 12px; color:var(--fg-left); }   */
+/* Make Goat SVGs scale to container width */
+.goat.svg-container svg { width: 100%; height: auto; }
+
+/* Let the landing Goat be wide, centered, and readable */
+.landing-inner { max-width: 100ch; } /* you can bump to 110–120ch if you want */
+.landing-inner .goat.svg-container {
+  width: min(1200px, 95vw);  /* scales with viewport, caps at 1200px */
+  margin: 0 auto 1.2rem;
+}
+.landing-inner .goat.svg-container svg { font-size: 13px; } /* Goat’s text size */
+
 .enter{ display:inline-block; padding:6px 10px; border:1px solid var(--fg-left); color:var(--fg-left); text-decoration:none; }
 .enter:hover{ color:var(--link-hover); border-color:var(--link-hover); }
 
 /* Top bar */
+/* Center the header to the same width as the site */
 .topbar { background:#595959; color:#B8B8B8; padding:8px 12px; }
-.topbar-inner { display:flex; flex-direction:column; align-items:flex-start; gap:6px; }
-.top-hex { display:block; }
+.topbar-inner {
+  max-width: 1280px;       /* match .site-wrap */
+  margin: 0 auto;          /* center it */
+  padding: 8px 12px;       /* same left/right padding feel as content */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px; }
+.top-hex { display:block; align-self: flex-start;}
 .prompt { text-transform:uppercase; letter-spacing:.03em; color:#B8B8B8; }
 .cursor { display:inline-block; width:7px; height:1.1em; background:#B02929; margin-left:6px; animation:blink 1s step-end infinite; }
 @keyframes blink { 50% { opacity:0; } }
@@ -64,12 +90,6 @@ summary::-webkit-details-marker { display:none; }
 .sidebar a:hover { text-decoration:underline; }
 
 
-/* Subtle scrollbar 
-*{ scrollbar-width:thin; scrollbar-color:#595959 transparent; }
-*::-webkit-scrollbar{ width:10px; height:10px; }
-*::-webkit-scrollbar-thumb{ background:#595959; border-radius:6px; }
-*::-webkit-scrollbar-track{ background:transparent; }  */
-
 /* Scrollbars: same as bg, subtle thumb; note: arrow buttons are not styleable in most browsers */
 * { scrollbar-width:thin; scrollbar-color:#777 #595959; }
 *::-webkit-scrollbar { width:10px; height:10px; }
@@ -92,30 +112,9 @@ summary::-webkit-details-marker { display:none; }
   /*fill: #EFC0C1;              /* same as hex text color */
 }
 
-/* === HexMap (shortcode below) === 
-.hexmap { display:block; max-width: 100%; margin: 10px 0; }
-.hexmap .hex {
-  fill: none;                 /* default: line-only */
-/*stroke: #B8B8B8;            /* subtle default stroke */
-/*stroke-width: 1.25;
-  transition: fill .12s ease-out, stroke .12s ease-out, opacity .12s ease-out;
-}
-.hexmap text {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 10px;
-  dominant-baseline: middle;
-  text-anchor: middle;
-  fill: #EFC0C1;              /* default text color */
-/*user-select: none;
-  pointer-events: none;       /* click goes to <a>, not text */
-/*}*/
 
-/*.hexmap a { text-decoration: none; }
-/*.hexmap a:hover .hex  { stroke: #FFCA99; }    /* hover stroke */
-/*.hexmap a:hover text  { fill:   #FFCA99; }    /* hover text */
-/*.hexmap a:active .hex { fill:   #352D2F; }    /* press-in fill (subtle) */
+/* === HexMap (navigation) === */
 
-/* Hexmap (header + content) hover/active fill */
 .hexmap .hex { fill:none; stroke:#B8B8B8; stroke-width:1.25; transition:fill .12s, stroke .12s, opacity .12s; }
 .hexmap text { fill:#EFC0C1; font-family:"IBM Plex Mono", monospace; font-size:10px; dominant-baseline:middle; text-anchor:middle; user-select:none; }
 .hexmap a:hover .hex  { stroke:#FFCA99; }
