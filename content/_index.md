@@ -29,7 +29,7 @@ draft: false
   \                /
    \______________/
 ```
-{{< dotmap size=10 gap=24 textSize=12 >}}
+{{< dotmap size=10 gap=24 textSize=10 >}}
 o * * * | INTERNAL ACCESS INTERFACE //
 o * o * | NAGA ELECTRIC INDUSTRIAL CO., LTD. //
 * * * o |
