@@ -32,8 +32,8 @@
 {{- $rowCounts := slice -}}
 {{- if $rowCountsParam -}}
   {{- range $v := split $rowCountsParam "," -}}
-  {{- $rowCounts = $rowCounts | append (int (trim $v " \t")) -}}
-{{- end -}}
+    {{- $rowCounts = $rowCounts | append (int (trim $v " \t")) -}}
+  {{- end -}}
 {{- else -}}
   {{- range seq $rows -}}
     {{- $rowCounts = $rowCounts | append $cols -}}
@@ -51,9 +51,11 @@
 {{- $viewH := add (mul $rowSpacing (float (len $rowCounts))) (div $size 2) -}}
 
 <svg class="hexmap" xmlns="http://www.w3.org/2000/svg"
-     viewBox="0 0 {{ $viewW }} {{ $viewH }}" aria-label="Hex grid">
+     viewBox="0 0 {{ $viewW }} {{ $viewH }}"
+     preserveAspectRatio="xMinYMin meet"
+     aria-label="Hex grid">
   <style>
-    .hex { fill: none; stroke: #B8B8B8; stroke-width: 1.25; }
+    .hex { fill: none; stroke: #EFC0C1; stroke-width: 1.25; }
     .hexmap text {
       fill: {{ $txt }};
       font-family: "IBM Plex Mono", monospace;
@@ -64,7 +66,7 @@
     }
     .hexmap a:hover .hex  { stroke: {{ $hov }}; }
     .hexmap a:hover text  { fill:   {{ $hov }}; }
-    .hexmap a:active .hex { fill:   #352D2F; }
+    .hexmap a:active .hex { fill:   #9C3B3B; }
   </style>
 
   {{- $globalIdx := 0 -}}
@@ -93,7 +95,6 @@
       {{- $href := "" -}}
       {{- if gt (len $urls) $globalIdx -}}
         {{- $href = trim (index $urls $globalIdx) " \t" -}}
-
       {{- else -}}
         {{- $href = printf "#hex-%d-%d" (add $r 1) $c -}}
       {{- end -}}

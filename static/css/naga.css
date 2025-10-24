@@ -133,10 +133,12 @@ summary::-webkit-details-marker{ display:none; }
 .hexmap text{ fill:#EFC0C1; font-family:"IBM Plex Mono", monospace; font-size:10px; dominant-baseline:middle; text-anchor:middle; user-select:none; }
 .hexmap a:hover .hex{ stroke:#FFCA99; }
 .hexmap a:hover text{ fill:#FFCA99; }
-.hexmap a:active .hex{ fill:#352D2F; }
+.hexmap a:active .hex{ fill:#9C3B3B; }
 
 /* ===== Dotmap ===== */
 .dotmap{ display:block; max-width:100%; margin:10px 0; }
+/* Dotmap: responsive */
+.dotmap svg { width:100%; height:auto; display:block; }
 /* If captions still feel small globally, uncomment:
 .dotmap .row-caption{ font-size:12px; }
 */
