@@ -5,4 +5,5 @@ type: "page"
 summary: ""
 tags: []
 ---
-//.RESONANCE LINK
+
+//. RESONANCE LINK

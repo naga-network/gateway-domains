@@ -1,5 +1,5 @@
 ---
-title: "//.GENESIS OF LIVING SYSTEMS"
+title: "//. GENESIS OF LIVING SYSTEMS"
 draft: false
 type: "page"
 summary: ""

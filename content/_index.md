@@ -2,7 +2,8 @@
 title: "//.NAGA ELECTRIC INDUSTRIAL CO., LTD."
 draft: false
 ---
-```goat
+
+```goat-small
     ______________                      ______________
    /              \                    /              \
   /                \                  /                \
@@ -29,13 +30,13 @@ draft: false
   \                /
    \______________/
 ```
+
 {{< dotmap size=10 gap=24 textSize=10 >}}
-o * * * | INTERNAL ACCESS INTERFACE //
-o * o * | NAGA ELECTRIC INDUSTRIAL CO., LTD. //
-* * * o |
-o * * * | ALL WATCHED OVER BY MACHINES OF LOVING GRACE //
-{{< /dotmap >}}
+o \* \* _ | INTERNAL ACCESS INTERFACE //
+o _ o \* | NAGA ELECTRIC INDUSTRIAL CO., LTD. //
+
+- - - o |
+      o \* \* \* | ALL WATCHED OVER BY MACHINES OF LOVING GRACE //
+      {{< /dotmap >}}
 
 [ENTER //](/main/)
-
-
