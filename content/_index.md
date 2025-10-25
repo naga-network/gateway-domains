@@ -39,4 +39,4 @@ o o * o | NAGA ELECTRIC INDUSTRIAL CO., LTD. //
 o o * * | ALL WATCHED OVER BY MACHINES OF LOVING GRACE //
 {{< /dotmap >}}
 <br>
-[**ENTER //**](/main/){.enter}
+[ ENTER //](/main/)

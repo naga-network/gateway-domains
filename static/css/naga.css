@@ -50,7 +50,7 @@ a:hover{ color:var(--link-hover); }
 body.landing .topbar{ display:none; }
 .landing-wrap{ min-height:90vh; display:grid; place-items:center; }
 .landing-inner{ max-width:120ch; text-align:center; padding:6vh 2rem; }
-.landing-inner .goat.svg-container{ width:min(1400px, 80vw);  margin:0 auto 2rem; }
+.landing-inner .goat.svg-container{ width:min(1000px, 80vw);  margin:0 auto 2rem; }
 .landing-inner .goat.svg-container svg{ font-size:13px; }
 .landing-inner a{ color:var(--ink); }
 .landing-inner a:hover{ color:var(--link-hover); }
