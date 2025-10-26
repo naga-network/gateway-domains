@@ -1,39 +1,23 @@
 {{/* layouts/shortcodes/dotmap.html
-     Fixed-size dot grid with per-row captions after a "|" separator.
+     Fixed-size dot grid + captions.
+     Dots scale with SVG; captions sized by textSize.
+     NEW: captionPane="auto" computes width from longest caption.
 
      Usage:
-       {{< dotmap size=6 gap=14 >}}
-       o o o o o | THE WAVES AND THE DUNES.
-       o * · * o | SOMEWHERE IN THE GREAT THAR DESERT. AT DUSK.
-       o o o o o | HOLGA 120 GFCN ... 17x25
+       {{< dotmap size=7 gap=18 textSize=12 captionPane="auto" >}}
+       o * o * | SAGARMATHA. THE HEAD OF THE GODDESS …
+       o o * o | TIGER HILL AT DAWN …
        {{< /dotmap >}}
 
-       {{< dotmap size=5 gap=12 captionPane=320 captionMargin=12 textSize=10 >}}
-       o o o o | LINE ONE
-       o * o o | LINE TWO
-       · o o · | LINE THREE
+       {{< dotmap size=6 gap=14 textSize=11 captionPane=420 captionMargin=16 >}}
+       …rows…
        {{< /dotmap >}}
-
-       {{< dotmap fillActive="#EFC0C1" fillHollow="#595959" fillFaint="#352D2F" stroke="#EFC0C1" textColor="#EFC0C1" >}}
-       o * o o o | PINK ACTIVE / GREY HOLLOW
-       {{< /dotmap >}}
-
-     Params:
-       - size: circle radius (default 6)
-       - gap:  spacing between dot centers (default 12)
-       - captionPane: reserved width (SVG units) for captions (default 420)
-       - captionMargin: spacing from last dot to caption start (default 16)
-       - textSize: SVG font-size for captions (default 10)
-
-       - stroke: outline color (default site param hexTextColor or #EFC0C1)
-       - fillActive: fill for "*" (default hexTextColor)
-       - fillHollow: fill for "o" (default #595959)
-       - fillFaint:  fill for "·" or "." (default #352D2F)
-       - textColor:  caption color (default hexTextColor)
 */}}
-{{- $size          := float (default 6    (.Get "size")) -}}
-{{- $gap           := float (default 12   (.Get "gap")) -}}
-{{- $captionPane   := float (default 420  (.Get "captionPane")) -}}
+
+{{- /* Params */ -}}
+{{- $size          := float (default 6    (.Get "size")) -}}           {{/* circle radius */}}
+{{- $gap           := float (default 12   (.Get "gap")) -}}            {{/* center-to-center spacing */}}
+{{- $captionPaneIn := .Get "captionPane" -}}                            {{/* number or "auto" */}}
 {{- $captionMargin := float (default 16   (.Get "captionMargin")) -}}
 {{- $textSize      := float (default 10   (.Get "textSize")) -}}
 
@@ -43,8 +27,8 @@
 {{- $fillFaint  := default (default "#352D2F"  .Site.Params.fillFaint)   (.Get "fillFaint") -}}
 {{- $textColor  := default (default "#EFC0C1"  .Site.Params.hexTextColor) (.Get "textColor") -}}
 
-{{/* --- Parse inner content into [{cols:[], caption:""}...] --- */}}
-{{- $raw := trim .Inner "\r\n\t " -}}
+{{/* Parse rows: "o * · * | CAPTION" */}}
+{{- $raw  := trim .Inner "\r\n\t " -}}
 {{- $rows := slice -}}
 {{- range (split $raw "\n") -}}
   {{- $line := trim . " \t" -}}
@@ -52,36 +36,55 @@
     {{- $parts := split $line "|" -}}
     {{- $left  := trim (index $parts 0) " \t" -}}
     {{- $left  = replaceRE `\s+` " " $left -}}
-    {{- $cols  := slice -}}
-    {{- if ne $left "" -}}
-      {{- $cols = split $left " " -}}
-    {{- end -}}
-    {{- $cap := "" -}}
-    {{- if gt (len $parts) 1 -}}
-      {{- $cap = trim (index $parts 1) " \t" -}}
-    {{- end -}}
+    {{- $cols  := cond (ne $left "") (split $left " ") (slice) -}}
+    {{- $cap   := "" -}}
+    {{- if gt (len $parts) 1 -}}{{- $cap = trim (index $parts 1) " \t" -}}{{- end -}}
     {{- $rows = $rows | append (dict "cols" $cols "caption" $cap) -}}
   {{- end -}}
 {{- end -}}
 
-{{/* --- Geometry: compute max columns, viewBox, padding --- */}}
+{{/* Grid metrics */}}
 {{- $rowCount := len $rows -}}
-{{- $maxCols := 0 -}}
+{{- $maxCols  := 0 -}}
 {{- range $rows -}}
   {{- $n := len (index . "cols") -}}
   {{- if gt $n $maxCols -}}{{- $maxCols = $n -}}{{- end -}}
 {{- end -}}
 
-{{- $pad := mul $size 1.5 -}}
+{{- $pad := mul $size 1.5 -}}  {{/* visual breathing room */}}
 {{- $colsMinus := sub (cond (gt $maxCols 0) $maxCols 1) 1 -}}
 {{- $rowsMinus := sub (cond (gt $rowCount 0) $rowCount 1) 1 -}}
 
 {{- $gridW := add (mul (float $colsMinus) $gap) (mul 2 $pad) -}}
-{{- $viewW := add $gridW (add $captionMargin $captionPane) -}}
-{{- $viewH := add (mul (float $rowsMinus) $gap) (mul 2 $pad) -}}
+{{- $gridH := add (mul (float $rowsMinus) $gap) (mul 2 $pad) -}}
+
+{{/* Auto caption width: estimate by character count in a mono font (~0.62em per char) */}}
+{{- $maxChars := 0 -}}
+{{- range $rows -}}
+  {{- $cap := index . "caption" -}}
+  {{- if gt (len $cap) $maxChars -}}{{- $maxChars = len $cap -}}{{- end -}}
+{{- end -}}
+{{- $autoPane := add (mul (mul $textSize 0.62) (float $maxChars)) 12 -}}  {{/* +12px buffer */}}
+
+{{- /* Final caption pane width decision */ -}}
+{{- $pane := 0.0 -}}
+{{- if $captionPaneIn -}}
+  {{- if eq (lower (printf "%v" $captionPaneIn)) "auto" -}}
+    {{- $pane = $autoPane -}}
+  {{- else -}}
+    {{- $pane = float $captionPaneIn -}}
+  {{- end -}}
+{{- else -}}
+  {{- $pane = 420 -}} {{/* default if not provided */}}
+{{- end -}}
+
+{{- $viewW := add $gridW (add $captionMargin $pane) -}}
+{{- $viewH := $gridH -}}
 
 <svg class="dotmap" xmlns="http://www.w3.org/2000/svg"
-     viewBox="0 0 {{ $viewW }} {{ $viewH }}" aria-label="Dot grid with captions">
+     viewBox="0 0 {{ $viewW }} {{ $viewH }}"
+     preserveAspectRatio="xMinYMin meet"
+     aria-label="Dot grid with captions">
   <style>
     .dotmap .dot { stroke: {{ $stroke }}; stroke-width: 1.25; }
     .dotmap .dot-hollow { fill: {{ $fillHollow }}; }
@@ -102,10 +105,10 @@
     {{- $cap  := index $row "caption" -}}
     {{- $colsInRow := len $cols -}}
 
-    {{- $rowWidth  := mul (float (sub (cond (gt $colsInRow 0) $colsInRow 1) 1)) $gap -}}
-    {{- $maxWidth  := mul (float (sub (cond (gt $maxCols 0)  $maxCols  1) 1)) $gap -}}
-    {{- $xOffset   := add $pad (div (sub $maxWidth $rowWidth) 2) -}}
-    {{- $y         := add $pad (mul (float $r) $gap) -}}
+    {{- $rowWidth := cond (gt $colsInRow 0) (mul (float (sub $colsInRow 1)) $gap) 0 -}}
+    {{- $maxWidth := cond (gt $maxCols   0) (mul (float (sub $maxCols   1)) $gap) 0 -}}
+    {{- $xOffset  := add $pad (div (sub $maxWidth $rowWidth) 2) -}}
+    {{- $y        := add $pad (mul (float $r) $gap) -}}
 
     {{- /* dots */ -}}
     {{- range $c, $token := $cols }}
