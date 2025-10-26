@@ -91,6 +91,14 @@ summary::-webkit-details-marker{ display:none; }
 *::-webkit-scrollbar-thumb{ background:#777; border-radius:6px; }
 *::-webkit-scrollbar-track{ background:var(--bg); }
 
+/* ===== Dotmap ===== */
+.dotmap{ display:block; max-width:100%; margin:10px 0; }
+/* Dotmap: responsive */
+.dotmap svg { width:100%; height:auto; display:block; }
+/* If captions still feel small globally, uncomment:
+.dotmap .row-caption{ font-size:12px; }
+*/
+
 /* ===== GOAT (global + variants) ===== */
 
 /* Global default: responsive width and base ASCII size */
