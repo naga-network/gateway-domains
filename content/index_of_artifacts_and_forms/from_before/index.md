@@ -2,9 +2,6 @@
 title: "FROM BEFORE, BACK WHEN I WAS IN LOVE AND THE WORLD LOOKED DIFFERENT."
 ---
 INDEX OF ARTIFACTS AND FORMS > > >
-<!-- markdownlint-disable MD004 MD024 MD033 MD009 -->
-<!-- prettier-ignore-start -->
-<!-- errorlens-ignore-start -->
 <br>
 {{< dotmap size=9 gap=20 textSize=12 stroke="#EFC0C1" fillActive="#EFC0C1" fillHollow="#595959" fillFaint="#352D2F" >}}
 o o o o |
@@ -100,7 +97,3 @@ o o o o | RED RIVER ULTRAPRO LUSTER 300 17x25 //
 * * * o | HOLGA 120 GFCN HACKED TO SHOOT EXPIRED KODAK GOLD 400 //
 o o o o | RED RIVER ULTRAPRO LUSTER 300 17x25 //
 {{< /dotmap >}}
-
-<!-- prettier-ignore-end -->
-<!-- markdownlint-enable MD004 MD024 MD033 -->
-<!-- errorlens-ignore-end -->
