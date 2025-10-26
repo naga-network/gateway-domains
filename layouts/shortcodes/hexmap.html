@@ -36,7 +36,7 @@
 {{- $labelSize := float (default 10 (.Get "labelSize")) -}}
 {{- $centerGrid := default true (.Get "center") -}}
 
-{{- $nested     := default true (.Get "nested") -}}
+{{- $nested     := default false (.Get "nested") -}}
 {{- $innerScale := float (default 0.82 (.Get "innerScale")) -}}
 
 {{- $strokeWidth := float (default 1.0 (.Get "strokeWidth")) -}}
@@ -52,9 +52,10 @@
 {{- $txt := default "#EFC0C1" .Site.Params.hexTextColor -}}
 
 {{- /* ---- Geometry ---- */ -}}
-{{- $hexW := mul $size 1.732 -}}                              {{/* width of hex (√3 * r) */}}
-{{- $colSpacing := add $hexW $gap -}}
-{{- $rowSpacing := add (mul $size 1.5) $gap -}}               {{/* vertical distance between row centers */}}
+{{- $hexW := mul $size 2 -}}                     {{/* flat-top width (2r) — only used for viewBox */}}
+{{- $colSpacing := add (mul $size 1.5) $gap -}}  {{/* ✅ 1.5r across columns */}}
+{{- $rowSpacing := add (mul $size 1.732) $gap -}}{{/* ✅ √3 r down rows    */}}
+
 
 {{- /* Build counts */ -}}
 {{- $colCounts := slice -}}
