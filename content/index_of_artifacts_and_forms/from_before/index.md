@@ -11,7 +11,7 @@ o o o o |
 {{< /dotmap >}}
 <br>
 ![](./001_the_waves_in_the_dunes_keep_pulling_me_back_to_you.jpg)
-{{< dotmap size=7 gap=18 textSize=9 stroke="#EFC0C1" fillActive="#EFC0C1" fillHollow="#595959" fillFaint="#352D2F" >}}
+{{< dotmap size=7 gap=18 textSize=9 captionPane=320 captionMargin=12 stroke="#EFC0C1" fillActive="#EFC0C1" fillHollow="#595959" fillFaint="#352D2F" >}}
 * o o o | THE WAVES AND THE DUNES. KEEP PULLING ME BACK. TO YOU. //
 o o o o | SOMEWHERE IN THE GREAT THAR DESERT. AT DUSK. //
 o o o o | HOLGA 120 GFCN HACKED TO SHOOT CHINA LUCKY FILM SUPER 200
