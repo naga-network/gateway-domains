@@ -13,7 +13,7 @@ o o o o | VOLUME 001: FROM BEFORE, BACK WHEN I WAS IN LOVE.
 o o o o |
 {{< /dotmap >}}
 <br>
-![ ](/index_of_artifacts_and_forms/from_before/001_the_waves_in_the_dunes_keep_pulling_me_back_to_you.jpg)
+![](./001_the_waves_in_the_dunes_keep_pulling_me_back_to_you.jpg)
 {{< dotmap size=7 gap=18 textSize=11 stroke="#EFC0C1" fillActive="#EFC0C1" fillHollow="#595959" fillFaint="#352D2F" >}}
 * o o o | THE WAVES AND THE DUNES. KEEP PULLING ME BACK. TO YOU. //
 o o o o | SOMEWHERE IN THE GREAT THAR DESERT. AT DUSK. //
@@ -21,7 +21,7 @@ o o o o | HOLGA 120 GFCN HACKED TO SHOOT CHINA LUCKY FILM SUPER 200
 o o o o | RED RIVER ULTRAPRO LUSTER 300 17x25 //
 {{< /dotmap >}}
 <br>
-![ ](/index_of_artifacts_and_forms/from_before/002_the_head_of_the_goddess_in_the_great_blue_sky_ver1.jpg)
+![](/index_of_artifacts_and_forms/from_before/002_the_head_of_the_goddess_in_the_great_blue_sky_ver1.jpg)
 {{< dotmap size=7 gap=18 textSize=11 stroke="#EFC0C1" fillActive="#EFC0C1" fillHollow="#595959" fillFaint="#352D2F" >}}
 * * o o | SAGARMATHA. THE HEAD OF THE GODDESS IN THE GREAT BLUE SKY //
 o o o o | TIGER HILL AT DAWN, SUNRISE OVER EVEREST, THE ROOF OF THE WORLD. V1 //
