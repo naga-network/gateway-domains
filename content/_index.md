@@ -30,7 +30,7 @@ draft: false
   \               /
    \_____________/
 ```
-{{< hexmap rowCounts="2,2,2,1" size=10 gap=6 labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK,ABOUT,CONTACT"
+{{< hexmap rowCounts="2,2,2,1" size=8 gap=0 labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK,ABOUT,CONTACT"
             urls="/genesis_of_living_system/,/hardware_codex/,/index_of_artifacts_and_forms/,/operator_files/,/transmission_streams/,/resonance_link/,/main/,/resonance_link/" >}}
 <br>
 {{< dotmap size=10 gap=24 textSize=10 >}}
