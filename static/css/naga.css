@@ -26,7 +26,7 @@ html,body{
   background:var(--bg);
   color:var(--ink);
   margin:0;
-  font: 12px/1.3 "IBM Plex Mono", monospace;
+  font: 11px/1.3 "IBM Plex Mono", monospace;
   -webkit-font-smoothing:antialiased;
 }
 a{ color:var(--link); text-decoration:none; }
@@ -98,11 +98,11 @@ summary::-webkit-details-marker{ display:none; }
 .goat.svg-container svg{ width:80%; height:auto; font-size:14px; }
 
 /* Optional size variants (desktop baseline) */
-.goat-tiny  svg{ font-size:10px; }
-.goat-small svg{ font-size:12px; }
-.goat       svg{ font-size:14px; } /* implicit default */
-.goat-large svg{ font-size:18px; }
-.goat-huge  svg{ font-size:22px; }
+.goat-tiny  svg{ font-size:8px; }
+.goat-small svg{ font-size:10px; }
+.goat       svg{ font-size:12px; } /* implicit default */
+.goat-large svg{ font-size:16px; }
+.goat-huge  svg{ font-size:20px; }
 
 /* Optional width variants (cap the container, not just font) */
 .goat-narrow   { width:min(900px, 92vw); }
@@ -115,16 +115,16 @@ summary::-webkit-details-marker{ display:none; }
   .goat.svg-container svg{ font-size:12px; }   /* smaller default on phones */
 
   /* Keep the variants scaled down proportionally on mobile */
-  .goat-tiny  svg{ font-size:9px; }
-  .goat-small svg{ font-size:11px; }
-  .goat       svg{ font-size:12px; }
-  .goat-large svg{ font-size:15px; }
-  .goat-huge  svg{ font-size:18px; }
+  .goat-tiny  svg{ font-size:8px; }
+  .goat-small svg{ font-size:10px; }
+  .goat       svg{ font-size:11px; }
+  .goat-large svg{ font-size:14px; }
+  .goat-huge  svg{ font-size:16px; }
 }
 
 .goat.svg-container text{
   font-family:"IBM Plex Mono", monospace !important;
-  font-size:20px;
+  font-size:12px;
   /* fill:#EFC0C1; */  /* enable if you want text tinted */
 }
 
