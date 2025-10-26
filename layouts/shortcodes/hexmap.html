@@ -1,33 +1,46 @@
 {{/* layouts/shortcodes/hexmap.html — ragged hex grid with labels/links
-     Usage:
-       {{< hexmap rowCounts="4,3,5" size=34 gap=6
-           labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK"
-           urls="/genesis_of_living_system/,/hardware_codex/,/index_of_artifacts_and_forms/,/operator_files/,/transmission_streams/,/resonance_link/" >}}
+     New params:
+       cssWidth  : "420px" | "60vw" | "18rem" (controls actual on-page width)
+       labelSize : number (px for label text)
+       center    : bool (center rows to widest row; default true)
+       labels    : comma list; use "-" to render a blank (no text)
+       urls      : comma list; empty entry = no link wrapper
 
-       or uniform:
-       {{< hexmap cols=5 rows=3 size=36 gap=6 >}}
+     Example (header):
+       {{< hexmap rowCounts="3,2,2,1" size=12 gap=6 cssWidth="420px" labelSize=9
+           labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK,ABOUT,CONTACT"
+           urls="/genesis_of_living_system/,/hardware_codex/,/index_of_artifacts_and_forms/,/operator_files/,/transmission_streams/,/resonance_link/,,,">}}
+
+     Example (content block, bigger):
+       {{< hexmap rowCounts="4,3,5" size=20 gap=8 cssWidth="720px" labelSize=11
+           labels="A,B,-,D,E,F,G,H,I,J,K,L"
+           urls=",,,,,,,,,,," >}}
 */}}
-{{- /* --- Params --- */ -}}
+
+{{- /* Params */ -}}
 {{- $rowCountsParam := .Get "rowCounts" -}}
 {{- $cols := int (default 4 (.Get "cols")) -}}
 {{- $rows := int (default 3 (.Get "rows")) -}}
 {{- $size := float (default 36 (.Get "size")) -}}
-{{- $gap  := float (default 6  (.Get "gap"))  -}}
+{{- $gap  := float (default  6 (.Get "gap"))  -}}
+{{- $cssWidth := .Get "cssWidth" -}}         {{/* e.g. "420px" or "60vw" */}}
+{{- $labelSize := float (default 10 (.Get "labelSize")) -}}
+{{- $centerRows := default true (.Get "center") -}}
 
 {{- $labels := slice -}}
-{{- with .Get "labels" -}}{{- $labels = split . "," -}}{{- end -}}
+{{- with .Get "labels" }}{{- $labels = split . "," -}}{{- end -}}
 {{- $urls := slice -}}
-{{- with .Get "urls" -}}{{- $urls = split . "," -}}{{- end -}}
+{{- with .Get "urls"   }}{{- $urls   = split . "," -}}{{- end -}}
 
 {{- $txt := default "#EFC0C1" .Site.Params.hexTextColor -}}
 {{- $hov := default "#FFCA99" .Site.Params.hexHoverColor -}}
 
-{{- /* --- Geometry --- */ -}}
-{{- $hexW := mul $size 1.732 -}}            {{/* √3 * r */}}
+{{- /* Geometry */ -}}
+{{- $hexW := mul $size 1.732 -}}                  {{/* √3 * r */}}
 {{- $colSpacing := add $hexW $gap -}}
 {{- $rowSpacing := add (mul $size 1.5) $gap -}}
 
-{{- /* Build row counts: ragged from rowCounts= or uniform */ -}}
+{{- /* Build row counts */ -}}
 {{- $rowCounts := slice -}}
 {{- if $rowCountsParam -}}
   {{- range $v := split $rowCountsParam "," -}}
@@ -44,21 +57,20 @@
 {{- range $rowCounts -}}
   {{- if gt . $maxCols -}}{{- $maxCols = . -}}{{- end -}}
 {{- end -}}
-
-{{- /* ViewBox: width by maxCols, height by num rows */ -}}
 {{- $viewW := add (mul $colSpacing (float $maxCols)) (div $hexW 2) -}}
 {{- $viewH := add (mul $rowSpacing (float (len $rowCounts))) (div $size 2) -}}
 
 <svg class="hexmap" xmlns="http://www.w3.org/2000/svg"
      viewBox="0 0 {{ $viewW }} {{ $viewH }}"
-     preserveAspectRatio="xMinYMin meet"
-     aria-label="Hex grid">
+     preserveAspectRatio="{{ if $centerRows }}xMidYMid{{ else }}xMinYMin{{ end }} meet"
+     aria-label="Hex grid"
+     {{- if $cssWidth }} style="width: {{ $cssWidth }}; height: auto; display: block;"{{ end -}}>
   <style>
     .hex { fill: none; stroke: #EFC0C1; stroke-width: 1.25; }
     .hexmap text {
       fill: {{ $txt }};
       font-family: "IBM Plex Mono", monospace;
-      font-size: 10px;
+      font-size: {{ $labelSize }}px;
       dominant-baseline: middle;
       text-anchor: middle;
       user-select: none;
@@ -71,34 +83,29 @@
   {{- $globalIdx := 0 -}}
   {{- range $r, $colsInRow := $rowCounts }}
     {{- $y := mul (float $r) $rowSpacing -}}
-
-    {{- /* center this row to maxCols */ -}}
     {{- $rowWidth := mul (float $colsInRow) $colSpacing -}}
-    {{- $maxWidth := mul (float $maxCols) $colSpacing -}}
-    {{- $xOffset := div (sub $maxWidth $rowWidth) 2 -}}
+    {{- $maxWidth := mul (float $maxCols)   $colSpacing -}}
+    {{- $xOffset := cond $centerRows (div (sub $maxWidth $rowWidth) 2) 0 -}}
 
     {{- range $c := seq $colsInRow }}
       {{- $x := add $xOffset (mul (float (sub $c 1)) $colSpacing) -}}
       {{- $cx := add $x (div $hexW 2) -}}
       {{- $cy := add $y $size -}}
 
-      {{- /* label for this cell */ -}}
-      {{- $label := "" -}}
+      {{- /* label & link for this cell */ -}}
+      {{- $rawLabel := "" -}}
       {{- if gt (len $labels) $globalIdx -}}
-        {{- $label = trim (index $labels $globalIdx) " \t" -}}
-      {{- else -}}
-        {{- $label = printf "%d.%d" (add $r 1) $c -}}
+        {{- $rawLabel = trim (index $labels $globalIdx) " \t" -}}
       {{- end -}}
+      {{- $showText := and (ne $rawLabel "") (ne $rawLabel "-") -}}
 
-      {{- /* href for this cell */ -}}
       {{- $href := "" -}}
       {{- if gt (len $urls) $globalIdx -}}
         {{- $href = trim (index $urls $globalIdx) " \t" -}}
-      {{- else -}}
-        {{- $href = printf "#hex-%d-%d" (add $r 1) $c -}}
       {{- end -}}
+      {{- $wrapLink := ne $href "" -}}
 
-      <a href="{{ $href }}" aria-label="{{ $label }}">
+      {{- if $wrapLink }}<a href="{{ $href }}" aria-label="{{ $rawLabel }}">{{ end -}}
         <polygon class="hex" points="
           {{ add $cx $size }},{{ $cy }}
           {{ add $cx (div $size 2) }},{{ add $cy (mul $size 0.866) }}
@@ -107,8 +114,8 @@
           {{ sub $cx (div $size 2) }},{{ sub $cy (mul $size 0.866) }}
           {{ add $cx (div $size 2) }},{{ sub $cy (mul $size 0.866) }}
         " />
-        <text x="{{ $cx }}" y="{{ $cy }}">{{ $label }}</text>
-      </a>
+        {{- if $showText -}}<text x="{{ $cx }}" y="{{ $cy }}">{{ $rawLabel }}</text>{{- end -}}
+      {{- if $wrapLink }}</a>{{ end -}}
 
       {{- $globalIdx = add $globalIdx 1 -}}
     {{- end }}

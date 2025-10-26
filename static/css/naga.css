@@ -63,6 +63,9 @@ body.landing .topbar{ display:none; }
   padding:8px var(--gutter);
   display:flex; flex-direction:column; align-items:flex-start; gap:6px;
 }
+.top-hex .hexmap{ display:block; height:auto; }
+.top-hex{ margin-bottom:6px; }  /* breathe above the prompt */
+
 .top-hex{ align-self:flex-start; outline:1px dashed #90E9CE;}
 .prompt{ text-transform:uppercase; letter-spacing:.03em; }
 .cursor{ display:inline-block; width:7px; height:1.1em; background:var(--cursor); margin-left:6px; animation:blink 1s step-end infinite; }
