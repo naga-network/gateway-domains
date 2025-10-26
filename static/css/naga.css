@@ -51,7 +51,7 @@ body.landing .topbar{ display:none; }
 .landing-wrap{ min-height:90vh; display:grid; place-items:center; }
 .landing-inner{ max-width:120ch; text-align:center; padding:6vh 2rem; }
 .landing-inner .goat.svg-container{ width:min(1000px, 80vw);  margin:0 auto 2rem; }
-.landing-inner .goat.svg-container svg{ font-size:13px; }
+.landing-inner .goat.svg-container svg{ font-size:11px; }
 .landing-inner a{ color:var(--ink); }
 .landing-inner a:hover{ color:var(--link-hover); }
 
@@ -103,7 +103,7 @@ summary::-webkit-details-marker{ display:none; }
 
 /* Global default: responsive width and base ASCII size */
 .goat.svg-container{ width:min(1200px, 95vw); margin:0 auto 1.2rem; }
-.goat.svg-container svg{ width:80%; height:auto; font-size:14px; }
+.goat.svg-container svg{ width:80%; height:auto; font-size:11px; }
 
 /* Optional size variants (desktop baseline) */
 .goat-tiny  svg{ font-size:8px; }
