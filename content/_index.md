@@ -20,7 +20,7 @@ draft: false
 \                   /             \                   /             \
  \                 /               \                 /               \
   \               /                 \               /                 \
-   \_____________/         A         \_____________/          A        \
+   \_____________/         A         \_____________/         A         \
    /             \                   /             \                   /
   /               \                 /               \                 /
  /                 \               /                 \               /
@@ -30,8 +30,7 @@ draft: false
   \               /
    \_____________/
 ```
-{{< hexmap rowCounts="2,2,2,1" size=8 gap=0 textSize=8 labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK,ABOUT,CONTACT"
-            urls="/genesis_of_living_system/,/hardware_codex/,/index_of_artifacts_and_forms/,/operator_files/,/transmission_streams/,/resonance_link/,/main/,/resonance_link/" >}}
+{{< hexmap rowCounts="3,2,2,1" size=6 gap=0 textSize=6 labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK,ABOUT,CONTACT" urls="/genesis_of_living_system/,/hardware_codex/,/index_of_artifacts_and_forms/,/operator_files/,/transmission_streams/,/resonance_link/,/main/,/resonance_link/" >}}
 <br>
 {{< dotmap size=10 gap=24 textSize=10 >}}
 o * o * | INTERNAL ACCESS INTERFACE //
