@@ -30,8 +30,7 @@ draft: false
   \               /
    \_____________/
 ```
-{{< hexmap rowCounts="3,2,2,1" {{< hexmap rowCounts="3,2,2,1"
-           size=18 gap=8 cssWidth="720px" labelSize=11 labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK,ABOUT,CONTACT" urls="/genesis_of_living_system/,/hardware_codex/,/index_of_artifacts_and_forms/,/operator_files/,/transmission_streams/,/resonance_link/,/main/,/resonance_link/" >}}
+{{< hexmap rowCounts="3,2,2,1" size=18 gap=8 cssWidth="720px" labelSize=11 labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK,ABOUT,CONTACT" urls="/genesis_of_living_system/,/hardware_codex/,/index_of_artifacts_and_forms/,/operator_files/,/transmission_streams/,/resonance_link/,/main/,/resonance_link/" >}}
 <br>
 {{< dotmap size=7 gap=18 textSize=10 stroke="#EFC0C1" fillActive="#EFC0C1" fillHollow="#595959" fillFaint="#352D2F" >}}
 o * o * | INTERNAL ACCESS INTERFACE //
