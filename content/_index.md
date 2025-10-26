@@ -30,7 +30,11 @@ draft: false
   \               /
    \_____________/
 ```
-{{< hexmap rowCounts="3,2,2,1" size=4 gap=0 cssWidth="1000px" labelSize=4 labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK,ABOUT,CONTACT" urls="/genesis_of_living_system/,/hardware_codex/,/index_of_artifacts_and_forms/,/operator_files/,/transmission_streams/,/resonance_link/,/main/,/resonance_link/" >}}
+{{< hexmap layout="cols" colCounts="3,2,2,1"
+           size=18 gap=8 cssWidth="min(1100px,92vw)"
+           labelSize=11 nested=true innerScale=0.82 strokeWidth=0.9
+           labels="-,-,-,-,-,-,-,-"  /* all blanks; just the grid */
+           urls=",,,,,,,">}}
 <br>
 {{< dotmap size=7 gap=18 textSize=10 stroke="#EFC0C1" fillActive="#EFC0C1" fillHollow="#595959" fillFaint="#352D2F" >}}
 o * o * | INTERNAL ACCESS INTERFACE //

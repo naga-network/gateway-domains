@@ -1,31 +1,48 @@
-{{/* layouts/shortcodes/hexmap.html — ragged hex grid with labels/links
-     New params:
-       cssWidth  : "420px" | "60vw" | "18rem" (controls actual on-page width)
-       labelSize : number (px for label text)
-       center    : bool (center rows to widest row; default true)
-       labels    : comma list; use "-" to render a blank (no text)
-       urls      : comma list; empty entry = no link wrapper
+{{/* layouts/shortcodes/hexmap.html
+     Hex grid with either row-based or column-based layout.
+     NEW:
+       - layout="cols" + colCounts="3,2,2,1"  (staggered columns, half-step)
+       - nested=true/false (draw inner hex)
+       - innerScale=0.82   (size of nested hex relative to outer)
+       - cssWidth="720px" / "60vw"  (real rendered width)
+       - strokeWidth, stroke, hoverStroke, fillActive
+       - labelSize independent of geometry
+       - labels: "-" = blank (no text)
+       - urls: empty = not a link
 
-     Example (header):
-       {{< hexmap rowCounts="3,2,2,1" size=12 gap=6 cssWidth="420px" labelSize=9
-           labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK,ABOUT,CONTACT"
-           urls="/genesis_of_living_system/,/hardware_codex/,/index_of_artifacts_and_forms/,/operator_files/,/transmission_streams/,/resonance_link/,,,">}}
+     Examples:
+       {{< hexmap layout="cols" colCounts="3,2,2,1"
+                  size=12 gap=6 cssWidth="420px" labelSize=9
+                  nested=true innerScale=0.82 strokeWidth=0.9
+                  labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK,ABOUT,CONTACT"
+                  urls="/genesis_of_living_system/,/hardware_codex/,/index_of_artifacts_and_forms/,/operator_files/,/transmission_streams/,/resonance_link/,,,">}}
 
-     Example (content block, bigger):
-       {{< hexmap rowCounts="4,3,5" size=20 gap=8 cssWidth="720px" labelSize=11
-           labels="A,B,-,D,E,F,G,H,I,J,K,L"
-           urls=",,,,,,,,,,," >}}
+       {{< hexmap layout="rows" rowCounts="4,3,5"
+                  size=20 gap=8 cssWidth="720px" labelSize=11
+                  labels="A,B,-,D,E,F,G,H,I,J,K,L"
+                  urls=",,,,,,,,,,," >}}
 */}}
 
-{{- /* Params */ -}}
-{{- $rowCountsParam := .Get "rowCounts" -}}
-{{- $cols := int (default 4 (.Get "cols")) -}}
-{{- $rows := int (default 3 (.Get "rows")) -}}
-{{- $size := float (default 36 (.Get "size")) -}}
-{{- $gap  := float (default  6 (.Get "gap"))  -}}
-{{- $cssWidth := .Get "cssWidth" -}}         {{/* e.g. "420px" or "60vw" */}}
+{{- /* ---- Params ---- */ -}}
+{{- $layout     := default "cols" (.Get "layout") -}}         {{/* "cols" or "rows" */}}
+{{- $colCountsP := .Get "colCounts" -}}
+{{- $rowCountsP := .Get "rowCounts" -}}
+{{- $colsDefault := int (default 4 (.Get "cols")) -}}
+{{- $rowsDefault := int (default 3 (.Get "rows")) -}}
+
+{{- $size      := float (default 36 (.Get "size")) -}}        {{/* radius (SVG units) */}}
+{{- $gap       := float (default  6 (.Get "gap"))  -}}        {{/* spacing between hex centers horizontally */}}
+{{- $cssWidth  := .Get "cssWidth" -}}                         {{/* "720px", "60vw", etc. */}}
 {{- $labelSize := float (default 10 (.Get "labelSize")) -}}
-{{- $centerRows := default true (.Get "center") -}}
+{{- $centerGrid := default true (.Get "center") -}}
+
+{{- $nested     := default true (.Get "nested") -}}
+{{- $innerScale := float (default 0.82 (.Get "innerScale")) -}}
+
+{{- $strokeWidth := float (default 1.0 (.Get "strokeWidth")) -}}
+{{- $stroke      := default (default "#EFC0C1" .Site.Params.hexTextColor) (.Get "stroke") -}}
+{{- $hoverStroke := default (default "#FFCA99" .Site.Params.hexHoverColor) (.Get "hoverStroke") -}}
+{{- $fillActive  := default "#9C3B3B" (.Get "fillActive") -}}
 
 {{- $labels := slice -}}
 {{- with .Get "labels" }}{{- $labels = split . "," -}}{{- end -}}
@@ -33,40 +50,71 @@
 {{- with .Get "urls"   }}{{- $urls   = split . "," -}}{{- end -}}
 
 {{- $txt := default "#EFC0C1" .Site.Params.hexTextColor -}}
-{{- $hov := default "#FFCA99" .Site.Params.hexHoverColor -}}
 
-{{- /* Geometry */ -}}
-{{- $hexW := mul $size 1.732 -}}                  {{/* √3 * r */}}
+{{- /* ---- Geometry ---- */ -}}
+{{- $hexW := mul $size 1.732 -}}                              {{/* width of hex (√3 * r) */}}
 {{- $colSpacing := add $hexW $gap -}}
-{{- $rowSpacing := add (mul $size 1.5) $gap -}}
+{{- $rowSpacing := add (mul $size 1.5) $gap -}}               {{/* vertical distance between row centers */}}
 
-{{- /* Build row counts */ -}}
+{{- /* Build counts */ -}}
+{{- $colCounts := slice -}}
 {{- $rowCounts := slice -}}
-{{- if $rowCountsParam -}}
-  {{- range $v := split $rowCountsParam "," -}}
-    {{- $rowCounts = $rowCounts | append (int (trim $v " \t")) -}}
+
+{{- if eq (lower $layout) "cols" -}}
+  {{- if $colCountsP -}}
+    {{- range (split $colCountsP ",") -}}
+      {{- $colCounts = $colCounts | append (int (trim . " \t")) -}}
+    {{- end -}}
+  {{- else -}}
+    {{- /* fallback rectangle */ -}}
+    {{- range seq $colsDefault -}}
+      {{- $colCounts = $colCounts | append $rowsDefault -}}
+    {{- end -}}
   {{- end -}}
 {{- else -}}
-  {{- range seq $rows -}}
-    {{- $rowCounts = $rowCounts | append $cols -}}
+  {{- if $rowCountsP -}}
+    {{- range (split $rowCountsP ",") -}}
+      {{- $rowCounts = $rowCounts | append (int (trim . " \t")) -}}
+    {{- end -}}
+  {{- else -}}
+    {{- range seq $rowsDefault -}}
+      {{- $rowCounts = $rowCounts | append $colsDefault -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 
-{{- /* Metrics */ -}}
-{{- $maxCols := 0 -}}
-{{- range $rowCounts -}}
-  {{- if gt . $maxCols -}}{{- $maxCols = . -}}{{- end -}}
+{{- /* ViewBox metrics */ -}}
+{{- if eq (lower $layout) "cols" -}}
+  {{- $numCols := len $colCounts -}}
+  {{- $maxRows := 0 -}}
+  {{- range $colCounts -}}
+    {{- if gt . $maxRows -}}{{- $maxRows = . -}}{{- end -}}
+  {{- end -}}
+  {{- $viewW := add (mul (float $numCols) $colSpacing) (div $hexW 2) -}}
+  {{- $viewH := add (mul (float $maxRows) $rowSpacing) (div $size 2) -}}
+{{- else -}}
+  {{- $numRows := len $rowCounts -}}
+  {{- $maxCols := 0 -}}
+  {{- range $rowCounts -}}
+    {{- if gt . $maxCols -}}{{- $maxCols = . -}}{{- end -}}
+  {{- end -}}
+  {{- $viewW := add (mul (float $maxCols) $colSpacing) (div $hexW 2) -}}
+  {{- $viewH := add (mul (float $numRows) $rowSpacing) (div $size 2) -}}
 {{- end -}}
-{{- $viewW := add (mul $colSpacing (float $maxCols)) (div $hexW 2) -}}
-{{- $viewH := add (mul $rowSpacing (float (len $rowCounts))) (div $size 2) -}}
 
 <svg class="hexmap" xmlns="http://www.w3.org/2000/svg"
-     viewBox="0 0 {{ $viewW }} {{ $viewH }}"
-     preserveAspectRatio="{{ if $centerRows }}xMidYMid{{ else }}xMinYMin{{ end }} meet"
+  {{- if eq (lower $layout) "cols" -}}
+     viewBox="0 0 {{ add (mul (float (len $colCounts)) $colSpacing) (div $hexW 2) }} {{ add (mul (float (cond (gt (len $colCounts) 0) (index (sort $colCounts) (sub (len $colCounts) 1)) 0)) $rowSpacing) (div $size 2) }}"
+  {{- else -}}
+     viewBox="0 0 {{ add (mul (float (cond (gt (len $rowCounts) 0) (index (sort $rowCounts) (sub (len $rowCounts) 1)) 0)) $colSpacing) (div $hexW 2) }} {{ add (mul (float (len $rowCounts)) $rowSpacing) (div $size 2) }}"
+  {{- end -}}
+     preserveAspectRatio="{{ if $centerGrid }}xMidYMid{{ else }}xMinYMin{{ end }} meet"
      aria-label="Hex grid"
      {{- if $cssWidth }} style="width: {{ $cssWidth }}; height: auto; display: block;"{{ end -}}>
+
   <style>
-    .hex { fill: none; stroke: #EFC0C1; stroke-width: 1.25; }
+    .hexmap .hex { fill: none; stroke: {{ $stroke }}; stroke-width: {{ $strokeWidth }}; }
+    .hexmap .hex-inner { fill: none; stroke: {{ $stroke }}; stroke-width: {{ div $strokeWidth 1.2 }}; opacity: 0.7; }
     .hexmap text {
       fill: {{ $txt }};
       font-family: "IBM Plex Mono", monospace;
@@ -75,49 +123,117 @@
       text-anchor: middle;
       user-select: none;
     }
-    .hexmap a:hover .hex  { stroke: {{ $hov }}; }
-    .hexmap a:hover text  { fill:   {{ $hov }}; }
-    .hexmap a:active .hex { fill:   #9C3B3B; }
+    .hexmap a:hover .hex,
+    .hexmap a:hover .hex-inner { stroke: {{ $hoverStroke }}; }
+    .hexmap a:active .hex { fill: {{ $fillActive }}; }
+    .hexmap a:hover text { fill: {{ $hoverStroke }}; }
   </style>
 
-  {{- $globalIdx := 0 -}}
-  {{- range $r, $colsInRow := $rowCounts }}
-    {{- $y := mul (float $r) $rowSpacing -}}
-    {{- $rowWidth := mul (float $colsInRow) $colSpacing -}}
-    {{- $maxWidth := mul (float $maxCols)   $colSpacing -}}
-    {{- $xOffset := cond $centerRows (div (sub $maxWidth $rowWidth) 2) 0 -}}
+  {{- $i := 0 -}}
+  {{- if eq (lower $layout) "cols" -}}
+    {{- /* COLUMN MODE: stagger each odd column by +0.5 rowSpacing */ -}}
+    {{- $numCols := len $colCounts -}}
+    {{- /* center columns to tallest if requested */ -}}
+    {{- $maxRows := 0 -}}
+    {{- range $colCounts -}}
+      {{- if gt . $maxRows -}}{{- $maxRows = . -}}{{- end -}}
+    {{- end -}}
+    {{- range $c, $rowsInCol := $colCounts }}
+      {{- $x := mul (float $c) $colSpacing -}}
+      {{- $yOffset := cond (eq (mod (add $c 1) 2) 0) (mul 0.5 $rowSpacing) 0 -}}  {{/* half-step for even columns (or swap parity) */}}
+      {{- /* column centering */ -}}
+      {{- $colHeight := mul (float $rowsInCol) $rowSpacing -}}
+      {{- $maxHeight := mul (float $maxRows) $rowSpacing -}}
+      {{- $xC := add $x (div $hexW 2) -}}
+      {{- range $r := seq $rowsInCol }}
+        {{- $y := add (mul (float (sub $r 1)) $rowSpacing) $yOffset -}}
+        {{- $cx := $xC -}}
+        {{- $cy := add $y $size -}}
 
-    {{- range $c := seq $colsInRow }}
-      {{- $x := add $xOffset (mul (float (sub $c 1)) $colSpacing) -}}
-      {{- $cx := add $x (div $hexW 2) -}}
-      {{- $cy := add $y $size -}}
+        {{- /* label & link */ -}}
+        {{- $lab := "" -}}
+        {{- if gt (len $labels) $i -}}{{- $lab = trim (index $labels $i) " \t" -}}{{- end -}}
+        {{- $showText := and (ne $lab "") (ne $lab "-") -}}
 
-      {{- /* label & link for this cell */ -}}
-      {{- $rawLabel := "" -}}
-      {{- if gt (len $labels) $globalIdx -}}
-        {{- $rawLabel = trim (index $labels $globalIdx) " \t" -}}
-      {{- end -}}
-      {{- $showText := and (ne $rawLabel "") (ne $rawLabel "-") -}}
+        {{- $href := "" -}}
+        {{- if gt (len $urls) $i -}}{{- $href = trim (index $urls $i) " \t" -}}{{- end -}}
+        {{- $wrap := ne $href "" -}}
 
-      {{- $href := "" -}}
-      {{- if gt (len $urls) $globalIdx -}}
-        {{- $href = trim (index $urls $globalIdx) " \t" -}}
-      {{- end -}}
-      {{- $wrapLink := ne $href "" -}}
+        {{- if $wrap }}<a href="{{ $href }}" aria-label="{{ $lab }}">{{ end -}}
+          <polygon class="hex" points="
+            {{ add $cx $size }},{{ $cy }}
+            {{ add $cx (div $size 2) }},{{ add $cy (mul $size 0.866) }}
+            {{ sub $cx (div $size 2) }},{{ add $cy (mul $size 0.866) }}
+            {{ sub $cx $size }},{{ $cy }}
+            {{ sub $cx (div $size 2) }},{{ sub $cy (mul $size 0.866) }}
+            {{ add $cx (div $size 2) }},{{ sub $cy (mul $size 0.866) }}
+          " />
+          {{- if $nested -}}
+            {{- $inner := mul $size $innerScale -}}
+            <polygon class="hex-inner" points="
+              {{ add $cx $inner }},{{ $cy }}
+              {{ add $cx (div $inner 2) }},{{ add $cy (mul $inner 0.866) }}
+              {{ sub $cx (div $inner 2) }},{{ add $cy (mul $inner 0.866) }}
+              {{ sub $cx $inner }},{{ $cy }}
+              {{ sub $cx (div $inner 2) }},{{ sub $cy (mul $inner 0.866) }}
+              {{ add $cx (div $inner 2) }},{{ sub $cy (mul $inner 0.866) }}
+            " />
+          {{- end -}}
+          {{- if $showText -}}<text x="{{ $cx }}" y="{{ $cy }}">{{ $lab }}</text>{{- end -}}
+        {{- if $wrap }}</a>{{ end -}}
 
-      {{- if $wrapLink }}<a href="{{ $href }}" aria-label="{{ $rawLabel }}">{{ end -}}
-        <polygon class="hex" points="
-          {{ add $cx $size }},{{ $cy }}
-          {{ add $cx (div $size 2) }},{{ add $cy (mul $size 0.866) }}
-          {{ sub $cx (div $size 2) }},{{ add $cy (mul $size 0.866) }}
-          {{ sub $cx $size }},{{ $cy }}
-          {{ sub $cx (div $size 2) }},{{ sub $cy (mul $size 0.866) }}
-          {{ add $cx (div $size 2) }},{{ sub $cy (mul $size 0.866) }}
-        " />
-        {{- if $showText -}}<text x="{{ $cx }}" y="{{ $cy }}">{{ $rawLabel }}</text>{{- end -}}
-      {{- if $wrapLink }}</a>{{ end -}}
+        {{- $i = add $i 1 -}}
+      {{- end }}
+    {{- end }}
+  {{- else -}}
+    {{- /* ROW MODE (previous behavior) */ -}}
+    {{- $maxCols := 0 -}}
+    {{- range $rowCounts -}}
+      {{- if gt . $maxCols -}}{{- $maxCols = . -}}{{- end -}}
+    {{- end -}}
+    {{- range $r, $colsInRow := $rowCounts }}
+      {{- $y := mul (float $r) $rowSpacing -}}
+      {{- $rowWidth := mul (float $colsInRow) $colSpacing -}}
+      {{- $maxWidth := mul (float $maxCols)   $colSpacing -}}
+      {{- $xOffset := cond $centerGrid (div (sub $maxWidth $rowWidth) 2) 0 -}}
+      {{- range $c := seq $colsInRow }}
+        {{- $x := add $xOffset (mul (float (sub $c 1)) $colSpacing) -}}
+        {{- $cx := add $x (div $hexW 2) -}}
+        {{- $cy := add $y $size -}}
 
-      {{- $globalIdx = add $globalIdx 1 -}}
+        {{- $lab := "" -}}
+        {{- if gt (len $labels) $i -}}{{- $lab = trim (index $labels $i) " \t" -}}{{- end -}}
+        {{- $showText := and (ne $lab "") (ne $lab "-") -}}
+
+        {{- $href := "" -}}
+        {{- if gt (len $urls) $i -}}{{- $href = trim (index $urls $i) " \t" -}}{{- end -}}
+        {{- $wrap := ne $href "" -}}
+
+        {{- if $wrap }}<a href="{{ $href }}" aria-label="{{ $lab }}">{{ end -}}
+          <polygon class="hex" points="
+            {{ add $cx $size }},{{ $cy }}
+            {{ add $cx (div $size 2) }},{{ add $cy (mul $size 0.866) }}
+            {{ sub $cx (div $size 2) }},{{ add $cy (mul $size 0.866) }}
+            {{ sub $cx $size }},{{ $cy }}
+            {{ sub $cx (div $size 2) }},{{ sub $cy (mul $size 0.866) }}
+            {{ add $cx (div $size 2) }},{{ sub $cy (mul $size 0.866) }}
+          " />
+          {{- if $nested -}}
+            {{- $inner := mul $size $innerScale -}}
+            <polygon class="hex-inner" points="
+              {{ add $cx $inner }},{{ $cy }}
+              {{ add $cx (div $inner 2) }},{{ add $cy (mul $inner 0.866) }}
+              {{ sub $cx (div $inner 2) }},{{ add $cy (mul $inner 0.866) }}
+              {{ sub $cx $inner }},{{ $cy }}
+              {{ sub $cx (div $inner 2) }},{{ sub $cy (mul $inner 0.866) }}
+              {{ add $cx (div $inner 2) }},{{ sub $cy (mul $inner 0.866) }}
+            " />
+          {{- end -}}
+          {{- if $showText -}}<text x="{{ $cx }}" y="{{ $cy }}">{{ $lab }}</text>{{- end -}}
+        {{- if $wrap }}</a>{{ end -}}
+
+        {{- $i = add $i 1 -}}
+      {{- end }}
     {{- end }}
   {{- end }}
 </svg>

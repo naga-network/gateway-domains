@@ -14,11 +14,11 @@
       <header class="topbar">
         <div class="topbar-inner">
           <div class="top-hex">
-            {{ $hex := `{{< hexmap rowCounts="3,2,2,1" size=10 gap=0 cssWidth="80ch" labelSize=3
-labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK,ABOUT,CONTACT"
-urls="/genesis_of_living_system/,/hardware_codex/,/index_of_artifacts_and_forms/,/operator_files/,/transmission_streams/,/resonance_link/,,,">}}` }}
-{{ site.Home.RenderString $hex }}
-
+            {{ $hex := `{{< hexmap layout="cols" colCounts="3,2,2,1"
+            size=12 gap=6 cssWidth="420px" labelSize=9 nested=true innerScale=0.82 strokeWidth=0.9
+            labels="GENESIS,HARDWARE,ARTIFACTS,OPERATOR,STREAMS,LINK,ABOUT,CONTACT"
+            urls="/genesis_of_living_system/,/hardware_codex/,/index_of_artifacts_and_forms/,/operator_files/,/transmission_streams/,/resonance_link/,,,">}}` }}
+            {{ site.Home.RenderString $hex }}
           </div>
           <div class="prompt">NAGA DREAMLINE ELECTRIC CONSCIOUSNESS CORE:<span class="cursor"></span></div>
         </div>
