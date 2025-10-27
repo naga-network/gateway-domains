@@ -1,0 +1,9 @@
+public/
+resources/
+node_modules/
+dist/
+build/
+out/
+.hugo_build.lock
+content/**/generated/**
+themes/**/exampleSite/**

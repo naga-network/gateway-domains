@@ -1,0 +1,15 @@
+{
+  "default": true,
+
+  "MD013": false,
+  "MD033": false,
+  "MD041": false,
+  "MD025": false,
+  "MD036": false,
+  "MD024": { "allow_different_nesting": true },
+  "MD026": { "punctuation": ".,;:!?" },
+  "no-inline-html": false,
+  "MD040": false,
+  "MD037": false,
+  "MD032": false
+}
