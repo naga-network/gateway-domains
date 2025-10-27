@@ -22,10 +22,10 @@
   --pane-left: clamp(18rem, 24vw, 28rem);
   --gap-x: 0rem;
 
-  --pad-pane: 16px;                /* pane padding */
-  --pad-main: 18px;
-  --header-pad: 8px;
-  --row-gap: 6px;
+  --pad-pane: 6px;                /* pane padding */
+  --pad-main: 6px;
+  --header-pad: 6px;
+  --row-gap: 2px;
 
   --measure: 92ch;                 /* text measure */
 }
