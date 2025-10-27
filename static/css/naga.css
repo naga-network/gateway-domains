@@ -1,3 +1,4 @@
+/* ====== FONT ====== */
 @font-face{
   font-family:"IBM Plex Mono";
   src:url("/fonts/IBMPlexMono-Regular.woff2") format("woff2");
@@ -9,222 +10,157 @@
   font-weight:600; font-style:normal; font-display:swap;
 }
 
-/* ===== Palette / Vars ===== */
+/* ====== VARS ====== */
 :root{
-  --bg:#333333;
-  --ink:#A0A0A0;
-  --link:#EFC0C1;
-  --link-hover:#FFCA99;
-  --cursor:#B02929; /* alt #9C3B3B */
-  --wrap:1280px;          /* site max width */
-  --gutter:12px;          /* header side padding */
-  --pane-pad:16px;        /* main pane padding L/R */
-}
-:root{
-  /* Layout metrics */
-  --page-max:   1280px;   /* overall shell width (centered) */
-  --pane-left:  clamp(18rem, 24vw, 28rem);  /* left tree width */
-  --gap-x:      0rem;     /* column gap if you want space between panes */
-  --pad-pane:   16px;     /* inside padding for both panes */
-  --pad-main:   18px;     /* extra on main pane */
-  --header-pad: 8px;      /* top bar inner padding */
-  --row-gap:    6px;      /* vertical spacing stack in header */
+  --bg: #333333;
+  --ink: #A0A0A0;
+  --link: #EFC0C1;
+  --link-hover: #FFCA99;
+  --cursor: #B02929;
 
-  /* Type measure (line length) */
-  --measure:    92ch;     /* main text max width */
+  --page-max: 1280px;              /* centered shell width */
+  --pane-left: clamp(18rem, 24vw, 28rem);
+  --gap-x: 0rem;
+
+  --pad-pane: 16px;                /* pane padding */
+  --pad-main: 18px;
+  --header-pad: 8px;
+  --row-gap: 6px;
+
+  --measure: 92ch;                 /* text measure */
 }
 
-/* Center the whole app shell */
-.site-wrap { max-width: var(--page-max); margin: 0 auto; }
-
-/* Two-pane “frames” */
-.shell{
-  display:grid;
-  grid-template-columns: var(--pane-left) minmax(0,1fr);
-  column-gap: var(--gap-x);
-  min-height: calc(100vh - 64px); /*-ish header height */
-}
-.sidebar{
-  padding: var(--pad-pane);
-  color:#EFC0C1; background:#333333; /* you can layer textures as above */
-  overflow:auto;
-}
-.main{
-  padding: var(--pad-pane) var(--pad-main) 80px;
-  color:#B8B8B8; background:#333333; /* layer textures here too */
-}
-.container{ max-width: var(--measure); margin: 0 auto; }
-
-/* Top bars */
-.topbar{
-  background:#333333; color:#B8B8B8; padding: var(--header-pad);
-}
-.topbar-inner{
-  max-width: var(--page-max);
-  margin: 0 auto;
-  padding: var(--header-pad);
-  display:flex; flex-direction:column; align-items:flex-start;
-  gap: var(--row-gap);
-}
-/* If your hex SVG is vanishing, give it a definite width there */
-.top-hex .hexmap{ display:block; width:420px; max-width:100%; height:auto; }
-.prompt{ text-transform:uppercase; letter-spacing:.03em; }
-.cursor{ display:inline-block; width:7px; height:1.1em; background:#B02929; margin-left:6px; animation:blink 1s step-end infinite; }
-@keyframes blink { 50% { opacity:0; } }
-
-/* Landing center */
-.landing-wrap { min-height:100vh; display:grid; place-items:center; }
-.landing-inner { max-width: 110ch; text-align:center; padding: 6vh 2rem; }
-
-/* ===== GLOBAL BACKGROUND STACK ===== */
-html, body {
-  background-color: #333333; /* fallback tone */
-  background-image:url(../img/bg/dust007.jpg);   /* your large texture */
-  background-repeat: no-repeat;   /* don’t tile the main texture */
+/* ====== GLOBAL BACKGROUND (dust base + overlays) ====== */
+html, body{
+  background-color: var(--bg);
+  background-image: url("../img/bg/dust007.jpg"); /* ensure exact path/name */
+  background-repeat: no-repeat;
   background-position: center center;
-  background-size: cover;         /* scale to fill viewport */
-  background-attachment: fixed;   /* subtle parallax / keeps still when scrolling */
-  color: #A0A0A0;
+  background-size: cover;          /* fill viewport */
+  background-attachment: fixed;    /* cinematic plate */
+  color: var(--ink);
   margin: 0;
   font: 11px/1.3 "IBM Plex Mono", monospace;
   -webkit-font-smoothing: antialiased;
 }
+
+/* Grid overlay */
+body::before{
+  content:"";
+  position:fixed; inset:0; pointer-events:none;
+  background-image: radial-gradient(circle at 1px 1px, #70707022 1.2px, transparent 1.3px);
+  background-size: 22px 22px;
+  mix-blend-mode: overlay;
+  opacity: .25;
+}
+
+/* CRT / vignette overlay */
+body::after{
+  content:"";
+  position:fixed; inset:0; pointer-events:none;
+  background:
+    /* soft vignette */
+    radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,.18) 85%, rgba(0,0,0,.30) 100%),
+    /* faint vertical scanlines */
+    repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, rgba(0,0,0,.03) 1px 2px);
+  mix-blend-mode: multiply;  /* sits under text nicely */
+  opacity:.9;
+}
+
+/* ====== LINKS ====== */
 a{ color:var(--link); text-decoration:none; }
 a:hover{ color:var(--link-hover); }
 
-/* Add faint overlay grid (optional) */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(circle at 1px 1px, #70707022 1.2px, transparent 1.3px);
-  background-size: 22px 22px;
-  opacity: 0.25;
-  mix-blend-mode: overlay;
-}
-.site-wrap{ max-width:var(--wrap); margin:0 auto; }
+/* ====== LAYOUT ====== */
+.site-wrap{ max-width: var(--page-max); margin: 0 auto; }
 
-/* Images never overflow column */
-.landing-inner img,
-.main .container img,
-.main .container figure{ max-width:100%; height:auto; }
-
-/* Optional figure frame */
-.main .container figure{
-  border:1px solid #6a6a6a;
-  padding:6px;
-  background:#545454;
+.shell{
+  display:grid;
+  grid-template-columns: var(--pane-left) minmax(0,1fr);
+  column-gap: var(--gap-x);
+  min-height: calc(100vh - 64px);
 }
 
-/* ===== Landing ===== */
-body.landing .topbar{ display:none; }
-.landing-wrap{ min-height:90vh; display:grid; place-items:center; }
-.landing-inner{ max-width:120ch; text-align:center; padding:6vh 2rem; }
-.landing-inner .goat.svg-container{ width:min(1000px, 80vw);  margin:0 auto 2rem; }
-.landing-inner .goat.svg-container svg{ font-size:11px; }
-.landing-inner a{ color:var(--ink); }
-.landing-inner a:hover{ color:var(--link-hover); }
+.sidebar{
+  padding: var(--pad-pane);
+  color:#EFC0C1;
+  background: rgba(51,51,51,.92);  /* slight translucency so dust shows */
+  overflow:auto;
+}
+.main{
+  padding: var(--pad-pane) var(--pad-main) 80px;
+  color: var(--ink);
+  background: rgba(51,51,51,.92);
+}
+.container{ max-width: var(--measure); margin:0 auto; }
 
-/* ===== Console Header (non-home) ===== */
-.topbar{ background:var(--bg); color:var(--ink); }
+/* ====== TOP BAR (non-home) ====== */
+.topbar{ background: var(--bg); color: var(--ink); padding: var(--header-pad); }
 .topbar-inner{
-  max-width:var(--wrap);
-  margin:0 auto;
-  padding:8px var(--gutter);
-  display:flex; flex-direction:column; align-items:flex-start; gap:6px;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: var(--header-pad);
+  display:flex; flex-direction:column; align-items:flex-start; gap: var(--row-gap);
 }
-.top-hex .hexmap{ display:block; height:auto; }
-.top-hex{ margin-bottom:6px; }  /* breathe above the prompt */
+.top-hex .hexmap{ display:block; width:420px; max-width:100%; height:auto; }
 .prompt{ text-transform:uppercase; letter-spacing:.03em; }
 .cursor{ display:inline-block; width:7px; height:1.1em; background:var(--cursor); margin-left:6px; animation:blink 1s step-end infinite; }
 @keyframes blink{ 50%{ opacity:0; } }
 
-/* Align header left edge with sidebar column */
-.topbar-inner{ padding-left:10px; } /* matches .sidebar left pad */
+/* ====== LANDING ====== */
+body.landing .topbar{ display:none; }
+.landing-wrap{ min-height:90vh; display:grid; place-items:center; }
+.landing-inner{ max-width:120ch; text-align:center; padding:6vh 2rem; }
+.landing-inner .goat.svg-container{ width:min(1000px, 80vw); margin:0 auto 2rem; }
+.landing-inner .goat.svg-container svg{ font-size:11px; }
 
-/* ===== Two-pane Shell ===== */
-.shell{ display:grid; grid-template-columns:25% minmax(0,1fr); min-height:calc(100vh - 64px); }
-.sidebar{ background:var(--bg); color:#EFC0C1; padding:12px 10px 40px; overflow:auto; }
-.main{ background:var(--bg); color:var(--ink); padding:16px 18px 80px; }
-.container{ max-width:92ch; margin:0 auto; }
-
-/* Tree */
-.tree{ list-style-type:square outside; margin:0; padding:0; }
+/* ====== TREE ====== */
+.tree{ list-style-type:square; margin:0; padding:0; }
 .tree li{ margin:4px 0; }
 summary{ cursor:pointer; list-style:none; }
 summary::-webkit-details-marker{ display:none; }
 .sidebar a{ color:#EFC0C1; text-decoration:none; }
 .sidebar a:hover{ text-decoration:none; }
 
-/* Scrollbars */
-*{ scrollbar-width:thin; scrollbar-color:#777 var(--bg); }
-*::-webkit-scrollbar{ width:10px; height:10px; }
-*::-webkit-scrollbar-thumb{ background:#777; border-radius:6px; }
-*::-webkit-scrollbar-track{ background:var(--bg); }
+/* ====== MEDIA / IMAGES ====== */
+.landing-inner img,
+.main .container img,
+.main .container figure{ max-width:100%; height:auto; }
+.main .container figure{ border:1px solid #6a6a6a; padding:6px; background:#545454; }
 
-/* ===== Dotmap ===== */
-.dotmap{ display:block; max-width:100%; margin:10px 0; }
-/* Dotmap: responsive */
-.dotmap svg { width:100%; height:auto; display:block; }
-/* If captions still feel small globally, uncomment:
-.dotmap .row-caption{ font-size:12px; }
-*/
-
-/* ===== GOAT (global + variants) ===== */
-
-/* Global default: responsive width and base ASCII size */
+/* ====== GOAT ====== */
 .goat.svg-container{ width:min(1200px, 95vw); margin:0 auto 1.2rem; }
 .goat.svg-container svg{ width:80%; height:auto; font-size:11px; }
-
-/* Optional size variants (desktop baseline) */
+.goat.svg-container text{ font-family:"IBM Plex Mono", monospace !important; font-size:12px; }
+/* size variants */
 .goat-tiny  svg{ font-size:8px; }
 .goat-small svg{ font-size:10px; }
-.goat       svg{ font-size:12px; } /* implicit default */
+.goat       svg{ font-size:12px; }
 .goat-large svg{ font-size:16px; }
 .goat-huge  svg{ font-size:20px; }
-
-/* Optional width variants (cap the container, not just font) */
-.goat-narrow   { width:min(900px, 92vw); }
-.goat-wide     { width:min(1400px, 98vw); }
+/* width variants */
+.goat-narrow{ width:min(900px, 92vw); }
+.goat-wide{ width:min(1400px, 98vw); }
 .goat-ultrawide{ width:min(1700px, 98vw); }
 
-/* Mobile adjustments */
-@media (max-width: 900px){
-  .goat.svg-container{ width:96vw; }           /* let it breathe edge-to-edge */
-  .goat.svg-container svg{ font-size:12px; }   /* smaller default on phones */
-
-  /* Keep the variants scaled down proportionally on mobile */
-  .goat-tiny  svg{ font-size:8px; }
-  .goat-small svg{ font-size:10px; }
-  .goat       svg{ font-size:11px; }
-  .goat-large svg{ font-size:14px; }
-  .goat-huge  svg{ font-size:16px; }
-}
-
-.goat.svg-container text{
-  font-family:"IBM Plex Mono", monospace !important;
-  font-size:12px;
-  /* fill:#EFC0C1; */  /* enable if you want text tinted */
-}
-
-/* ===== Hexmap ===== */
-.hexmap .hex{ fill:none; stroke:#B8B8B8; stroke-width: .9; transition:fill .12s, stroke .12s, opacity .12s; }
+/* ====== HEXMAP ====== */
+.hexmap .hex{ fill:none; stroke:#B8B8B8; stroke-width:.9; transition:fill .12s, stroke .12s, opacity .12s; }
 .hexmap text{ fill:#EFC0C1; font-family:"IBM Plex Mono", monospace; font-size:10px; dominant-baseline:middle; text-anchor:middle; user-select:none; }
 .hexmap a:hover .hex{ stroke:#FFCA99; }
 .hexmap a:hover text{ fill:#FFCA99; }
 .hexmap a:active .hex{ fill:#9C3B3B; }
 
-/* ===== Dotmap ===== */
+/* ====== DOTMAP ====== */
 .dotmap{ display:block; max-width:100%; margin:10px 0; }
-/* Dotmap: responsive */
-.dotmap svg { width:100%; height:auto; display:block; }
-/* If captions still feel small globally, uncomment:
-.dotmap .row-caption{ font-size:12px; }
-*/
+.dotmap svg{ width:100%; height:auto; display:block; }
 
-/* ===== Mobile ===== */
+/* ====== SCROLLBARS ====== */
+*{ scrollbar-width:thin; scrollbar-color:#777 var(--bg); }
+*::-webkit-scrollbar{ width:10px; height:10px; }
+*::-webkit-scrollbar-thumb{ background:#777; border-radius:6px; }
+*::-webkit-scrollbar-track{ background:var(--bg); }
+
+/* ====== MOBILE ====== */
 @media (max-width:900px){
   .shell{ grid-template-columns:1fr; }
   .sidebar{ order:1; max-height:40vh; border-bottom:1px solid #6a6a6a; }
