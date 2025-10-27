@@ -55,7 +55,7 @@ body::before{
 }
 
 /* CRT / vignette overlay */
-body::after{
+ body::after{
   content:"";
   position:fixed; inset:0; pointer-events:none;
   background:
@@ -66,7 +66,6 @@ body::after{
   mix-blend-mode: multiply;  /* sits under text nicely */
   opacity:.9;
 }
-
 /* ====== LINKS ====== */
 a{ color:var(--link); text-decoration:none; }
 a:hover{ color:var(--link-hover); }
@@ -84,18 +83,18 @@ a:hover{ color:var(--link-hover); }
 .sidebar{
   padding: var(--pad-pane);
   color:#EFC0C1;
-  background: rgba(51,51,51,.92);  /* slight translucency so dust shows */
+/*  background: rgba(51,51,51,.92);  /* slight translucency so dust shows */
   overflow:auto;
 }
 .main{
   padding: var(--pad-pane) var(--pad-main) 80px;
   color: var(--ink);
-  background: rgba(51,51,51,.92);
+/*  background: rgba(51,51,51,.92); */
 }
 .container{ max-width: var(--measure); margin:0 auto; }
 
 /* ====== TOP BAR (non-home) ====== */
-.topbar{ background: var(--bg); color: var(--ink); padding: var(--header-pad); }
+.topbar{ /* background: var(--bg); */ color: var(--ink); padding: var(--header-pad); }
 .topbar-inner{
   max-width: var(--page-max);
   margin: 0 auto;
@@ -145,7 +144,7 @@ summary::-webkit-details-marker{ display:none; }
 
 /* ====== HEXMAP ====== */
 .hexmap .hex{ fill:none; stroke:#B8B8B8; stroke-width:.9; transition:fill .12s, stroke .12s, opacity .12s; }
-.hexmap text{ fill:#EFC0C1; font-family:"IBM Plex Mono", monospace; font-size:10px; dominant-baseline:middle; text-anchor:middle; user-select:none; }
+.hexmap text{ fill:#EFC0C1; font-family:"IBM Plex Mono", monospace; font-size:8px; dominant-baseline:middle; text-anchor:middle; user-select:none; }
 .hexmap a:hover .hex{ stroke:#FFCA99; }
 .hexmap a:hover text{ fill:#FFCA99; }
 .hexmap a:active .hex{ fill:#9C3B3B; }
