@@ -1,4 +1,0 @@
----
-title: "NAGA CONSOLE"
----
-INTERNAL ACCESS INTERFACE //

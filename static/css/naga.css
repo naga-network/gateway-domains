@@ -60,7 +60,7 @@ body::after{
   position:fixed; inset:0; pointer-events:none;
   background:
     /* soft vignette */
-    radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,.18) 85%, rgba(0,0,0,.30) 100%),
+    radial-gradient(ellipse at center, transparent 10%, rgba(0,0,0,.18) 85%, rgba(0,0,0,.30) 100%),
     /* faint vertical scanlines */
     repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, rgba(0,0,0,.03) 1px 2px);
   mix-blend-mode: multiply;  /* sits under text nicely */
