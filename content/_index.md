@@ -30,11 +30,11 @@ draft: false
   \               /
    \_____________/
 ```
-{{< hexmap layout="cols" colCounts="3,2,2,1"
+{{< hexmap layout="cols" colCounts="3,2,2,2"
            size=14 gap=0 nested=false
            cssWidth="min(1100px,92vw)" labelSize=10
            strokeWidth=.4 stroke="#EFC0C1" hoverStroke="#FFCA99"
-           labels="-,N,-,-,A,-,G,A"
+           labels="-,N,-,-,A,-,G,-,A"
            urls=",,,,,,,">}}
 <br>
 {{< dotmap size=7 gap=18 textSize=10 stroke="#EFC0C1" fillActive="#EFC0C1" fillHollow="#595959" fillFaint="#352D2F" >}}
