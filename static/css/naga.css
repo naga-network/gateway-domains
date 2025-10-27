@@ -79,8 +79,7 @@
 /* ===== GLOBAL BACKGROUND STACK ===== */
 html, body {
   background-color: #333333; /* fallback tone */
-  background-image:
-    url("/img/bg/Dust007.jpg");   /* your large texture */
+  background-image:url(../img/bg/dust007.jpg);   /* your large texture */
   background-repeat: no-repeat;   /* don’t tile the main texture */
   background-position: center center;
   background-size: cover;         /* scale to fill viewport */
