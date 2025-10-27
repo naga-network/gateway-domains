@@ -2,9 +2,10 @@
 title: "//. NAGA ELECTRIC INDUSTRIAL CO., LTD."
 draft: false
 ---
+ALL WATCHED OVER BY MACHINES OF LOVING GRACE.
 {{< hexmap layout="cols" colCounts="3,2,2,2"
            size=10 gap=0 nested=false
-           cssWidth="min(1100px,92vw)" labelSize=4
+           cssWidth="min(1100px,92vw)" labelSize=7
            strokeWidth=.4 stroke="#EFC0C1" hoverStroke="#FFCA99"
            labels="-,N,-,-,A,-,G,-,A"
            urls=",,,,,,,">}}
