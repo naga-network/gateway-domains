@@ -18,26 +18,28 @@
   --link-hover: #FFCA99;
   --cursor: #B02929;
 
-  --page-max: 1280px;              /* centered shell width */
-  --pane-left: clamp(18rem, 24vw, 28rem);
+/* Shell proportions */
+  --page-max: 1120px;               /* was 1280px – tighter console */
+  --pane-left: clamp(18rem, 22vw, 24rem); /* slightly narrower on ultrawide */
   --gap-x: 0rem;
 
-  --pad-pane: 6px;                /* pane padding */
+  --pad-pane: 6px;
   --pad-main: 6px;
   --header-pad: 6px;
   --row-gap: 2px;
 
-  --measure: 92ch;                 /* text measure */
+  --measure: 88ch;                  /* NFO-ish measure */
+  --hero-max: min(1100px, 92vw);    /* shared hero cap for hex/dot */
 }
 
-/* ====== GLOBAL BACKGROUND (dust base + overlays) ====== */
+/* ====== GLOBAL BACKGROUND ====== */
 html, body{
   background-color: var(--bg);
   background-image: url("../img/bg/dust007.jpg"); /* ensure exact path/name */
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: cover;          /* fill viewport */
-  background-attachment: fixed;    /* cinematic plate */
+  background-size: cover;
+  background-attachment: fixed;
   color: var(--ink);
   margin: 0;
   font: 11px/1.3 "IBM Plex Mono", monospace;
@@ -72,6 +74,10 @@ a:hover{ color:var(--link-hover); }
 
 /* ====== LAYOUT ====== */
 .site-wrap{ max-width: var(--page-max); margin: 0 auto; }
+/* NEW: keep panes visually “close” even on huge screens */
+@media (min-width: 1400px){
+  .site-wrap{ max-width: 1180px; } /* small stretch but no drifting */
+}
 
 .shell{
   display:grid;
@@ -94,7 +100,7 @@ a:hover{ color:var(--link-hover); }
 .container{ max-width: var(--measure); margin:0 auto; }
 
 /* ====== TOP BAR (non-home) ====== */
-.topbar{ /* background: var(--bg); */ color: var(--ink); padding: var(--header-pad); }
+.top-hex .hexmap{ display:block; width:min(720px, 92vw); height:auto; } /* explicit cap */
 .topbar-inner{
   max-width: var(--page-max);
   margin: 0 auto;
@@ -109,9 +115,12 @@ a:hover{ color:var(--link-hover); }
 /* ====== LANDING ====== */
 body.landing .topbar{ display:none; }
 .landing-wrap{ min-height:90vh; display:grid; place-items:center; }
-.landing-inner{ max-width:120ch; text-align:center; padding:6vh 2rem; }
+.landing-inner{ max-width: var(--hero-max); text-align:center; padding:6vh 2rem; }
 .landing-inner .goat.svg-container{ width:min(1000px, 80vw); margin:0 auto 2rem; }
 .landing-inner .goat.svg-container svg{ font-size:11px; }
+/* NEW: generic SVG containers for hero hex/dot maps */
+.landing-inner .svg-hero{ width: var(--hero-max); margin:0 auto 1.5rem; }
+.landing-inner .svg-hero svg{ width:100%; height:auto; }
 
 /* ====== TREE ====== */
 .tree{ list-style-type:square; margin:0; padding:0; }
@@ -127,7 +136,7 @@ summary::-webkit-details-marker{ display:none; }
 .main .container figure{ max-width:100%; height:auto; }
 .main .container figure{ border:1px solid #6a6a6a; padding:6px; background:#545454; }
 
-/* ====== GOAT ====== */
+/* ====== GOAT (kept for other pages) ====== */
 .goat.svg-container{ width:min(1200px, 95vw); margin:0 auto 1.2rem; }
 .goat.svg-container svg{ width:80%; height:auto; font-size:11px; }
 .goat.svg-container text{ font-family:"IBM Plex Mono", monospace !important; font-size:12px; }
@@ -145,6 +154,8 @@ summary::-webkit-details-marker{ display:none; }
 /* ====== HEXMAP ====== */
 .hexmap .hex{ fill:none; stroke:#B8B8B8; stroke-width:.9; transition:fill .12s, stroke .12s, opacity .12s; }
 .hexmap text{ fill:#EFC0C1; font-family:"IBM Plex Mono", monospace; font-size:8px; dominant-baseline:middle; text-anchor:middle; user-select:none; }
+/* NEW: allow larger labels for hero usage */
+.hexmap.hero text{ font-size:12px; }
 .hexmap a:hover .hex{ stroke:#FFCA99; }
 .hexmap a:hover text{ fill:#FFCA99; }
 .hexmap a:active .hex{ fill:#9C3B3B; }
@@ -165,6 +176,6 @@ summary::-webkit-details-marker{ display:none; }
   .sidebar{ order:1; max-height:40vh; border-bottom:1px solid #6a6a6a; }
   .main{ order:2; padding:14px; }
   .topbar-inner{ gap:4px; }
-  .hexmap text{ font-size:9px; }
-  .landing-inner .goat.svg-container{ width:95vw; }
+  .hexmap.text-tight text{ font-size:9px; } /* helper class for cramped labels */
+  .landing-inner{ max-width: 96vw; }        /* give landing a bit more room */
 }
