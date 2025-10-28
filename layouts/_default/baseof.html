@@ -5,60 +5,48 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}</title>
-    <link rel="stylesheet" href='{{ "css/naga.css" | relURL }}?v=2025-10-28a'>
+    <link rel="stylesheet" href='{{ "css/naga.css" | relURL }}?v=2025-10-28b'>
   </head>
 
   <body class="naga{{ if .IsHome }} landing{{ end }}">
-{{ if not .IsHome }}
-  <div class="mainwrap">
-    <div class="shell shell--left25">
-      <aside class="sidebar">
-        <div class="top-hex">
-          {{ $hex := `{{< hexmap layout="cols" colCounts="3,2,2,2"
-            size=10 gap=0 nested=false
-            labelSize=9 strokeWidth=0.5
-            stroke="#EFC0C1" hoverStroke="#FFCA99"
-            labels="-,GENESIS,-,ARTIFACTS,TRANSMISSIONS,-,-,-,LINK"
-            urls="-,/genesis_of_living_system/,-,/index_of_artifacts_and_forms/,/transmission_streams/,-,-,-,/resonance_link/,,," >}}` }}
-          {{ site.Home.RenderString $hex }}
-        </div>
 
-        <div class="prompt-line">NAGA DREAMLINE ELECTRIC CONSCIOUSNESS CORE:</div>
-
-        {{ partial "sidebar-tree.html" . }}
-      </aside>
-
-      <main class="main">
-        <div class="container">
-          {{ block "main" . }}{{ .Content }}{{ end }}
-        </div>
-      </main>
-    </div>
-  </div>
-{{ end }}
-
-
-    {{ if .IsHome }}
-      <!-- LANDING: full-width, centered, just page content -->
-      <main class="landing-wrap">
-        <div class="landing-inner">
-          {{ .Content }}
-        </div>
-      </main>
-    {{ else }}
-      <!-- CONSOLE: two-pane layout -->
-      <div class="site-wrap">
-        <div class="shell shell--left25">
-          <aside class="sidebar">
-            {{ partial "sidebar-tree.html" . }}
-          </aside>
-          <main class="main">
-            <div class="container">
-              {{ block "main" . }}{{ .Content }}{{ end }}
-            </div>
-          </main>
-        </div>
+  {{ if .IsHome }}
+    <!-- LANDING: centered content only -->
+    <main class="landing-wrap">
+      <div class="landing-inner">
+        {{ .Content }}
       </div>
-    {{ end }}
+    </main>
+  {{ else }}
+    <!-- CONSOLE: two-pane layout -->
+    <div class="site-wrap">
+      <div class="shell shell--left25">
+        <aside class="sidebar">
+
+          <!-- Hex badge above prompt above tree -->
+          <div class="top-hex">
+            {{ $hex := `{{< hexmap layout="cols" colCounts="3,2,2,2"
+              size=10 gap=0 nested=false
+              labelSize=9 strokeWidth=0.5
+              stroke="#EFC0C1" hoverStroke="#FFCA99"
+              labels="-,GENESIS,-,ARTIFACTS,TRANSMISSIONS,-,-,-,LINK"
+              urls="-,/genesis_of_living_system/,-,/index_of_artifacts_and_forms/,/transmission_streams/,-,-,-,/resonance_link/,,," >}}` }}
+            {{ site.Home.RenderString $hex }}
+          </div>
+
+          <div class="prompt-line">NAGA DREAMLINE ELECTRIC CONSCIOUSNESS CORE:</div>
+
+          {{ partial "sidebar-tree.html" . }}
+        </aside>
+
+        <main class="main">
+          <div class="container">
+            {{ block "main" . }}{{ .Content }}{{ end }}
+          </div>
+        </main>
+      </div>
+    </div>
+  {{ end }}
+
   </body>
 </html>
