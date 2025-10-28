@@ -174,15 +174,6 @@ summary::-webkit-details-marker{ display:none; }
 *::-webkit-scrollbar-thumb{ background:#777; border-radius:6px; }
 *::-webkit-scrollbar-track{ background:var(--bg); }
 
-/* ====== MOBILE ====== */
-@media (max-width:900px){
-  .shell{ grid-template-columns:1fr; }
-  .sidebar{ order:1; max-height:40vh; border-bottom:1px solid #6a6a6a; }
-  .main{ order:2; padding:14px; }
-  .topbar-inner{ gap:4px; }
-  .hexmap.text-tight text{ font-size:9px; } /* helper class for cramped labels */
-  .landing-inner{ max-width: 96vw; }        /* give landing a bit more room */
-
   /* === PROMPT BAR (restore style + blink) === */
 .prompt,
 .prompt-line{
@@ -217,4 +208,14 @@ summary::-webkit-details-marker{ display:none; }
 
 /* === Background should never “cut off” === */
 html, body{ min-height: 100vh; }
+/* ====== MOBILE ====== */
+@media (max-width:900px){
+  .shell{ grid-template-columns:1fr; }
+  .sidebar{ order:1; max-height:40vh; border-bottom:1px solid #6a6a6a; }
+  .main{ order:2; padding:14px; }
+  .topbar-inner{ gap:4px; }
+  .hexmap.text-tight text{ font-size:9px; } /* helper class for cramped labels */
+  .landing-inner{ max-width: 96vw; }        /* give landing a bit more room */
+
+
 }
