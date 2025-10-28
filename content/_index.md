@@ -8,13 +8,11 @@ ALL WATCHED OVER BY MACHINES OF LOVING GRACE.
 <div class="svg-hero">
 {{< hexmap layout="cols" colCounts="3,2,2,3"
            size=10 gap=0 nested=false
-           cssWidth="min(900px,92vw)" labelSize=10
-           strokeWidth=0.4 stroke="#EFC0C1" hoverStroke="#FFCA99"
+           labelSize=10 strokeWidth=0.4
+           stroke="#EFC0C1" hoverStroke="#FFCA99"
            labels="-,N,-,-,A,-,G,-,A,-,"
            urls=",,,,,,," >}}
 </div>
-
-<br>
 
 <div class="svg-hero">
 {{< dotmap size=7 gap=18 textSize=10 captionPane="auto" captionMargin=10
@@ -24,6 +22,7 @@ o o * o | DREAMLINE ELECTRIC CONSCIOUSNESS CORE
 * o o o | INTERNAL ACCESS INTERFACE
 o o * * | ALL WATCHED OVER BY MACHINES OF LOVING GRACE
 {{< /dotmap >}}
+
 </div>
 
 [ ENTER THE DREAMLINE >>> ](/main/)
