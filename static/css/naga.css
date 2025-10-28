@@ -109,9 +109,7 @@ a:hover{ color:var(--link-hover); }
   padding: var(--header-pad);
   display:flex; flex-direction:column; align-items:flex-start; gap: var(--row-gap);
 }
-.prompt{ text-transform:uppercase; letter-spacing:.03em; }
-.cursor{ display:inline-block; width:7px; height:1.1em; background:var(--cursor); margin-left:6px; animation:blink 1s step-end infinite; }
-@keyframes blink{ 50%{ opacity:0; } }
+
 
 /* ====== LANDING ====== */
 body.landing .topbar{ display:none; }
@@ -184,4 +182,39 @@ summary::-webkit-details-marker{ display:none; }
   .topbar-inner{ gap:4px; }
   .hexmap.text-tight text{ font-size:9px; } /* helper class for cramped labels */
   .landing-inner{ max-width: 96vw; }        /* give landing a bit more room */
+
+  /* === PROMPT BAR (restore style + blink) === */
+.prompt,
+.prompt-line{
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;        /* keep on one line */
+  margin: 6px 0 10px;
+  font: 11px/1.32 "IBM Plex Mono", monospace;
+}
+.cursor{
+  display:inline-block;
+  width: 6px; height: 11px;
+  background: #B02929;        /* red block cursor */
+  animation: blink 1s steps(1,end) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* === HEADER HEX (small, labels fit) === */
+.top-hex .hexmap{ width: min(480px, 88%); height:auto; display:block; }
+.top-hex .hexmap text{ font-size: 8px; }
+
+/* === LANDING HERO SIZING (controls _index.md) === */
+.landing-wrap{ min-height: 90vh; display:grid; place-items:center; }
+.landing-inner{ max-width: min(1100px, 92vw); text-align:center; padding: 6vh 2rem; }
+.svg-hero{ width: min(860px, 92vw); margin: 0 auto 18px; }
+.svg-hero svg{ width: 100%; height: auto; display:block; }
+
+/* === MAIN AREA SPACING under header === */
+.main .container{ padding-top: 10px; }
+
+/* === Background should never “cut off” === */
+html, body{ min-height: 100vh; }
 }
