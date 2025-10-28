@@ -1,0 +1,26 @@
+{
+  // --- never touch my ASCII / Markdown ---
+  "editor.formatOnSave": false,
+  "[markdown]": {
+    "editor.formatOnSave": false,
+    "files.trimTrailingWhitespace": false,
+    "editor.renderWhitespace": "boundary",
+    "editor.wordWrap": "off"
+  },
+
+  // --- Prettier only for web files, not md ---
+  "prettier.enable": true,
+  "prettier.requireConfig": true,
+
+  // --- keep the UI calm ---
+  "errorLens.enabled": false,
+  "files.trimTrailingWhitespace": false,
+
+  // --- Hugo niceties ---
+  "files.associations": {
+    "*.html": "html",
+    "*.css": "css",
+    "*.md": "markdown"
+  },
+  "terminal.integrated.defaultProfile.windows": "Command Prompt"
+}

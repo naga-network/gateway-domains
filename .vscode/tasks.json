@@ -1,0 +1,11 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Hugo Dev",
+      "type": "shell",
+      "command": "hugo server -D",
+      "problemMatcher": []
+    }
+  ]
+}
